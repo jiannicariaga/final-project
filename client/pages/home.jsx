@@ -4,9 +4,9 @@ import Defentiion from '../components/defenition';
 
 export default function Home(props) {
   return (
-    <>
+    <main className='container'>
       <SearchForm />
       <Defentiion />
-    </>
+    </main>
   );
 }

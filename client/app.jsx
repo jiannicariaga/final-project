@@ -7,9 +7,7 @@ export default class App extends React.Component {
     return (
       <>
         <NavBar />
-        <main className='container'>
-          <Home />
-        </main>
+        <Home />
       </>
     );
   }

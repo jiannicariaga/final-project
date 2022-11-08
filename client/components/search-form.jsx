@@ -37,10 +37,9 @@ export default class SearchForm extends React.Component {
   }
 
   render() {
-    const color = this.state.message === 'Device location added.' || ''
+    const color = this.state.message === 'Device location added.'
       ? 'added'
       : 'removed';
-
     return (
       <>
         <form className='mt-5' >
