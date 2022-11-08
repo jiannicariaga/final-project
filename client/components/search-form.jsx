@@ -1,4 +1,7 @@
 import React from 'react';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
 
 export default class SearchForm extends React.Component {
   constructor(props) {
@@ -41,28 +44,22 @@ export default class SearchForm extends React.Component {
       : 'removed';
     return (
       <>
-        <form className='mt-5' >
-          <div className='input-group shadow-sm' >
-            <input
+        <Form className='mt-5' >
+          <InputGroup className='shadow-sm' >
+            <Form.Control
               required
-              type='text'
-              className='form-control shadow-none'
+              className='shadow-none border-0'
               placeholder='City, State, or Zip Code'
               onChange={this.handleChange}
               value={this.state.location} />
-            <div className='input-group-append' >
-              <button
-                className='btn btn-outline-secondary'
-                type='button'
-                data-toggle='tooltip'
-                data-placement='left'
-                title="Use your device's location."
-                onClick={this.getGeolocation} >
-                <span className='fas fa-location-crosshairs' />
-              </button>
-            </div>
-          </div>
-        </form>
+            <Button
+              className='border-0'
+              title="Use your device's location."
+              onClick={this.getGeolocation} >
+              <span className='fas fa-location-crosshairs' />
+            </ Button>
+          </ InputGroup>
+        </ Form>
         <div className={`message text-center mt-1 ${color}`}>
           {this.state.message}
         </div>

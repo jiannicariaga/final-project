@@ -1,12 +1,13 @@
 import React from 'react';
-import NavBar from './components/navbar';
+import Nav from './components/nav';
 import Home from './pages/home';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class App extends React.Component {
   render() {
     return (
       <>
-        <NavBar />
+        <Nav />
         <Home />
       </>
     );

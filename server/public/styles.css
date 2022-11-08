@@ -1,32 +1,14 @@
+#root {
+  padding-top: 4rem;
+}
+
 body {
   background-color: #e5e5e5;
 }
 
-.navbar {
-  background-image: linear-gradient(#e86a0c, #fe4900);
-}
-
-main {
-  padding-top: 4rem;
-}
-
-.input-group {
-  border-radius: 10px;
-}
-
-input {
-  font-family: Quicksand, sans-serif;
-}
-
-input:focus,
-input:not(:focus) {
-  border: none;
-}
-
+.navbar,
 .btn {
   background-image: linear-gradient(#e86a0c, #fe4900);
-  border: none;
-  border-radius: 0 10px 10px 0;
 }
 
 .btn:hover {
@@ -35,6 +17,14 @@ input:not(:focus) {
 
 .btn:active {
   background-image: linear-gradient(#fe4900, #fe4900);
+}
+
+.input-group {
+  border-radius: 10px;
+}
+
+.form-control {
+  font-family: Quicksand, sans-serif;
 }
 
 .fas {
