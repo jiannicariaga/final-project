@@ -1,12 +1,8 @@
 import React from 'react';
-import NavBar from '../components/navbar';
-import SearchForm from '../components/SearchForm';
+import SearchForm from '../components/search-form';
 
 export default function Home(props) {
   return (
-    <>
-      <NavBar />
-      <SearchForm />
-    </>
+    <SearchForm />
   );
 }
