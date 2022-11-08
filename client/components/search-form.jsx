@@ -13,6 +13,7 @@ export default class SearchForm extends React.Component {
   }
 
   handleChange(event) {
+    if (event.target.value === '') this.setState({ message: '' });
     if (this.state.geolocation) {
       this.setState({
         geolocation: null,
@@ -36,6 +37,10 @@ export default class SearchForm extends React.Component {
   }
 
   render() {
+    const color = this.state.message === 'Device location added.' || ''
+      ? 'added'
+      : 'removed';
+
     return (
       <>
         <form className='mt-5' >
@@ -60,7 +65,9 @@ export default class SearchForm extends React.Component {
             </div>
           </div>
         </form>
-        <div className='message text-center mt-1'>{this.state.message}</div>
+        <div className={`message text-center mt-1 ${color}`}>
+          {this.state.message}
+        </div>
       </>
     );
   }
