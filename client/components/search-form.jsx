@@ -37,25 +37,31 @@ export default class SearchForm extends React.Component {
 
   render() {
     return (
-      <form className='mt-5'>
-        <div className='input-group shadow-sm'>
-          <input
-            required
-            type='text'
-            className='form-control shadow-none'
-            placeholder='City, State, or Zip Code'
-            onChange={ this.handleChange }
-            value={ this.state.location } />
-          <div className='input-group-append'>
-            <button
-              className='btn btn-outline-secondary'
-              type='button'
-              onClick={ this.getGeolocation } >
-              <span className='fas fa-location-crosshairs' />
-            </button>
+      <>
+        <form className='mt-5' >
+          <div className='input-group shadow-sm' >
+            <input
+              required
+              type='text'
+              className='form-control shadow-none'
+              placeholder='City, State, or Zip Code'
+              onChange={this.handleChange}
+              value={this.state.location} />
+            <div className='input-group-append' >
+              <button
+                className='btn btn-outline-secondary'
+                type='button'
+                data-toggle='tooltip'
+                data-placement='left'
+                title="Use your device's location."
+                onClick={this.getGeolocation} >
+                <span className='fas fa-location-crosshairs' />
+              </button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+        <div className='message text-center mt-1'>{this.state.message}</div>
+      </>
     );
   }
 }

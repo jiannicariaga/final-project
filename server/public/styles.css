@@ -2,16 +2,20 @@ body {
   background-color: #e5e5e5;
 }
 
-main {
-  padding-top: 80px;
-}
-
 .navbar {
   background-image: linear-gradient(#e86a0c, #fe4900);
 }
 
+main {
+  padding-top: 80px;
+}
+
 .input-group {
   border-radius: 10px;
+}
+
+input {
+  font-family: Quicksand, sans-serif;
 }
 
 input:focus,
@@ -35,5 +39,5 @@ input:not(:focus) {
 
 .fas {
   color: #fff;
-  font-size: 1.25rem;
+  font-size: 1rem;
 }

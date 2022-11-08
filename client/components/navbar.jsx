@@ -6,7 +6,9 @@ export default function NavBar(props) {
       <div className='container-fluid'>
         <div className='mx-auto'>
           <a href='#'>
-            <img src='/images/logo.png' alt='logo' />
+            <img
+              src='/images/logo.png'
+              alt='logo' />
           </a>
         </div>
       </div>
