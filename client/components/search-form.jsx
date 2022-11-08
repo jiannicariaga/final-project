@@ -16,7 +16,7 @@ export default class SearchForm extends React.Component {
   }
 
   handleChange(event) {
-    if (event.target.value === '') this.setState({ message: '' });
+    if (!event.target.value) this.setState({ message: '' });
     if (this.state.geolocation) {
       this.setState({
         geolocation: null,

@@ -23,7 +23,8 @@ body {
   border-radius: 10px;
 }
 
-.form-control {
+.form-control,
+.message {
   font-family: Quicksand, sans-serif;
 }
 
