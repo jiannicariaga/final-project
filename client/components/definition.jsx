@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function Defenition(props) {
+export default function Definition(props) {
   return (
-    <section className='container defenition'>
+    <section className='container definition'>
       <h1 className='fw-bold mb-2'>yEAT</h1>
       <h3 className='fw-bold mb-0'>&#91; yEEt &#93;
         <span className='fw-normal'> noun</span>

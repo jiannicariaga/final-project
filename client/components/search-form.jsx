@@ -19,9 +19,8 @@ export default class SearchForm extends React.Component {
         geolocation: null,
         message: 'Device location removed.'
       });
-    } else {
-      this.setState({ location: event.target.value });
     }
+    this.setState({ location: event.target.value });
   }
 
   getGeolocation(event) {

@@ -50,7 +50,7 @@ input:not(:focus) {
   color: #b33300;
 }
 
-.defenition {
+.definition {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -59,15 +59,15 @@ input:not(:focus) {
   color: #292929;
 }
 
-.defenition > h1 {
+.definition > h1 {
   font-size: 3rem;
   letter-spacing: 1px;
 }
 
-.defenition > h3 {
+.definition > h3 {
   font-size: 1.5rem;
 }
 
-.defenition span {
+.definition span {
   font-size: 1.25rem;
 }
