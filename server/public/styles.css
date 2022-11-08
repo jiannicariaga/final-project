@@ -1,0 +1,64 @@
+#root {
+  padding-top: 4rem;
+}
+
+body {
+  background-color: #e5e5e5;
+}
+
+.navbar,
+.btn {
+  background-image: linear-gradient(#e86a0c, #fe4900);
+}
+
+.btn:hover {
+  background-image: linear-gradient(#e86a0c, #e86a0c);
+}
+
+.btn:active {
+  background-image: linear-gradient(#fe4900, #fe4900);
+}
+
+.input-group {
+  border-radius: 10px;
+}
+
+.form-control,
+.message {
+  font-family: Quicksand, sans-serif;
+}
+
+.fas {
+  color: #fff;
+  font-size: 1rem;
+}
+
+.added {
+  color: #00b395;
+}
+
+.removed {
+  color: #b33300;
+}
+
+.definition {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "PT Sans", sans-serif;
+  color: #292929;
+}
+
+.definition > h1 {
+  font-size: 3rem;
+  letter-spacing: 1px;
+}
+
+.definition > h3 {
+  font-size: 1.5rem;
+}
+
+.definition span {
+  font-size: 1.25rem;
+}
