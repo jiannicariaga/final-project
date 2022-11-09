@@ -17,14 +17,19 @@ export default class SearchForm extends React.Component {
   }
 
   handleChange(event) {
-    if (!event.target.value) this.setState({ message: '' });
-    if (this.state.geolocation) {
-      this.setState({
-        geolocation: null,
-        message: 'Device location removed.'
-      });
+    if (event.target.className.includes('term')) {
+      this.setState({ term: event.target.value });
     }
-    this.setState({ location: event.target.value });
+    if (event.target.className.includes('location')) {
+      if (!event.target.value) this.setState({ message: '' });
+      if (this.state.geolocation) {
+        this.setState({
+          geolocation: null,
+          message: 'Device location removed.'
+        });
+      }
+      this.setState({ location: event.target.value });
+    }
   }
 
   getGeolocation(event) {
@@ -45,7 +50,7 @@ export default class SearchForm extends React.Component {
       : 'removed';
     return (
       <>
-        <Form className='mt-5' >
+        <Form className='mt-4' >
           <InputGroup className='shadow-sm mb-2' >
             <InputGroup.Text className='border-0'>
               <span className='fas fa-magnifying-glass' />
