@@ -19,7 +19,12 @@ export default class SearchForm extends React.Component {
   }
 
   handleSubmit(event) {
-
+    event.preventDefault();
+    const { term, location, geolocation } = this.state;
+    location
+      ? this.props.getData({ term, location })
+      : this.props.getData({ term, geolocation });
+    this.setState({ message: '' });
   }
 
   handleChange(event) {
@@ -55,7 +60,9 @@ export default class SearchForm extends React.Component {
       ? 'added'
       : 'removed';
     return (
-      <Form className='mt-4' >
+      <Form
+        className='mt-4'
+        onSubmit={this.handleSubmit} >
         <InputGroup className='shadow-sm mb-2' >
           <InputGroup.Text className='border-0'>
             <span className='fas fa-magnifying-glass' />
@@ -85,15 +92,14 @@ export default class SearchForm extends React.Component {
             <span className='fas fa-location-crosshairs' />
           </ Button>
         </ InputGroup>
-        <Container className={`message ${color} text-center p-0 mt-1`}>
+        <div className={`message ${color} text-center p-0 mt-1`}>
           {this.state.message}
-        </ Container>
+        </ div>
         <Container className='d-flex justify-content-center p-0 mt-4'>
           <Button
             className='border-0'
             as='button'
-            type='submit'
-            onSubmit={this.handleSubmit} >
+            type='submit' >
             Search
           </Button>
         </Container>
