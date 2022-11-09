@@ -7,6 +7,7 @@ export default class SearchForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      term: '',
       location: '',
       geolocation: null,
       message: ''
@@ -45,13 +46,24 @@ export default class SearchForm extends React.Component {
     return (
       <>
         <Form className='mt-5' >
+          <InputGroup className='shadow-sm mb-2' >
+            <InputGroup.Text className='border-0'>
+              <span className='fas fa-magnifying-glass' />
+            </InputGroup.Text>
+            <Form.Control
+              required
+              className='term shadow-none border-0'
+              placeholder='Tacos, Japanese, Dessert, etc.'
+              onChange={this.handleChange}
+              value={this.state.term} />
+          </ InputGroup>
           <InputGroup className='shadow-sm' >
             <InputGroup.Text className='border-0'>
               <span className='fas fa-location-dot' />
             </InputGroup.Text>
             <Form.Control
               required
-              className='shadow-none border-0'
+              className='location shadow-none border-0'
               placeholder='City, State, or Zip Code'
               onChange={this.handleChange}
               value={this.state.location} />
