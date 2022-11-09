@@ -12,6 +12,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.16.1",
     "argon2": "^0.29.1",
     "bootstrap": "^5.2.2",
     "dotenv": "^16.0.3",
