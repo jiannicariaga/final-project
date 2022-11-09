@@ -25,6 +25,7 @@ export default class SearchForm extends React.Component {
     location === 'Current Location' && latitude && longitude
       ? this.props.getData({ term, latitude, longitude })
       : this.props.getData({ term, location });
+    window.location.hash = `#search?term=${term}&location=${location}`;
     this.setState({ message: '' });
   }
 
