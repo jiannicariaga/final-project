@@ -8,8 +8,8 @@ const app = express();
 
 app.use(staticMiddleware);
 
-app.get('/api/search', (req, res, next) => {
-  if (!req.query) {
+app.get('/search', (req, res, next) => {
+  if (!Object.keys(req.query).length) {
     throw new ClientError(400, 'term and location are required fields.');
   }
 });

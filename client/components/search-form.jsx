@@ -10,7 +10,8 @@ export default class SearchForm extends React.Component {
     this.state = {
       term: '',
       location: '',
-      geolocation: null,
+      latitude: null,
+      longitude: null,
       message: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,10 +21,10 @@ export default class SearchForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { term, location, geolocation } = this.state;
-    location
-      ? this.props.getData({ term, location })
-      : this.props.getData({ term, geolocation });
+    const { term, location, latitude, longitude } = this.state;
+    location === 'Current Location' && latitude && longitude
+      ? this.props.getData({ term, latitude, longitude })
+      : this.props.getData({ term, location });
     this.setState({ message: '' });
   }
 
@@ -33,9 +34,10 @@ export default class SearchForm extends React.Component {
     }
     if (event.target.className.includes('location')) {
       if (!event.target.value) this.setState({ message: '' });
-      if (this.state.geolocation) {
+      if (this.state.latitude && this.state.longitude) {
         this.setState({
-          geolocation: null,
+          latitude: null,
+          longitude: null,
           message: 'Device location removed.'
         });
       }
@@ -49,7 +51,8 @@ export default class SearchForm extends React.Component {
       const { latitude, longitude } = position.coords;
       this.setState({
         location: 'Current Location',
-        geolocation: { latitude, longitude },
+        latitude,
+        longitude,
         message: 'Device location added.'
       });
     });
