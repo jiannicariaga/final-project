@@ -4,7 +4,9 @@ import Container from 'react-bootstrap/Container';
 
 export default function Nav(props) {
   return (
-    <NavBar className='navbar fixed-top shadow py-0' >
+    <NavBar
+      fixed='top'
+      className='shadow py-0' >
       <Container fluid>
         <div className='mx-auto'>
           <a href='#'>

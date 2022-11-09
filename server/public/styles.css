@@ -23,12 +23,21 @@ body {
   border-radius: 10px;
 }
 
+.input-group-text {
+  background-image: linear-gradient(#fff, #fff);
+}
+
 .form-control,
 .message {
   font-family: Quicksand, sans-serif;
 }
 
-.fas {
+.fa-location-dot {
+  color: #fe4900;
+  font-size: 1rem;
+}
+
+.fa-location-crosshairs {
   color: #fff;
   font-size: 1rem;
 }

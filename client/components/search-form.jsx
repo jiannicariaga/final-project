@@ -46,6 +46,9 @@ export default class SearchForm extends React.Component {
       <>
         <Form className='mt-5' >
           <InputGroup className='shadow-sm' >
+            <InputGroup.Text className='border-0'>
+              <span className='fas fa-location-dot' />
+            </InputGroup.Text>
             <Form.Control
               required
               className='shadow-none border-0'
