@@ -1,5 +1,6 @@
 require('dotenv/config');
 const express = require('express');
+const fetch = require('node-fetch');
 const staticMiddleware = require('./static-middleware');
 const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
@@ -12,6 +13,18 @@ app.get('/search', (req, res, next) => {
   if (!Object.keys(req.query).length) {
     throw new ClientError(400, 'term and location are required fields.');
   }
+  const url = new URL('https://api.yelp.com/v3/businesses/search');
+  req.query.categories = 'food';
+  for (const key in req.query) {
+    url.searchParams.append(key, req.query[key]);
+  }
+  const headers = {
+    headers: { Authorization: `Bearer ${process.env.YELP_API_KEY}` }
+  };
+  fetch(url, headers)
+    .then(response => response.json())
+    .then(data => res.status(200).json(data))
+    .catch(err => next(err));
 });
 
 app.use(errorMiddleware);
