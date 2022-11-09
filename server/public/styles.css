@@ -20,16 +20,12 @@ body {
 }
 
 .input-group {
+  font-family: Quicksand, sans-serif;
   border-radius: 10px;
 }
 
 .input-group-text {
   background-image: linear-gradient(#fff, #fff);
-}
-
-.form-control,
-.message {
-  font-family: Quicksand, sans-serif;
 }
 
 .fa-magnifying-glass,
@@ -38,12 +34,19 @@ body {
   font-size: 1rem;
 }
 
+.fa-location-dot {
+  width: 16px;
+}
+
 .fa-location-crosshairs {
   color: #fff;
   font-size: 1rem;
 }
 
 .message {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
   font-size: 0.8rem;
 }
 
@@ -56,10 +59,6 @@ body {
 }
 
 .definition {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   font-family: "PT Sans", sans-serif;
   color: #292929;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 
 export default class SearchForm extends React.Component {
   constructor(props) {
@@ -12,8 +13,13 @@ export default class SearchForm extends React.Component {
       geolocation: null,
       message: ''
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.getGeolocation = this.getGeolocation.bind(this);
+  }
+
+  handleSubmit(event) {
+
   }
 
   handleChange(event) {
@@ -49,41 +55,49 @@ export default class SearchForm extends React.Component {
       ? 'added'
       : 'removed';
     return (
-      <>
-        <Form className='mt-4' >
-          <InputGroup className='shadow-sm mb-2' >
-            <InputGroup.Text className='border-0'>
-              <span className='fas fa-magnifying-glass' />
-            </InputGroup.Text>
-            <Form.Control
+      <Form className='mt-4' >
+        <InputGroup className='shadow-sm mb-2' >
+          <InputGroup.Text className='border-0'>
+            <span className='fas fa-magnifying-glass' />
+          </InputGroup.Text>
+          <Form.Control
               required
               className='term shadow-none border-0'
               placeholder='Tacos, Japanese, Dessert, etc.'
               onChange={this.handleChange}
               value={this.state.term} />
-          </ InputGroup>
-          <InputGroup className='shadow-sm' >
-            <InputGroup.Text className='border-0'>
-              <span className='fas fa-location-dot' />
-            </InputGroup.Text>
-            <Form.Control
+        </ InputGroup>
+        <InputGroup className='text-center shadow-sm' >
+          <InputGroup.Text className='border-0'>
+            <span className='fas fa-location-dot' />
+          </InputGroup.Text>
+          <Form.Control
               required
               className='location shadow-none border-0'
               placeholder='City, State, or Zip Code'
               onChange={this.handleChange}
               value={this.state.location} />
-            <Button
+          <Button
               className='border-0'
+              type='button'
               title="Use your device's location."
               onClick={this.getGeolocation} >
-              <span className='fas fa-location-crosshairs' />
-            </ Button>
-          </ InputGroup>
-        </ Form>
-        <div className={`message text-center mt-1 ${color}`}>
+            <span className='fas fa-location-crosshairs' />
+          </ Button>
+        </ InputGroup>
+        <Container className={`message ${color} text-center p-0 mt-1`}>
           {this.state.message}
-        </div>
-      </>
+        </ Container>
+        <Container className='d-flex justify-content-center p-0 mt-4'>
+          <Button
+            className='border-0'
+            as='button'
+            type='submit'
+            onSubmit={this.handleSubmit} >
+            Search
+          </Button>
+        </Container>
+      </ Form>
     );
   }
 }
