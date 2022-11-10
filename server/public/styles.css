@@ -32,9 +32,14 @@ body {
 }
 
 .fa-magnifying-glass,
+.fa-location-dot,
+.fa-location-crosshairs {
+  font-size: 1rem;
+}
+
+.fa-magnifying-glass,
 .fa-location-dot {
   color: #fe4900;
-  font-size: 1rem;
 }
 
 .fa-location-dot {
@@ -80,4 +85,13 @@ body {
 
 .map {
   height: 200px;
+}
+
+.new-search {
+  color: #292929;
+}
+
+.new-search:hover {
+  color: #fe4900;
+  text-decoration: none;
 }

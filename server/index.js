@@ -27,5 +27,5 @@ app.get('/search-results', (req, res, next) => {
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
-  process.stdout.write(`\nApp listening on port ${process.env.PORT}.\n`);
+  process.stdout.write(`\nApp listening on port ${process.env.PORT}.\n\n`);
 });

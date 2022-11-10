@@ -5,15 +5,21 @@ export default function Map({ results, center }) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.MAPS_API_KEY
   });
-  if (!isLoaded) return <div>Loading...</div>;
-  const centerMarker = {
-    url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+  if (!isLoaded) return;
+  const marker = {
+    orange: 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png',
+    blue: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
   };
   const resultMarkers = results.map(result => {
     const key = result.alias;
     const lat = result.coordinates.latitude;
     const lng = result.coordinates.longitude;
-    return <Marker key={key} position={{ lat, lng }} />;
+    return (
+      <Marker
+        key={key}
+        position={{ lat, lng }}
+        icon={marker.orange} />
+    );
   });
   return (
     <GoogleMap
@@ -22,7 +28,7 @@ export default function Map({ results, center }) {
       mapContainerClassName='map' >
       <Marker
         position={center}
-        icon={centerMarker} />;
+        icon={marker.blue} />;
       {resultMarkers}
     </GoogleMap>
   );
