@@ -23,31 +23,33 @@ export default class SearchForm extends React.Component {
     event.preventDefault();
     const { term, location, latitude, longitude } = this.state;
     location === 'Current Location' && latitude && longitude
-      ? this.props.getData({ term, latitude, longitude })
-      : this.props.getData({ term, location });
-    window.location.hash = `#search?term=${term}&location=${location}`;
+      ? window.location.hash = `#search-results?term=${term}&latitude=${latitude}&longitude=${longitude}`
+      : window.location.hash = `#search-results?term=${term}&location=${location}`;
     this.setState({ message: '' });
   }
 
   handleChange(event) {
-    if (event.target.className.includes('term')) {
-      this.setState({ term: event.target.value });
-    }
-    if (event.target.className.includes('location')) {
-      if (!event.target.value) this.setState({ message: '' });
-      if (this.state.latitude && this.state.longitude) {
+    const { value, id } = event.target;
+    const { latitude, longitude } = this.state;
+    if (id === 'term') this.setState({ term: value });
+    if (id === 'location') {
+      if (!value) this.setState({ message: '' });
+      if (latitude && longitude) {
         this.setState({
           latitude: null,
           longitude: null,
           message: 'Device location removed.'
         });
       }
-      this.setState({ location: event.target.value });
+      this.setState({ location: value });
     }
   }
 
   getGeolocation(event) {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      this.setState({ message: 'Geolocation is not supported in your browser.' });
+      return;
+    }
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
       this.setState({
@@ -60,9 +62,8 @@ export default class SearchForm extends React.Component {
   }
 
   render() {
-    const color = this.state.message === 'Device location added.'
-      ? 'added'
-      : 'removed';
+    const { message } = this.state;
+    const color = message === 'Device location added.' ? 'added' : 'removed';
     return (
       <Form
         className='mt-4'
@@ -73,7 +74,8 @@ export default class SearchForm extends React.Component {
           </InputGroup.Text>
           <Form.Control
               required
-              className='term shadow-none border-0'
+              id='term'
+              className='shadow-none border-0'
               placeholder='Tacos, Japanese, Dessert, etc.'
               onChange={this.handleChange}
               value={this.state.term} />
@@ -84,7 +86,8 @@ export default class SearchForm extends React.Component {
           </InputGroup.Text>
           <Form.Control
               required
-              className='location shadow-none border-0'
+              id='location'
+              className='shadow-none border-0'
               placeholder='City, State, or Zip Code'
               onChange={this.handleChange}
               value={this.state.location} />
@@ -97,7 +100,7 @@ export default class SearchForm extends React.Component {
           </ Button>
         </ InputGroup>
         <div className={`message ${color} text-center p-0 mt-1`}>
-          {this.state.message}
+          {message}
         </ div>
         <Container className='d-flex justify-content-center p-0 mt-4'>
           <Button

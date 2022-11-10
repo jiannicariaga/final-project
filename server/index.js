@@ -4,20 +4,17 @@ const fetch = require('node-fetch');
 const staticMiddleware = require('./static-middleware');
 const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
-
 const app = express();
 
 app.use(staticMiddleware);
 
-app.get('/search', (req, res, next) => {
+app.get('/search-results', (req, res, next) => {
   if (!Object.keys(req.query).length) {
     throw new ClientError(400, 'term and location are required fields.');
   }
   const url = new URL('https://api.yelp.com/v3/businesses/search');
   req.query.categories = 'food';
-  for (const key in req.query) {
-    url.searchParams.append(key, req.query[key]);
-  }
+  for (const key in req.query) url.searchParams.append(key, req.query[key]);
   const headers = {
     headers: { Authorization: `Bearer ${process.env.YELP_API_KEY}` }
   };
@@ -30,5 +27,5 @@ app.get('/search', (req, res, next) => {
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
-  process.stdout.write(`\n\napp listening on port ${process.env.PORT}\n\n`);
+  process.stdout.write(`\nApp listening on port ${process.env.PORT}.\n`);
 });

@@ -19,7 +19,7 @@ export default function Map({ results, center }) {
     <GoogleMap
       zoom={10}
       center={center}
-      mapContainerClassName='map-container' >
+      mapContainerClassName='map' >
       <Marker
         position={center}
         icon={centerMarker} />;
