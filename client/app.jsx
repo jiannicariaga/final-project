@@ -4,6 +4,7 @@ import parseRoute from './lib/parse-route';
 import Nav from './components/nav';
 import Home from './pages/home';
 import SearchResults from './pages/search-results';
+import Detail from './pages/detail';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class App extends React.Component {
@@ -34,6 +35,10 @@ export default class App extends React.Component {
           latitude={latitude}
           longitude={longitude} />
       );
+    }
+    if (route.path === 'detail') {
+      const id = route.params.get('id');
+      return <Detail id={id} />;
     }
   }
 
