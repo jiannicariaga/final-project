@@ -3,10 +3,12 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+const METERS_TO_MILES = 0.000621371192;
+
 export default function result(props) {
   const { name, distance, categories, display_phone: phone } = props.result;
   const { address1, city, state, zip_code: zipCode } = props.result.location;
-  const miles = distance * 0.000621371192;
+  const miles = distance * METERS_TO_MILES;
   const address2 = `${city}, ${state} ${zipCode}`;
   const styles = {
     card: {
@@ -22,7 +24,7 @@ export default function result(props) {
     }
   };
   const displayPhoneIcon = phone
-    ? <><Card.Text as='span' className='fas fa-phone' /><br /></>
+    ? <><Card.Text as='span' className='phone-icon fas fa-phone' /><br /></>
     : null;
   const displayAddress1 = address1
     ? <>{address1}<br /></>
@@ -50,7 +52,9 @@ export default function result(props) {
               <Row className='mt-2'>
                 <Col xs='auto'>
                   {displayPhoneIcon}
-                  <Card.Text as='span' className='fas fa-location-dot' />
+                  <Card.Text
+                    as='span'
+                    className='location-icon fas fa-location-dot' />
                 </Col>
                 <Col className='p-0'>
                   <Card.Text className='m-0'>{phone}</Card.Text>

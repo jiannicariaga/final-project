@@ -68,9 +68,9 @@ export default class SearchForm extends React.Component {
     const color = message === 'Device location added.' ? 'added' : 'removed';
     return (
       <Form className='mt-4' onSubmit={this.handleSubmit} >
-        <InputGroup className='shadow-sm mb-2' >
-          <InputGroup.Text className='border-0'>
-            <span className='fas fa-magnifying-glass' />
+        <InputGroup className='form-input shadow-sm mb-2' >
+          <InputGroup.Text className='form-input-icon border-0'>
+            <span className='search-icon fas fa-magnifying-glass' />
           </InputGroup.Text>
           <Form.Control
               required
@@ -80,9 +80,9 @@ export default class SearchForm extends React.Component {
               onChange={this.handleChange}
               value={this.state.term} />
         </ InputGroup>
-        <InputGroup className='text-center shadow-sm' >
-          <InputGroup.Text className='border-0'>
-            <span className='fas fa-location-dot' />
+        <InputGroup className='form-input text-center shadow-sm' >
+          <InputGroup.Text className='form-input-icon border-0'>
+            <span className='location-icon fas fa-location-dot' />
           </InputGroup.Text>
           <Form.Control
               required
@@ -92,11 +92,11 @@ export default class SearchForm extends React.Component {
               onChange={this.handleChange}
               value={this.state.location} />
           <Button
-              className='border-0'
+              className='button border-0'
               type='button'
               title="Use your device's location."
               onClick={this.getGeolocation} >
-            <span className='fas fa-location-crosshairs' />
+            <span className='geolocation-icon fas fa-location-crosshairs' />
           </ Button>
         </ InputGroup>
         <Container className={`message ${color} text-center p-0 mt-1`}>
@@ -104,7 +104,7 @@ export default class SearchForm extends React.Component {
         </ Container>
         <Container className='d-flex justify-content-center p-0 mt-4'>
           <Button
-            className='border-0'
+            className='button border-0'
             as='button'
             type='submit'>
             Search

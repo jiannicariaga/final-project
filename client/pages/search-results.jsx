@@ -15,11 +15,11 @@ export default class SearchResults extends React.Component {
   }
 
   componentDidMount() {
-    const url = new URL('localhost:3000/search-results');
+    const url = new URL('/search-results', window.location);
     for (const key in this.props) {
-      if (this.props) url.searchParams.append(key, this.props[key]);
+      if (this.props[key]) url.searchParams.append(key, this.props[key]);
     }
-    fetch(`/search-results${url.search}`)
+    fetch(url)
       .then(response => response.json())
       .then(data => {
         const lat = data.region.center.latitude;
