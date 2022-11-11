@@ -24,6 +24,20 @@ app.get('/search-results', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/detail', (req, res, next) => {
+  if (!Object.keys(req.query).length) {
+    throw new ClientError(400, 'id is a required field.');
+  }
+  const url = new URL(`https://api.yelp.com/v3/businesses/${req.query.id}`);
+  const headers = {
+    headers: { Authorization: `Bearer ${process.env.YELP_API_KEY}` }
+  };
+  fetch(url, headers)
+    .then(response => response.json())
+    .then(data => res.status(200).json(data))
+    .catch(err => next(err));
+});
+
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
