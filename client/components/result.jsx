@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 const METERS_TO_MILES = 0.000621371192;
 
 export default function result(props) {
-  const { name, distance, categories, display_phone: phone } = props.result;
+  const { id, name, distance, categories, display_phone: phone } = props.result;
   const { address1, city, state, zip_code: zipCode } = props.result.location;
   const miles = distance * METERS_TO_MILES;
   const address2 = `${city}, ${state} ${zipCode}`;
@@ -38,7 +38,12 @@ export default function result(props) {
             <Card.Body>
               <Row className='flex-nowrap'>
                 <Col>
-                  <Card.Title className='fw-bold'>{name}</Card.Title>
+                  <Card.Title
+                    className='link fw-bold'
+                    as='a'
+                    href={`#detail?id=${id}`} >
+                    {name}
+                  </Card.Title>
                 </Col>
                 <Col className='align-self-center text-end' xs='auto'>
                   <Card.Subtitle>{`${miles.toFixed(2)}mi`}</Card.Subtitle>

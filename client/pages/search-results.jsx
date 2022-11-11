@@ -48,9 +48,7 @@ export default class SearchResults extends React.Component {
               <h2 className='fw-bold mb-0'>Results</h2>
             </Col>
             <Col xs='auto'>
-              <a
-                className='new-search text-end'
-                href='#'>
+              <a className='link text-end' href='#'>
                 New Search
               </a>
             </Col>

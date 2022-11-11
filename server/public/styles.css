@@ -71,11 +71,11 @@ body {
   height: 220px;
 }
 
-.new-search {
+.link {
   color: #292929;
 }
 
-.new-search:hover {
+.link:hover {
   color: #fe4900;
   text-decoration: none;
 }
