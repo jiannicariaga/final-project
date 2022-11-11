@@ -1,6 +1,10 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Map from '../components/map';
+
+import Result from '../components/result';
 
 export default class SearchResults extends React.Component {
   constructor(props) {
@@ -31,20 +35,30 @@ export default class SearchResults extends React.Component {
 
   render() {
     const { results, center } = this.state;
+    const eateries = results.map(result => {
+      const { id } = result;
+      return <Result key={id} result={result} />;
+    });
+
     return (
       <>
         <Map results={results} center={center} />
-        <Container className='d-flex justify-content-between align-items-center p-0'>
-          <div className=''>
-            <h3 className='fw-bold mb-0'>Results</h3>
-          </div>
-          <div>
-            <a
-              className='new-search'
-              href='#'>
-              New Search
-            </a>
-          </div>
+        <Container className='p-0'>
+          <Row className='align-items-center p-0 my-2'>
+            <Col>
+              <h2 className='fw-bold mb-0'>Results</h2>
+            </Col>
+            <Col xs='auto'>
+              <a
+                className='new-search text-end'
+                href='#'>
+                New Search
+              </a>
+            </Col>
+          </Row>
+        </Container>
+        <Container className='p-0'>
+          <Row className='gx-2 gy-2'>{eateries}</Row>
         </Container>
       </>
     );

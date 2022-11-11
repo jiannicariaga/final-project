@@ -33,12 +33,14 @@ body {
 
 .fa-magnifying-glass,
 .fa-location-dot,
-.fa-location-crosshairs {
+.fa-location-crosshairs,
+.fa-phone {
   font-size: 1rem;
 }
 
 .fa-magnifying-glass,
-.fa-location-dot {
+.fa-location-dot,
+.fa-phone {
   color: #fe4900;
 }
 
@@ -84,7 +86,7 @@ body {
 }
 
 .map {
-  height: 200px;
+  height: 220px;
 }
 
 .new-search {
@@ -94,4 +96,8 @@ body {
 .new-search:hover {
   color: #fe4900;
   text-decoration: none;
+}
+
+.card-img {
+  object-fit: cover;
 }
