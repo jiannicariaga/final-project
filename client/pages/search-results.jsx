@@ -10,7 +10,7 @@ export default class SearchResults extends React.Component {
     super(props);
     this.state = {
       results: [],
-      center: null
+      clientGeolocation: null
     };
   }
 
@@ -26,14 +26,14 @@ export default class SearchResults extends React.Component {
         const lng = data.region.center.longitude;
         this.setState({
           results: data.businesses,
-          center: { lat, lng }
+          clientGeolocation: { lat, lng }
         });
       })
       .catch(err => console.error(err));
   }
 
   render() {
-    const { results, center } = this.state;
+    const { results, clientGeolocation } = this.state;
     const eateries = results.map(result => {
       const { id } = result;
       return <Result key={id} result={result} />;
@@ -41,7 +41,7 @@ export default class SearchResults extends React.Component {
 
     return (
       <>
-        <Map results={results} center={center} />
+        <Map data={results} center={clientGeolocation} />
         <Container className='p-0'>
           <Row className='align-items-center p-0 my-2'>
             <Col>
