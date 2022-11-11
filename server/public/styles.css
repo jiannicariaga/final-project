@@ -10,7 +10,6 @@ body {
   padding-top: 4rem;
 }
 
-.navbar,
 .btn {
   background-image: linear-gradient(#e86a0c, #fe4900);
 }
@@ -45,7 +44,7 @@ body {
 }
 
 .fa-location-dot {
-  width: 16px;
+  width: 1rem;
 }
 
 .fa-location-crosshairs {
@@ -66,23 +65,6 @@ body {
 
 .removed {
   color: #b33300;
-}
-
-.definition {
-  color: #292929;
-}
-
-.definition > h1 {
-  font-size: 3rem;
-  letter-spacing: 1px;
-}
-
-.definition > h3 {
-  font-size: 1.5rem;
-}
-
-.definition span {
-  font-size: 1.25rem;
 }
 
 .map {

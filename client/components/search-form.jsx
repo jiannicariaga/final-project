@@ -29,7 +29,7 @@ export default class SearchForm extends React.Component {
   }
 
   handleChange(event) {
-    const { value, id } = event.target;
+    const { id, value } = event.target;
     const { latitude, longitude } = this.state;
     if (id === 'term') this.setState({ term: value });
     if (id === 'location') {
@@ -47,7 +47,9 @@ export default class SearchForm extends React.Component {
 
   getGeolocation(event) {
     if (!navigator.geolocation) {
-      this.setState({ message: 'Geolocation is not supported in your browser.' });
+      this.setState({
+        message: 'Geolocation is not supported in your browser.'
+      });
       return;
     }
     navigator.geolocation.getCurrentPosition(position => {
@@ -65,9 +67,7 @@ export default class SearchForm extends React.Component {
     const { message } = this.state;
     const color = message === 'Device location added.' ? 'added' : 'removed';
     return (
-      <Form
-        className='mt-4'
-        onSubmit={this.handleSubmit} >
+      <Form className='mt-4' onSubmit={this.handleSubmit} >
         <InputGroup className='shadow-sm mb-2' >
           <InputGroup.Text className='border-0'>
             <span className='fas fa-magnifying-glass' />
@@ -99,14 +99,14 @@ export default class SearchForm extends React.Component {
             <span className='fas fa-location-crosshairs' />
           </ Button>
         </ InputGroup>
-        <div className={`message ${color} text-center p-0 mt-1`}>
+        <Container className={`message ${color} text-center p-0 mt-1`}>
           {message}
-        </ div>
+        </ Container>
         <Container className='d-flex justify-content-center p-0 mt-4'>
           <Button
             className='border-0'
             as='button'
-            type='submit' >
+            type='submit'>
             Search
           </Button>
         </Container>

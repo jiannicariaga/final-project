@@ -11,24 +11,16 @@ export default function Map({ results, center }) {
     blue: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
   };
   const resultMarkers = results.map(result => {
-    const key = result.alias;
+    const key = result.id;
     const lat = result.coordinates.latitude;
     const lng = result.coordinates.longitude;
     return (
-      <Marker
-        key={key}
-        position={{ lat, lng }}
-        icon={marker.orange} />
+      <Marker key={key} position={{ lat, lng }} icon={marker.orange} />
     );
   });
   return (
-    <GoogleMap
-      zoom={10}
-      center={center}
-      mapContainerClassName='map' >
-      <Marker
-        position={center}
-        icon={marker.blue} />;
+    <GoogleMap zoom={10} center={center} mapContainerClassName='map'>
+      <Marker position={center} icon={marker.blue} />;
       {resultMarkers}
     </GoogleMap>
   );

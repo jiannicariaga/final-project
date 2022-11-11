@@ -2,9 +2,8 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Map from '../components/map';
-
 import Result from '../components/result';
+import Map from '../components/map';
 
 export default class SearchResults extends React.Component {
   constructor(props) {
