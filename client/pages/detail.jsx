@@ -25,7 +25,6 @@ export default class Detail extends React.Component {
           details: data,
           eateryGeolocation: { lat, lng }
         });
-        // console.log(typeof data.hours[0].open);
       })
       .catch(err => console.error(err));
   }
@@ -48,7 +47,9 @@ export default class Detail extends React.Component {
         </Container>
         <Container className='p-0 mb-2'>
           <Row>
-            {displayDetail}
+            <Col>
+              {displayDetail}
+            </Col>
           </Row>
         </Container>
       </>
