@@ -48,14 +48,14 @@ export default class SearchResults extends React.Component {
               <h2 className='fw-bold mb-0'>Results</h2>
             </Col>
             <Col xs='auto'>
-              <a className='link text-end' href='#'>
-                New Search
-              </a>
+              <a className='link text-end' href='#'>New Search</a>
             </Col>
           </Row>
         </Container>
-        <Container className='p-0'>
-          <Row className='gx-2 gy-2'>{eateries}</Row>
+        <Container className='p-0 mb-2'>
+          <Row className='gx-2 gy-2'>
+            {eateries}
+          </Row>
         </Container>
       </>
     );

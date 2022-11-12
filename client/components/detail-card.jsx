@@ -3,24 +3,19 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const METERS_TO_MILES = 0.000621371192;
-
-export default function Result(props) {
-  const { id, name, distance, categories, display_phone: phone } = props.result;
-  const { address1, city, state, zip_code: zipCode } = props.result.location;
-  const miles = distance * METERS_TO_MILES;
+export default function DetailCard(props) {
+  const { name, categories, display_phone: phone } = props.details;
+  const { address1, city, state, zip_code: zipCode } = props.details.location;
   const address2 = `${city}, ${state} ${zipCode}`;
   const styles = {
     card: {
       borderRadius: '10px'
     },
-    cardHeight: {
-      height: '220px'
-    },
     thumbnail: {
-      background: `url(${props.result.image_url}) no-repeat center`,
+      background: `url(${props.details.image_url}) no-repeat center`,
       backgroundSize: 'cover',
-      borderRadius: '10px 0 0 10px'
+      borderRadius: '10px 10px 0 0',
+      height: '220px'
     }
   };
   const displayPhoneIcon = phone
@@ -30,23 +25,19 @@ export default function Result(props) {
     ? <>{address1}<br /></>
     : null;
   return (
-    <Col md={6}>
+    <Col>
       <Card className='shadow-sm' style={styles.card}>
-        <Row className='flex-nowrap g-0' style={styles.cardHeight}>
-          <Col xs={3} style={styles.thumbnail} />
+        <Row className='g-0'>
+          <Col style={styles.thumbnail} />
+        </Row>
+        <Row>
           <Col>
             <Card.Body>
               <Row className='flex-nowrap'>
                 <Col>
-                  <Card.Title
-                    className='eatery-name link fw-bold'
-                    as='a'
-                    href={`#detail?id=${id}`} >
+                  <Card.Title className='eatery-name link fw-bold' >
                     {name}
                   </Card.Title>
-                </Col>
-                <Col className='align-self-center text-end' xs='auto'>
-                  <Card.Subtitle>{`${miles.toFixed(2)}mi`}</Card.Subtitle>
                 </Col>
               </Row>
               <Row>
