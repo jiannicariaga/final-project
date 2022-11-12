@@ -1,6 +1,6 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
-import parseRoute from './lib/parse-route';
+import { parseRoute } from './lib';
 import Nav from './components/nav';
 import Home from './pages/home';
 import SearchResults from './pages/search-results';

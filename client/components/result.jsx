@@ -8,8 +8,6 @@ const METERS_TO_MILES = 0.000621371192;
 export default function Result(props) {
   const { id, name, distance, categories, display_phone: phone } = props.result;
   const { address1, city, state, zip_code: zipCode } = props.result.location;
-  const miles = distance * METERS_TO_MILES;
-  const address2 = `${city}, ${state} ${zipCode}`;
   const styles = {
     card: {
       borderRadius: '10px'
@@ -23,6 +21,8 @@ export default function Result(props) {
       borderRadius: '10px 0 0 10px'
     }
   };
+  const miles = distance * METERS_TO_MILES;
+  const address2 = `${city}, ${state} ${zipCode}`;
   const displayPhoneIcon = phone
     ? <><Card.Text as='span' className='phone-icon fas fa-phone' /><br /></>
     : null;
@@ -46,7 +46,9 @@ export default function Result(props) {
                   </Card.Title>
                 </Col>
                 <Col className='align-self-center text-end' xs='auto'>
-                  <Card.Subtitle>{`${miles.toFixed(2)}mi`}</Card.Subtitle>
+                  <Card.Subtitle>
+                    {`${miles.toFixed(2)}mi`}
+                  </Card.Subtitle>
                 </Col>
               </Row>
               <Row>

@@ -25,16 +25,14 @@ export default class Detail extends React.Component {
           details: data,
           eateryGeolocation: { lat, lng }
         });
+        // console.log(typeof data.hours[0].open);
       })
       .catch(err => console.error(err));
   }
 
   render() {
     const { details, eateryGeolocation } = this.state;
-    const displayDetail = details
-      ? <DetailCard details={details} />
-      : null;
-
+    const displayDetail = details ? <DetailCard details={details} /> : null;
     return (
       <>
         <Map data={details} center={eateryGeolocation} />
