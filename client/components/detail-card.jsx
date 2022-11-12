@@ -37,7 +37,7 @@ export default function DetailCard(props) {
     ? <span style={styles.open}>Open</span>
     : <span style={styles.closed}>Closed</span>;
   return (
-    <Card className='shadow-sm' style={styles.card}>
+    <Card className='shadow' style={styles.card}>
       <Row className='g-0'>
         <Col style={styles.thumbnail} />
       </Row>

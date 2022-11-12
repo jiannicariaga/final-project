@@ -15,7 +15,7 @@ export default function Map(props) {
   const resultMarkers = Array.isArray(data) ? renderMarkers(data) : null;
   const iconColor = !Array.isArray(data) ? marker.orange : marker.blue;
   return (
-    <GoogleMap zoom={10} center={center} mapContainerClassName='map'>
+    <GoogleMap zoom={12} center={center} mapContainerClassName='map'>
       <Marker position={center} icon={iconColor} />
       {resultMarkers}
     </GoogleMap>

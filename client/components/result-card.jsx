@@ -32,7 +32,7 @@ export default function ResultCard(props) {
     : null;
   return (
     <Col md={6}>
-      <Card className='shadow-sm' style={styles.card}>
+      <Card className='shadow' style={styles.card}>
         <Row className='flex-nowrap g-0' style={styles.cardHeight}>
           <Col xs={3} style={styles.thumbnail} />
           <Col>

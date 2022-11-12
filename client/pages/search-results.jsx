@@ -35,17 +35,15 @@ export default class SearchResults extends React.Component {
   render() {
     const { results, clientGeolocation } = this.state;
     const eateries = results.map(result => {
-      const { id } = result;
-      return <ResultCard key={id} result={result} />;
+      return <ResultCard key={result.id} result={result} />;
     });
-
     return (
       <>
-        <Container className='p-0'>
+        <Container className='shadow p-0 mb-3'>
           <Map data={results} center={clientGeolocation} />
         </Container>
-        <Container className='p-0'>
-          <Row className='align-items-center p-0 my-2'>
+        <Container className='p-0 mb-3'>
+          <Row className='align-items-center p-0 my-3'>
             <Col>
               <h2 className='fw-bold mb-0'>Results</h2>
             </Col>
@@ -54,8 +52,8 @@ export default class SearchResults extends React.Component {
             </Col>
           </Row>
         </Container>
-        <Container className='p-0 mb-2'>
-          <Row className='gx-2 gy-2'>
+        <Container className='p-0 mb-3'>
+          <Row className='gx-3 gy-3'>
             {eateries}
           </Row>
         </Container>
