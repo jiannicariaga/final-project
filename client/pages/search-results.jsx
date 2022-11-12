@@ -2,7 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Result from '../components/result';
+import ResultCard from '../components/result-card';
 import Map from '../components/map';
 
 export default class SearchResults extends React.Component {
@@ -36,12 +36,14 @@ export default class SearchResults extends React.Component {
     const { results, clientGeolocation } = this.state;
     const eateries = results.map(result => {
       const { id } = result;
-      return <Result key={id} result={result} />;
+      return <ResultCard key={id} result={result} />;
     });
 
     return (
       <>
-        <Map data={results} center={clientGeolocation} />
+        <Container className='p-0'>
+          <Map data={results} center={clientGeolocation} />
+        </Container>
         <Container className='p-0'>
           <Row className='align-items-center p-0 my-2'>
             <Col>

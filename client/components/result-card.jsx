@@ -5,9 +5,10 @@ import Col from 'react-bootstrap/Col';
 
 const METERS_TO_MILES = 0.000621371192;
 
-export default function Result(props) {
-  const { id, name, distance, categories, display_phone: phone } = props.result;
-  const { address1, city, state, zip_code: zipCode } = props.result.location;
+export default function ResultCard(props) {
+  const { result } = props;
+  const { id, name, distance, categories, display_phone: phone } = result;
+  const { address1, city, state, zip_code: zipCode } = result.location;
   const styles = {
     card: {
       borderRadius: '10px'
@@ -16,7 +17,7 @@ export default function Result(props) {
       height: '220px'
     },
     thumbnail: {
-      background: `url(${props.result.image_url}) no-repeat center`,
+      background: `url(${result.image_url}) no-repeat center`,
       backgroundSize: 'cover',
       borderRadius: '10px 0 0 10px'
     }

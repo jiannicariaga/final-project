@@ -34,7 +34,9 @@ export default class Detail extends React.Component {
     const displayDetail = details ? <DetailCard details={details} /> : null;
     return (
       <>
-        <Map data={details} center={eateryGeolocation} />
+        <Container className='p-0'>
+          <Map data={details} center={eateryGeolocation} />
+        </Container>
         <Container className='p-0'>
           <Row className='align-items-center p-0 my-2'>
             <Col>

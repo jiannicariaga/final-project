@@ -2,8 +2,9 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import { toStandard } from '../lib';
 
-export default function Hours(props) {
-  const schedule = [];
+export default function Schedule(props) {
+  const { schedule } = props;
+  const hours = [];
   const days = [
     'Monday',
     'Tuesday',
@@ -14,21 +15,21 @@ export default function Hours(props) {
     'Sunday'
   ];
   for (let i = 0; i < days.length; i++) {
-    if (props.schedule[i]) {
-      const open = toStandard(props.schedule[i].start);
-      const close = toStandard(props.schedule[i].end);
-      schedule.push(
+    if (schedule[i]) {
+      const open = toStandard(schedule[i].start);
+      const close = toStandard(schedule[i].end);
+      hours.push(
         <Card.Text key={i} className='mb-0'>
           {days[i]} {open} - {close}
         </Card.Text>
       );
     } else {
-      schedule.push(
+      hours.push(
         <Card.Text key={i} className='mb-0'>
           {days[i]} Closed
         </Card.Text>
       );
     }
   }
-  return schedule.map(schedule => schedule);
+  return hours.map(hours => hours);
 }

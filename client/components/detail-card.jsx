@@ -2,18 +2,19 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Hours from './hours';
+import Schedule from './schedule';
 
 export default function DetailCard(props) {
-  const { name, categories, display_phone: phone } = props.details;
-  const { address1, city, state, zip_code: zipCode } = props.details.location;
-  const { open: schedule, is_open_now: isOpen } = props.details.hours[0];
+  const { details } = props;
+  const { name, categories, display_phone: phone } = details;
+  const { address1, city, state, zip_code: zipCode } = details.location;
+  const { open: schedule, is_open_now: isOpen } = details.hours[0];
   const styles = {
     card: {
       borderRadius: '10px'
     },
     thumbnail: {
-      background: `url(${props.details.image_url}) no-repeat center`,
+      background: `url(${details.image_url}) no-repeat center`,
       backgroundSize: 'cover',
       borderRadius: '10px 10px 0 0',
       height: '220px'
@@ -73,7 +74,7 @@ export default function DetailCard(props) {
       <hr className='my-0' />
       <Card.Body>
         <Card.Text className='fw-bold'>Hours &#40;{openNow}&#41;</Card.Text>
-        <Hours schedule={schedule} />
+        <Schedule schedule={schedule} />
       </Card.Body>
     </Card>
   );

@@ -6,7 +6,8 @@ const marker = {
   blue: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 };
 
-export default function Map({ data, center }) {
+export default function Map(props) {
+  const { data, center } = props;
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.MAPS_API_KEY
   });
