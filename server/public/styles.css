@@ -79,11 +79,3 @@ body {
   color: #fe4900;
   text-decoration: none;
 }
-
-.card-img {
-  object-fit: cover;
-}
-
-.eatery-name {
-  font-size: 1.25rem;
-}

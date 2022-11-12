@@ -43,7 +43,7 @@ export default class Detail extends React.Component {
               <h2 className='fw-bold mb-0'>Details</h2>
             </Col>
             <Col xs='auto'>
-              <a className='link text-end' href='#'>Back</a>
+              <a className='link fw-bold text-end' href='#'>Back</a>
             </Col>
           </Row>
         </Container>

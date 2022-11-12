@@ -11,38 +11,46 @@ export default function ResultCard(props) {
   const { address1, city, state, zip_code: zipCode } = result.location;
   const styles = {
     card: {
+      color: '#FFFFFF',
+      border: 0,
+      textDecoration: 'none'
+    },
+    background: {
+      height: '220px',
+      background: `url(${result.image_url}) no-repeat center`,
+      boxShadow: 'inset 0 0 0 100vw rgb(0 0 0 / 60%)',
+      backgroundSize: 'cover',
       borderRadius: '10px'
     },
-    cardHeight: {
-      height: '220px'
-    },
-    thumbnail: {
-      background: `url(${result.image_url}) no-repeat center`,
-      backgroundSize: 'cover',
-      borderRadius: '10px 0 0 10px'
+    name: {
+      fontSize: '1.5rem'
     }
   };
   const miles = distance * METERS_TO_MILES;
-  const address2 = `${city}, ${state} ${zipCode}`;
   const displayPhoneIcon = phone
     ? <><Card.Text as='span' className='phone-icon fas fa-phone' /><br /></>
     : null;
   const displayAddress1 = address1
     ? <>{address1}<br /></>
     : null;
+  const address2 = `${city}, ${state} ${zipCode}`;
   return (
     <Col md={6}>
-      <Card className='shadow' style={styles.card}>
-        <Row className='flex-nowrap g-0' style={styles.cardHeight}>
-          <Col xs={3} style={styles.thumbnail} />
+      <Card
+        className='shadow'
+        style={styles.card}
+        as='a'
+        href={`#detail?id=${id}`} >
+        <Row
+          className='flex-nowrap g-0'
+          style={styles.background}>
           <Col>
             <Card.Body>
-              <Row className='flex-nowrap'>
+              <Row className='flex-nowrap mb-2'>
                 <Col>
                   <Card.Title
-                    className='eatery-name link fw-bold'
-                    as='a'
-                    href={`#detail?id=${id}`} >
+                    className='fw-bold'
+                    style={styles.name} >
                     {name}
                   </Card.Title>
                 </Col>
@@ -52,17 +60,17 @@ export default function ResultCard(props) {
                   </Card.Subtitle>
                 </Col>
               </Row>
-              <Row>
+              <Row className='mb-2'>
                 <Card.Subtitle className='fst-italic'>
                   {categories[0].title}
                 </Card.Subtitle>
               </Row>
-              <Row className='mt-2'>
+              <Row className='mb-2'>
                 <Col xs='auto'>
                   {displayPhoneIcon}
                   <Card.Text
                     as='span'
-                    className='location-icon fas fa-location-dot' />
+                    className='location-icon fas fa-location-dot text-center' />
                 </Col>
                 <Col className='p-0'>
                   <Card.Text className='m-0'>{phone}</Card.Text>

@@ -11,6 +11,8 @@ export default function DetailCard(props) {
   const { open: schedule, is_open_now: isOpen } = details.hours[0];
   const styles = {
     card: {
+      color: '#FFFFFF',
+      border: 0,
       borderRadius: '10px'
     },
     thumbnail: {
@@ -18,6 +20,10 @@ export default function DetailCard(props) {
       backgroundSize: 'cover',
       borderRadius: '10px 10px 0 0',
       height: '220px'
+    },
+    background: {
+      background: 'rgb(0 0 0 / 70%)',
+      borderRadius: '0 0 10px 10px'
     },
     open: {
       color: '#00b395'
@@ -41,7 +47,7 @@ export default function DetailCard(props) {
       <Row className='g-0'>
         <Col style={styles.thumbnail} />
       </Row>
-      <Card.Body>
+      <Card.Body style={styles.background}>
         <Row className='flex-nowrap'>
           <Col>
             <Card.Title className='eatery-name fw-bold' >
@@ -59,7 +65,7 @@ export default function DetailCard(props) {
             {displayPhoneIcon}
             <Card.Text
                 as='span'
-                className='location-icon fas fa-location-dot' />
+                className='location-icon fas fa-location-dot text-center' />
           </Col>
           <Col className='p-0'>
             <Card.Text className='m-0'>
@@ -70,11 +76,15 @@ export default function DetailCard(props) {
             </Card.Text>
           </Col>
         </Row>
-      </Card.Body>
-      <hr className='my-0' />
-      <Card.Body>
-        <Card.Text className='fw-bold'>Hours &#40;{openNow}&#41;</Card.Text>
-        <Schedule schedule={schedule} />
+        <hr className='my-3' />
+        <Row>
+          <Col className='text-center'>
+            <Card.Text className='fw-bold mb-2'>
+              Hours &#40;{openNow}&#41;
+            </Card.Text>
+            <Schedule schedule={schedule} />
+          </Col>
+        </Row>
       </Card.Body>
     </Card>
   );
