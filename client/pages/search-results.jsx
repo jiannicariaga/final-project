@@ -2,7 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Result from '../components/result';
+import ResultCard from '../components/result-card';
 import Map from '../components/map';
 
 export default class SearchResults extends React.Component {
@@ -10,7 +10,7 @@ export default class SearchResults extends React.Component {
     super(props);
     this.state = {
       results: [],
-      center: null
+      clientGeolocation: null
     };
   }
 
@@ -26,38 +26,36 @@ export default class SearchResults extends React.Component {
         const lng = data.region.center.longitude;
         this.setState({
           results: data.businesses,
-          center: { lat, lng }
+          clientGeolocation: { lat, lng }
         });
       })
       .catch(err => console.error(err));
   }
 
   render() {
-    const { results, center } = this.state;
+    const { results, clientGeolocation } = this.state;
     const eateries = results.map(result => {
-      const { id } = result;
-      return <Result key={id} result={result} />;
+      return <ResultCard key={result.id} result={result} />;
     });
-
     return (
       <>
-        <Map results={results} center={center} />
-        <Container className='p-0'>
-          <Row className='align-items-center p-0 my-2'>
+        <Container className='shadow p-0 mb-3'>
+          <Map data={results} center={clientGeolocation} />
+        </Container>
+        <Container className='p-0 mb-3'>
+          <Row className='align-items-center p-0 my-3'>
             <Col>
               <h2 className='fw-bold mb-0'>Results</h2>
             </Col>
             <Col xs='auto'>
-              <a
-                className='new-search text-end'
-                href='#'>
-                New Search
-              </a>
+              <a className='link fw-bold text-end' href='#'>New Search</a>
             </Col>
           </Row>
         </Container>
-        <Container className='p-0'>
-          <Row className='gx-2 gy-2'>{eateries}</Row>
+        <Container className='p-0 mb-3'>
+          <Row className='gx-3 gy-3'>
+            {eateries}
+          </Row>
         </Container>
       </>
     );

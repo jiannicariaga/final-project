@@ -11,7 +11,7 @@ const styles = {
     fontSize: '3rem',
     letterSpacing: '1px'
   },
-  diction: {
+  ipa: {
     fontSize: '1.5rem'
   },
   speech: {
@@ -25,7 +25,7 @@ export default function Definition(props) {
       <Row className='justify-content-center'>
         <Col xs='auto'>
           <h1 className='fw-bold mb-2' style={styles.word}>yEAT</h1>
-          <h3 className='fw-bold mb-0' style={styles.diction}>&#91; yEEt &#93;
+          <h3 className='fw-bold mb-0' style={styles.ipa}>&#91; j&#39;i:t &#93;
             <span className='fw-normal' style={styles.speech}> noun</span>
           </h3>
           <hr className='my-3' />
@@ -33,6 +33,6 @@ export default function Definition(props) {
           <p className='fst-italic mb-0'>&#34;What do you want to eat?&#34;</p>
         </Col>
       </Row>
-    </ Container>
+    </Container>
   );
 }
