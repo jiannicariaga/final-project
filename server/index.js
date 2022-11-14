@@ -6,7 +6,6 @@ const staticMiddleware = require('./static-middleware');
 const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
 
-// eslint-disable-next-line no-unused-vars
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
@@ -45,6 +44,20 @@ app.get('/detail', (req, res, next) => {
   fetch(url, headers)
     .then(response => response.json())
     .then(data => res.status(200).json(data))
+    .catch(err => next(err));
+});
+
+app.put('/roulette/add', (req, res, next) => {
+  const { id, data } = req.body;
+  if (!req.body) throw new ClientError(400, 'id is a required field.');
+  const sql = `
+    insert into "restaurants" ("restaurantId", "data")
+    values ($1, $2)
+    returning *;
+  `;
+  const params = [id, data];
+  db.query(sql, params)
+    .then(result => res.status(201).json(result.rows[0]))
     .catch(err => next(err));
 });
 
