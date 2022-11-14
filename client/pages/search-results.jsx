@@ -10,8 +10,14 @@ export default class SearchResults extends React.Component {
     super(props);
     this.state = {
       results: [],
+      inRoulette: [],
       clientGeolocation: null
     };
+    this.addToRoulette = this.addToRoulette.bind(this);
+  }
+
+  addToRoulette() {
+
   }
 
   componentDidMount() {
@@ -33,22 +39,36 @@ export default class SearchResults extends React.Component {
   }
 
   render() {
-    const { results, clientGeolocation } = this.state;
+    const { results, inRoulette, clientGeolocation } = this.state;
     const eateries = results.map(result => {
-      return <ResultCard key={result.id} result={result} />;
+      return (
+        <ResultCard
+          key={result.id}
+          result={result}
+          inRoulette={inRoulette}
+          addToRoulette={this.addToRoulette} />
+      );
     });
     return (
       <>
         <Container className='shadow p-0 mb-3'>
-          <Map data={results} center={clientGeolocation} />
+          <Map
+            data={results}
+            center={clientGeolocation} />
         </Container>
         <Container className='p-0 mb-3'>
           <Row className='align-items-center p-0 my-3'>
             <Col>
-              <h2 className='fw-bold mb-0'>Results</h2>
+              <h2 className='fw-bold mb-0'>
+                Results
+              </h2>
             </Col>
             <Col xs='auto'>
-              <a className='link fw-bold text-end' href='#'>New Search</a>
+              <a
+                className='link fw-bold text-end'
+                href='#' >
+                New Search
+              </a>
             </Col>
           </Row>
         </Container>
