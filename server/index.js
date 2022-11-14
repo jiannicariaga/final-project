@@ -1,12 +1,22 @@
 require('dotenv/config');
+const pg = require('pg');
 const express = require('express');
 const fetch = require('node-fetch');
 const staticMiddleware = require('./static-middleware');
 const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
+
+// eslint-disable-next-line no-unused-vars
+const db = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+
 const app = express();
 
 app.use(staticMiddleware);
+
+app.use(express.json());
 
 app.get('/search-results', (req, res, next) => {
   if (!Object.keys(req.query).length) {
