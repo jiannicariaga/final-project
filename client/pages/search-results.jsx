@@ -49,9 +49,11 @@ export default class SearchResults extends React.Component {
       .then(data => {
         const lat = data.region.center.latitude;
         const lng = data.region.center.longitude;
+        const inRoulette = data.inRoulette;
         this.setState({
           results: data.businesses,
-          clientGeolocation: { lat, lng }
+          clientGeolocation: { lat, lng },
+          inRoulette
         });
       })
       .catch(err => console.error(err));

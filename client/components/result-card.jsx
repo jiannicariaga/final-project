@@ -32,7 +32,7 @@ export default function ResultCard(props) {
     ? <>{address1}<br /></>
     : null;
   const address2 = `${city}, ${state} ${zipCode}`;
-  const rouletteLink = !inRoulette.includes(id)
+  const rouletteLink = !inRoulette.some(el => el.restaurantId === id)
     ? 'Add to Roulette'
     : 'Remove from Roulette';
   return (

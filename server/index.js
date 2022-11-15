@@ -30,8 +30,21 @@ app.get('/search-results', (req, res, next) => {
   };
   fetch(url, headers)
     .then(response => response.json())
-    .then(data => res.status(200).json(data))
+    .then(data => {
+      const sql = `
+      SELECT "restaurantId"
+      FROM "roulette"
+      WHERE "accountId" = $1
+       `;
+      const params = [TEMP_USER_ID];
+      db.query(sql, params)
+        .then(result => {
+          data.inRoulette = result.rows;
+          res.status(200).json(data);
+        });
+    })
     .catch(err => next(err));
+
 });
 
 app.get('/detail', (req, res, next) => {
@@ -58,15 +71,15 @@ app.put('/roulette/add', (req, res, next) => {
     SET "details" = $2
     RETURNING *
   `;
-  const sql2 = `
-    INSERT INTO "roulette" ("accountId", "restaurantId")
-    VALUES ($1, $2)
-    ON CONFLICT ("restaurantId") DO NOTHING
-  `;
   const params1 = [restaurantId, req.body];
-  const params2 = [TEMP_USER_ID, restaurantId];
   db.query(sql1, params1)
     .then(result => {
+      const sql2 = `
+        INSERT INTO "roulette" ("accountId", "restaurantId")
+        VALUES ($1, $2)
+        ON CONFLICT ("restaurantId") DO NOTHING
+      `;
+      const params2 = [TEMP_USER_ID, restaurantId];
       db.query(sql2, params2)
         .then(res.status(201).json(result.rows[0]));
     })
