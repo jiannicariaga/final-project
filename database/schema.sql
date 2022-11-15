@@ -17,15 +17,15 @@ CREATE TABLE "public"."accounts" (
 );
 
 CREATE TABLE "public"."favorites" (
-	"accountId" int NOT NULL,
-	"restaurantId" TEXT NOT NULL UNIQUE
+	"restaurantId" TEXT NOT NULL UNIQUE,
+	"accountId" int NOT NULL UNIQUE
 ) WITH (
   OIDS=FALSE
 );
 
 CREATE TABLE "public"."roulette" (
-	"accountId" int NOT NULL,
-	"restaurantId" TEXT NOT NULL UNIQUE
+	"restaurantId" TEXT NOT NULL UNIQUE,
+	"accountId" int NOT NULL UNIQUE
 ) WITH (
   OIDS=FALSE
 );
@@ -38,8 +38,8 @@ CREATE TABLE "public"."restaurants" (
   OIDS=FALSE
 );
 
-ALTER TABLE "favorites" ADD CONSTRAINT "favorites_fk0" FOREIGN KEY ("accountId") REFERENCES "accounts"("accountId");
-ALTER TABLE "favorites" ADD CONSTRAINT "favorites_fk1" FOREIGN KEY ("restaurantId") REFERENCES "restaurants"("restaurantId");
+ALTER TABLE "favorites" ADD CONSTRAINT "favorites_fk0" FOREIGN KEY ("restaurantId") REFERENCES "restaurants"("restaurantId");
+ALTER TABLE "favorites" ADD CONSTRAINT "favorites_fk1" FOREIGN KEY ("accountId") REFERENCES "accounts"("accountId");
 
-ALTER TABLE "roulette" ADD CONSTRAINT "roulette_fk0" FOREIGN KEY ("accountId") REFERENCES "accounts"("accountId");
-ALTER TABLE "roulette" ADD CONSTRAINT "roulette_fk1" FOREIGN KEY ("restaurantId") REFERENCES "restaurants"("restaurantId");
+ALTER TABLE "roulette" ADD CONSTRAINT "roulette_fk0" FOREIGN KEY ("restaurantId") REFERENCES "restaurants"("restaurantId");
+ALTER TABLE "roulette" ADD CONSTRAINT "roulette_fk1" FOREIGN KEY ("accountId") REFERENCES "accounts"("accountId");
