@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 const METERS_TO_MILES = 0.000621371192;
 
 export default function ResultCard(props) {
-  const { result, inRoulette, addToRoulette } = props;
+  const { result, inRoulette, addToRoulette, removeFromRoulette } = props;
   const { id, name, distance, categories, display_phone: phone } = result;
   const { address1, city, state, zip_code: zipCode } = result.location;
   const styles = {
@@ -44,9 +44,25 @@ export default function ResultCard(props) {
       )
     : null;
   const address2 = `${city}, ${state} ${zipCode}`;
-  const rouletteText = !inRoulette.includes(id)
-    ? 'Add to Roulette'
-    : 'Remove from Roulette';
+  const rouletteButton = !inRoulette.includes(id)
+    ? (
+      <Button
+        id={id}
+        className='roulette-link border-0 p-0'
+        variant='link'
+        onClick={addToRoulette} >
+        Add to Roulette
+      </Button>
+      )
+    : (
+      <Button
+        id={id}
+        className='roulette-link border-0 p-0'
+        variant='link'
+        onClick={removeFromRoulette} >
+        Remove from Roulette
+      </Button>
+      );
   return (
     <Col md={6}>
       <Card
@@ -97,13 +113,7 @@ export default function ResultCard(props) {
               </Row>
               <Row className='mb-2'>
                 <Col>
-                  <Button
-                    id={id}
-                    className='roulette-link border-0 p-0'
-                    variant='link'
-                    onClick={addToRoulette} >
-                    {rouletteText}
-                  </Button>
+                  {rouletteButton}
                 </Col>
               </Row>
             </Card.Body>

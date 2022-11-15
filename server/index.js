@@ -108,10 +108,11 @@ app.delete('/roulette/remove/:id', (req, res, next) => {
     DELETE FROM "roulette"
       WHERE "accountId" = $1
       AND "restaurantId" = $2
+      RETURNING *
   `;
   const params = [TEMP_USER_ID, restaurantId];
   db.query(sql, params)
-    .then(result => res.status(204))
+    .then(result => res.status(204).json(result))
     .catch(err => next(err));
 });
 
