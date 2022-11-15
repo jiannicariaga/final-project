@@ -5,6 +5,7 @@ const fetch = require('node-fetch');
 const staticMiddleware = require('./static-middleware');
 const ClientError = require('./client-error');
 const errorMiddleware = require('./error-middleware');
+const TEMP_USER_ID = 1;
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -50,16 +51,25 @@ app.get('/detail', (req, res, next) => {
 app.put('/roulette/add', (req, res, next) => {
   const { id: restaurantId } = req.body;
   if (!req.body) throw new ClientError(400, 'id is a required field.');
-  const sql = `
+  const sql1 = `
     INSERT INTO "restaurants" ("restaurantId", "details")
     VALUES ($1, $2)
     ON CONFLICT ("restaurantId") DO UPDATE
     SET "details" = $2
     RETURNING *
   `;
-  const params = [restaurantId, req.body];
-  db.query(sql, params)
-    .then(result => res.status(201).json(result.rows[0]))
+  const sql2 = `
+    INSERT INTO "roulette" ("accountId", "restaurantId")
+    VALUES ($1, $2)
+    ON CONFLICT ("restaurantId") DO NOTHING
+  `;
+  const params1 = [restaurantId, req.body];
+  const params2 = [TEMP_USER_ID, restaurantId];
+  db.query(sql1, params1)
+    .then(result => {
+      db.query(sql2, params2)
+        .then(res.status(201).json(result.rows[0]));
+    })
     .catch(err => next(err));
 });
 
