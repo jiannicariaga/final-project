@@ -48,14 +48,16 @@ app.get('/detail', (req, res, next) => {
 });
 
 app.put('/roulette/add', (req, res, next) => {
-  const { id, data } = req.body;
+  const { id: restaurantId } = req.body;
   if (!req.body) throw new ClientError(400, 'id is a required field.');
   const sql = `
-    insert into "restaurants" ("restaurantId", "data")
-    values ($1, $2)
-    returning *;
+    INSERT INTO "restaurants" ("restaurantId", "details")
+    VALUES ($1, $2)
+    ON CONFLICT ("restaurantId") DO UPDATE
+    SET "details" = $2
+    RETURNING *
   `;
-  const params = [id, data];
+  const params = [restaurantId, req.body];
   db.query(sql, params)
     .then(result => res.status(201).json(result.rows[0]))
     .catch(err => next(err));

@@ -11,13 +11,32 @@ export default class SearchResults extends React.Component {
     this.state = {
       results: [],
       inRoulette: [],
+      message: '',
       clientGeolocation: null
     };
     this.addToRoulette = this.addToRoulette.bind(this);
   }
 
-  addToRoulette() {
-
+  addToRoulette(event) {
+    const { id: restaurantId } = event.target;
+    const { results } = this.state;
+    const eateryData = results.find(result => result.id === restaurantId);
+    const headers = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(eateryData)
+    };
+    fetch('/roulette/add', headers)
+      .then(response => response.json())
+      .then(data => {
+        const inRouletteCopy = this.state.inRoulette;
+        const newInRoulette = inRouletteCopy.concat(data.restaurantId);
+        this.setState({
+          inRoulette: newInRoulette,
+          message: `${data.details.name} was added to Roulette.`
+        });
+      })
+      .catch(err => console.error(err));
   }
 
   componentDidMount() {

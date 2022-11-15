@@ -79,6 +79,7 @@ export default function ResultCard(props) {
               <Row className='mb-2'>
                 <Col>
                   <Button
+                    id={id}
                     className='roulette-link border-0 p-0'
                     variant='link'
                     onClick={addToRoulette} >
