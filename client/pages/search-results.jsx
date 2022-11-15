@@ -3,8 +3,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ResultCard from '../components/result-card';
-import Map from '../components/map';
 import Notification from '../components/notification';
+import Map from '../components/map';
 
 export default class SearchResults extends React.Component {
   constructor(props) {
