@@ -20,9 +20,9 @@ export default class SearchResults extends React.Component {
   }
 
   addToRoulette(event) {
-    const { id: restaurantId } = event.target;
+    const { id } = event.target;
     const { results } = this.state;
-    const eateryData = results.find(result => result.id === restaurantId);
+    const eateryData = results.find(result => result.id === id);
     const headers = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },

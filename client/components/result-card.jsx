@@ -55,7 +55,7 @@ export default function ResultCard(props) {
         style={styles.card} >
         <Row
           className='flex-nowrap g-0'
-          style={styles.background}>
+          style={styles.background} >
           <Col>
             <Card.Body>
               <Row className='flex-nowrap align-items-center mb-2'>
@@ -67,7 +67,9 @@ export default function ResultCard(props) {
                     {name}
                   </Card.Title>
                 </Col>
-                <Col className='text-end' xs='auto'>
+                <Col
+                  className='text-end'
+                  xs='auto'>
                   <Card.Subtitle className='mt-0'>
                     {`${miles.toFixed(2)}mi`}
                   </Card.Subtitle>
@@ -86,7 +88,9 @@ export default function ResultCard(props) {
                     className='location-icon fas fa-location-dot text-center' />
                 </Col>
                 <Col className='p-0'>
-                  <Card.Text className='m-0'>{phone}</Card.Text>
+                  <Card.Text className='m-0'>
+                    {phone}
+                  </Card.Text>
                   <Card.Text className='m-0'>
                     {displayAddress1}{address2}
                   </Card.Text>

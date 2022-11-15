@@ -35,20 +35,40 @@ export default function DetailCard(props) {
   };
   const address2 = `${city}, ${state} ${zipCode}`;
   const displayPhoneIcon = phone
-    ? <><Card.Text as='span' className='phone-icon fas fa-phone' /><br /></>
+    ? (
+      <>
+        <Card.Text as='span' className='phone-icon fas fa-phone' />
+        <br />
+      </>
+      )
     : null;
   const displayAddress1 = address1
-    ? <>{address1}<br /></>
+    ? (
+      <>
+        {address1}
+        <br />
+      </>
+      )
     : null;
   const openNow = isOpen
-    ? <span style={styles.open}>Open</span>
-    : <span style={styles.closed}>Closed</span>;
+    ? (
+      <span style={styles.open}>
+        Open
+      </span>
+      )
+    : (
+      <span style={styles.closed}>
+        Closed
+      </span>
+      );
   const rouletteText =
     !inRoulette.some(el => el.restaurantId === id) && !inRoulette.includes(id)
       ? 'Add to Roulette'
       : 'Remove from Roulette';
   return (
-    <Card className='shadow' style={styles.card}>
+    <Card
+      className='shadow'
+      style={styles.card} >
       <Row className='g-0'>
         <Col style={styles.thumbnail} />
       </Row>

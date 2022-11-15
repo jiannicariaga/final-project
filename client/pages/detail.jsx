@@ -81,7 +81,9 @@ export default class Detail extends React.Component {
       <>
         {displayNotification}
         <Container className='shadow p-0 mb-3'>
-          <Map data={details} center={eateryGeolocation} />
+          <Map
+            data={details}
+            center={eateryGeolocation} />
         </Container>
         <Container className='p-0 mb-3'>
           <Row className='align-items-center p-0'>
@@ -89,7 +91,11 @@ export default class Detail extends React.Component {
               <h2 className='fw-bold mb-0'>Details</h2>
             </Col>
             <Col xs='auto'>
-              <a className='link fw-bold text-end' href='#'>Back</a>
+              <a
+                className='link fw-bold text-end'
+                href='#' >
+                Back
+              </a>
             </Col>
           </Row>
         </Container>
