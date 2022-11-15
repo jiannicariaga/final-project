@@ -17,13 +17,11 @@ export default class Detail extends React.Component {
   }
 
   addToRoulette(event) {
-    const { id: restaurantId } = event.target;
-    const { results } = this.state;
-    const eateryData = results.find(result => result.id === restaurantId);
+    const { details } = this.state;
     const headers = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(eateryData)
+      body: JSON.stringify(details)
     };
     fetch('/roulette/add', headers)
       .then(response => response.json())

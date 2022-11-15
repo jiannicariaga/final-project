@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ResultCard from '../components/result-card';
 import Map from '../components/map';
+import Notification from '../components/notification';
 
 export default class SearchResults extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export default class SearchResults extends React.Component {
       clientGeolocation: null
     };
     this.addToRoulette = this.addToRoulette.bind(this);
+    this.clearMessage = this.clearMessage.bind(this);
   }
 
   addToRoulette(event) {
@@ -39,6 +41,10 @@ export default class SearchResults extends React.Component {
       .catch(err => console.error(err));
   }
 
+  clearMessage() {
+    this.setState({ message: '' });
+  }
+
   componentDidMount() {
     const url = new URL('/search-results', window.location);
     for (const key in this.props) {
@@ -60,7 +66,7 @@ export default class SearchResults extends React.Component {
   }
 
   render() {
-    const { results, inRoulette, clientGeolocation } = this.state;
+    const { results, inRoulette, message, clientGeolocation } = this.state;
     const eateries = results.map(result => {
       return (
         <ResultCard
@@ -70,8 +76,16 @@ export default class SearchResults extends React.Component {
           addToRoulette={this.addToRoulette} />
       );
     });
+    const displayNotification = message
+      ? (
+        <Notification
+          message={message}
+          clearMessage={this.clearMessage} />
+        )
+      : null;
     return (
       <>
+        {displayNotification}
         <Container className='shadow p-0 mb-3'>
           <Map
             data={results}
