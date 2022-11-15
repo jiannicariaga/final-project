@@ -44,8 +44,7 @@ export default function ResultCard(props) {
       )
     : null;
   const address2 = `${city}, ${state} ${zipCode}`;
-  const rouletteText =
-  !inRoulette.some(el => el.restaurantId === id) && !inRoulette.includes(id)
+  const rouletteText = !inRoulette.includes(id)
     ? 'Add to Roulette'
     : 'Remove from Roulette';
   return (

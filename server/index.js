@@ -39,7 +39,8 @@ app.get('/search-results', (req, res, next) => {
       const params = [TEMP_USER_ID];
       db.query(sql, params)
         .then(result => {
-          data.inRoulette = result.rows;
+          const restaurantIds = result.rows.map(result => result.restaurantId);
+          data.inRoulette = restaurantIds;
           res.status(200).json(data);
         })
         .catch(err => next(err));
@@ -85,14 +86,14 @@ app.put('/roulette/add', (req, res, next) => {
     RETURNING *
   `;
   const params1 = [restaurantId, req.body];
-  db.query(sql1, params1)
-    .then(result => {
-      const sql2 = `
+  const sql2 = `
         INSERT INTO "roulette" ("accountId", "restaurantId")
         VALUES ($1, $2)
-        ON CONFLICT ("restaurantId") DO NOTHING
+        ON CONFLICT ("accountId", "restaurantId") DO NOTHING
       `;
-      const params2 = [TEMP_USER_ID, restaurantId];
+  const params2 = [TEMP_USER_ID, restaurantId];
+  db.query(sql1, params1)
+    .then(result => {
       db.query(sql2, params2)
         .then(res.status(201).json(result.rows[0]))
         .catch(err => next(err));

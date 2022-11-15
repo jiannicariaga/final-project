@@ -61,10 +61,9 @@ export default function DetailCard(props) {
         Closed
       </span>
       );
-  const rouletteText =
-    !inRoulette.some(el => el.restaurantId === id) && !inRoulette.includes(id)
-      ? 'Add to Roulette'
-      : 'Remove from Roulette';
+  const rouletteText = !inRoulette.includes(id)
+    ? 'Add to Roulette'
+    : 'Remove from Roulette';
   return (
     <Card
       className='shadow'

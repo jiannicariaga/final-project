@@ -17,15 +17,17 @@ CREATE TABLE "public"."accounts" (
 );
 
 CREATE TABLE "public"."favorites" (
-	"restaurantId" TEXT NOT NULL UNIQUE,
-	"accountId" int NOT NULL UNIQUE
+	"restaurantId" TEXT NOT NULL,
+	"accountId" int NOT NULL,
+  UNIQUE ("restaurantId", "accountId")
 ) WITH (
   OIDS=FALSE
 );
 
 CREATE TABLE "public"."roulette" (
-	"restaurantId" TEXT NOT NULL UNIQUE,
-	"accountId" int NOT NULL UNIQUE
+	"restaurantId" TEXT NOT NULL,
+	"accountId" int NOT NULL,
+  UNIQUE ("restaurantId", "accountId")
 ) WITH (
   OIDS=FALSE
 );
