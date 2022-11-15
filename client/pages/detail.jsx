@@ -29,10 +29,8 @@ export default class Detail extends React.Component {
     fetch('/roulette/add', headers)
       .then(response => response.json())
       .then(data => {
-        const inRouletteCopy = this.state.inRoulette;
-        const newInRoulette = inRouletteCopy.concat(data.restaurantId);
         this.setState({
-          inRoulette: newInRoulette,
+          inRoulette: this.state.inRoulette.concat(data.restaurantId),
           message: `${data.details.name} was added to Roulette.`
         });
       })
