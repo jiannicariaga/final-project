@@ -16,6 +16,7 @@ export default class SearchResults extends React.Component {
       clientGeolocation: null
     };
     this.addToRoulette = this.addToRoulette.bind(this);
+    this.removeFromRoulette = this.removeFromRoulette.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
@@ -41,6 +42,10 @@ export default class SearchResults extends React.Component {
 
   clearMessage() {
     this.setState({ message: '' });
+  }
+
+  removeFromRoulette(event) {
+
   }
 
   componentDidMount() {
@@ -71,7 +76,8 @@ export default class SearchResults extends React.Component {
           key={result.id}
           result={result}
           inRoulette={inRoulette}
-          addToRoulette={this.addToRoulette} />
+          addToRoulette={this.addToRoulette}
+          removeFromRoulette={this.removeFromRoulette} />
       );
     });
     const displayNotification = message

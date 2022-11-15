@@ -101,8 +101,8 @@ app.put('/roulette/add', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.delete('/roulette/remove', (req, res, next) => {
-  const { id: restaurantId } = req.body;
+app.delete('/roulette/remove/:id', (req, res, next) => {
+  const { id: restaurantId } = req.params;
   if (!req.body) throw new ClientError(400, 'id is a required field.');
   const sql = `
     DELETE FROM "roulette"
