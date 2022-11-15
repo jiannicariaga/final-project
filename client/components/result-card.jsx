@@ -44,9 +44,10 @@ export default function ResultCard(props) {
       )
     : null;
   const address2 = `${city}, ${state} ${zipCode}`;
-  const rouletteLink = inRoulette.some(el => el.restaurantId === id)
-    ? 'Remove from Roulette'
-    : 'Add to Roulette';
+  const rouletteText =
+  !inRoulette.some(el => el.restaurantId === id) && !inRoulette.includes(id)
+    ? 'Add to Roulette'
+    : 'Remove from Roulette';
   return (
     <Col md={6}>
       <Card
@@ -98,7 +99,7 @@ export default function ResultCard(props) {
                     className='roulette-link border-0 p-0'
                     variant='link'
                     onClick={addToRoulette} >
-                    {rouletteLink}
+                    {rouletteText}
                   </Button>
                 </Col>
               </Row>

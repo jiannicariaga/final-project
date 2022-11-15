@@ -43,9 +43,10 @@ export default function DetailCard(props) {
   const openNow = isOpen
     ? <span style={styles.open}>Open</span>
     : <span style={styles.closed}>Closed</span>;
-  const rouletteLink = !inRoulette.some(el => el.restaurantId === id)
-    ? 'Add to Roulette'
-    : 'Remove from Roulette';
+  const rouletteText =
+    !inRoulette.some(el => el.restaurantId === id) && !inRoulette.includes(id)
+      ? 'Add to Roulette'
+      : 'Remove from Roulette';
   return (
     <Card className='shadow' style={styles.card}>
       <Row className='g-0'>
@@ -97,7 +98,7 @@ export default function DetailCard(props) {
               className='roulette-link border-0 p-0'
               variant='link'
               onClick={addToRoulette} >
-              {rouletteLink}
+              {rouletteText}
             </Button>
           </Col>
         </Row>
