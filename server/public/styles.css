@@ -79,3 +79,22 @@ body {
   color: #fe4900;
   text-decoration: none;
 }
+
+.name,
+.roulette-link {
+  color: #fff !important;
+}
+
+.name {
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.roulette-link {
+  transition: none !important;
+}
+
+.name:hover,
+.roulette-link:hover {
+  color: #fe4900 !important;
+}

@@ -2,11 +2,12 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import Schedule from './schedule';
 
 export default function DetailCard(props) {
-  const { details } = props;
-  const { name, categories, display_phone: phone } = details;
+  const { details, inRoulette, addToRoulette } = props;
+  const { id, name, categories, display_phone: phone } = details;
   const { address1, city, state, zip_code: zipCode } = details.location;
   const { open: schedule, is_open_now: isOpen } = details.hours[0];
   const styles = {
@@ -22,7 +23,7 @@ export default function DetailCard(props) {
       height: '220px'
     },
     background: {
-      background: 'rgb(0 0 0 / 70%)',
+      background: 'rgb(0 0 0 / 80%)',
       borderRadius: '0 0 10px 10px'
     },
     open: {
@@ -34,16 +35,39 @@ export default function DetailCard(props) {
   };
   const address2 = `${city}, ${state} ${zipCode}`;
   const displayPhoneIcon = phone
-    ? <><Card.Text as='span' className='phone-icon fas fa-phone' /><br /></>
+    ? (
+      <>
+        <Card.Text as='span' className='phone-icon fas fa-phone' />
+        <br />
+      </>
+      )
     : null;
   const displayAddress1 = address1
-    ? <>{address1}<br /></>
+    ? (
+      <>
+        {address1}
+        <br />
+      </>
+      )
     : null;
   const openNow = isOpen
-    ? <span style={styles.open}>Open</span>
-    : <span style={styles.closed}>Closed</span>;
+    ? (
+      <span style={styles.open}>
+        Open
+      </span>
+      )
+    : (
+      <span style={styles.closed}>
+        Closed
+      </span>
+      );
+  const rouletteText = !inRoulette.includes(id)
+    ? 'Add to Roulette'
+    : 'Remove from Roulette';
   return (
-    <Card className='shadow' style={styles.card}>
+    <Card
+      className='shadow'
+      style={styles.card} >
       <Row className='g-0'>
         <Col style={styles.thumbnail} />
       </Row>
@@ -83,6 +107,18 @@ export default function DetailCard(props) {
               Hours &#40;{openNow}&#41;
             </Card.Text>
             <Schedule schedule={schedule} />
+          </Col>
+        </Row>
+        <hr className='my-3' />
+        <Row className='mb-2'>
+          <Col className='text-center'>
+            <Button
+              id={id}
+              className='roulette-link border-0 p-0'
+              variant='link'
+              onClick={addToRoulette} >
+              {rouletteText}
+            </Button>
           </Col>
         </Row>
       </Card.Body>
