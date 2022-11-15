@@ -26,10 +26,22 @@ export default function ResultCard(props) {
   };
   const miles = distance * METERS_TO_MILES;
   const displayPhoneIcon = phone
-    ? <><Card.Text as='span' className='phone-icon fas fa-phone' /><br /></>
+    ? (
+      <>
+        <Card.Text
+          as='span'
+          className='phone-icon fas fa-phone' />
+        <br />
+      </>
+      )
     : null;
   const displayAddress1 = address1
-    ? <>{address1}<br /></>
+    ? (
+      <>
+        {address1}
+        <br />
+      </>
+      )
     : null;
   const address2 = `${city}, ${state} ${zipCode}`;
   const rouletteLink = !inRoulette.some(el => el.restaurantId === id)

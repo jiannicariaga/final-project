@@ -10,8 +10,32 @@ export default class Detail extends React.Component {
     super(props);
     this.state = {
       details: null,
+      inRoulette: [],
       eateryGeolocation: null
     };
+    this.addToRoulette = this.addToRoulette.bind(this);
+  }
+
+  addToRoulette(event) {
+    const { id: restaurantId } = event.target;
+    const { results } = this.state;
+    const eateryData = results.find(result => result.id === restaurantId);
+    const headers = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(eateryData)
+    };
+    fetch('/roulette/add', headers)
+      .then(response => response.json())
+      .then(data => {
+        const inRouletteCopy = this.state.inRoulette;
+        const newInRoulette = inRouletteCopy.concat(data.restaurantId);
+        this.setState({
+          inRoulette: newInRoulette,
+          message: `${data.details.name} was added to Roulette.`
+        });
+      })
+      .catch(err => console.error(err));
   }
 
   componentDidMount() {
@@ -19,10 +43,12 @@ export default class Detail extends React.Component {
     fetch(url)
       .then(response => response.json())
       .then(data => {
+        const inRoulette = data.inRoulette;
         const lat = data.coordinates.latitude;
         const lng = data.coordinates.longitude;
         this.setState({
           details: data,
+          inRoulette,
           eateryGeolocation: { lat, lng }
         });
       })
@@ -30,8 +56,15 @@ export default class Detail extends React.Component {
   }
 
   render() {
-    const { details, eateryGeolocation } = this.state;
-    const displayDetail = details ? <DetailCard details={details} /> : null;
+    const { details, inRoulette, eateryGeolocation } = this.state;
+    const displayDetail = details
+      ? (
+        <DetailCard
+          details={details}
+          inRoulette={inRoulette}
+          addToRoulette={this.addToRoulette} />
+        )
+      : null;
     return (
       <>
         <Container className='shadow p-0 mb-3'>

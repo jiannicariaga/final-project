@@ -32,10 +32,10 @@ app.get('/search-results', (req, res, next) => {
     .then(response => response.json())
     .then(data => {
       const sql = `
-      SELECT "restaurantId"
-      FROM "roulette"
-      WHERE "accountId" = $1
-       `;
+        SELECT "restaurantId"
+        FROM "roulette"
+        WHERE "accountId" = $1
+      `;
       const params = [TEMP_USER_ID];
       db.query(sql, params)
         .then(result => {
@@ -57,7 +57,19 @@ app.get('/detail', (req, res, next) => {
   };
   fetch(url, headers)
     .then(response => response.json())
-    .then(data => res.status(200).json(data))
+    .then(data => {
+      const sql = `
+        SELECT "restaurantId"
+        FROM "roulette"
+        WHERE "accountId" = $1
+      `;
+      const params = [TEMP_USER_ID];
+      db.query(sql, params)
+        .then(result => {
+          data.inRoulette = result.rows;
+          res.status(200).json(data);
+        });
+    })
     .catch(err => next(err));
 });
 
