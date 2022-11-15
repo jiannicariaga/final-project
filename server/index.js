@@ -41,10 +41,10 @@ app.get('/search-results', (req, res, next) => {
         .then(result => {
           data.inRoulette = result.rows;
           res.status(200).json(data);
-        });
+        })
+        .catch(err => next(err));
     })
     .catch(err => next(err));
-
 });
 
 app.get('/detail', (req, res, next) => {
@@ -68,7 +68,8 @@ app.get('/detail', (req, res, next) => {
         .then(result => {
           data.inRoulette = result.rows;
           res.status(200).json(data);
-        });
+        })
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 });
@@ -93,7 +94,8 @@ app.put('/roulette/add', (req, res, next) => {
       `;
       const params2 = [TEMP_USER_ID, restaurantId];
       db.query(sql2, params2)
-        .then(res.status(201).json(result.rows[0]));
+        .then(res.status(201).json(result.rows[0]))
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 });
