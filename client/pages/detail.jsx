@@ -21,7 +21,7 @@ export default class Detail extends React.Component {
   }
 
   addToRoulette(event) {
-    const { details } = this.state;
+    const { details, inRoulette } = this.state;
     const headers = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -31,7 +31,7 @@ export default class Detail extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inRoulette: this.state.inRoulette.concat(data.restaurantId),
+          inRoulette: inRoulette.concat(data.restaurantId),
           message: `${data.details.name} was added to Roulette.`
         });
       })
@@ -41,10 +41,7 @@ export default class Detail extends React.Component {
   removeFromRoulette(event) {
     const { id } = event.target;
     const { details } = this.state;
-    const headers = {
-      method: 'DELETE'
-    };
-    fetch(`/roulette/remove/${id}`, headers)
+    fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({

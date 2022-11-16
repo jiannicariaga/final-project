@@ -22,7 +22,7 @@ export default class SearchResults extends React.Component {
 
   addToRoulette(event) {
     const { id } = event.target;
-    const { results } = this.state;
+    const { results, inRoulette } = this.state;
     const eateryData = results.find(result => result.id === id);
     const headers = {
       method: 'PUT',
@@ -33,7 +33,7 @@ export default class SearchResults extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inRoulette: this.state.inRoulette.concat(data.restaurantId),
+          inRoulette: inRoulette.concat(data.restaurantId),
           message: `${data.details.name} was added to Roulette.`
         });
       })
@@ -44,10 +44,7 @@ export default class SearchResults extends React.Component {
     const { id } = event.target;
     const { results } = this.state;
     const eateryData = results.find(result => result.id === id);
-    const headers = {
-      method: 'DELETE'
-    };
-    fetch(`/roulette/remove/${id}`, headers)
+    fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({

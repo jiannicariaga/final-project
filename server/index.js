@@ -33,8 +33,8 @@ app.get('/search-results', (req, res, next) => {
     .then(data => {
       const sql = `
         SELECT "restaurantId"
-        FROM "roulette"
-        WHERE "accountId" = $1
+          FROM "roulette"
+          WHERE "accountId" = $1
       `;
       const params = [TEMP_USER_ID];
       db.query(sql, params)
