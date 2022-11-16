@@ -71,6 +71,14 @@ body {
   height: 220px;
 }
 
+.nav-links {
+  color: #fff !important;
+}
+
+.nav-links:hover {
+  color: #292929 !important;
+}
+
 .link {
   color: #292929;
 }
@@ -90,11 +98,11 @@ body {
   text-decoration: none;
 }
 
-.roulette-link {
+.roulette-button {
   transition: none !important;
 }
 
 .name:hover,
-.roulette-link:hover {
+.roulette-button:hover {
   color: #fe4900 !important;
 }
