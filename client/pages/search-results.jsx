@@ -45,7 +45,28 @@ export default class SearchResults extends React.Component {
   }
 
   removeFromRoulette(event) {
+    const { id } = event.target;
+    // const { results } = this.state;
+    // const eateryData = results.find(result => result.id === id);
+    const headers = {
+      method: 'DELETE'
+    };
+    fetch(`/roulette/remove/${id}`, headers)
+      .then(response => response.json())
+      .then(data => {
+        // const removedEatery = this.state.inRoulette.indexOf(data.restaurantId);
+        // const inRouletteCopy = [].concat(this.state.inRoulette);
+        // this.setState({
+        //   inRoulette: inRouletteCopy.splice(removedEatery, 1)
+        // });
+        // console.log(this.state.inRoulette);
 
+        // this.setState({
+        //   inRoulette: ???
+        //   message: `${eateryData.name} was removed from Roulette.`
+        // });
+      })
+      .catch(err => console.error(err));
   }
 
   componentDidMount() {
