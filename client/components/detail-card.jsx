@@ -35,51 +35,21 @@ export default function DetailCard(props) {
   };
   const address2 = `${city}, ${state} ${zipCode}`;
   const displayPhoneIcon = phone
-    ? (
-      <>
-        <Card.Text as='span' className='phone-icon fas fa-phone' />
-        <br />
-      </>
-      )
+    ? <><Card.Text as='span' className='phone-icon fas fa-phone' /><br /></>
     : null;
   const displayAddress1 = address1
-    ? (
-      <>
-        {address1}
-        <br />
-      </>
-      )
+    ? <>{address1}<br /></>
     : null;
   const openNow = isOpen
-    ? (
-      <span style={styles.open}>
-        Open
-      </span>
-      )
-    : (
-      <span style={styles.closed}>
-        Closed
-      </span>
-      );
-  const rouletteButton = !inRoulette.includes(id)
-    ? (
-      <Button
-        id={id}
-        className='roulette-link border-0 p-0'
-        variant='link'
-        onClick={addToRoulette} >
-        Add to Roulette
-      </Button>
-      )
-    : (
-      <Button
-        id={id}
-        className='roulette-link border-0 p-0'
-        variant='link'
-        onClick={removeFromRoulette} >
-        Remove from Roulette
-      </Button>
-      );
+    ? <span style={styles.open}>Open</span>
+    : <span style={styles.closed}>Closed</span>;
+  const isInRoulette = inRoulette.includes(id);
+  const rouletteButtonAction = isInRoulette
+    ? removeFromRoulette
+    : addToRoulette;
+  const rouletteButtonText = isInRoulette
+    ? 'Remove from Roulette'
+    : 'Add to Roulette';
   return (
     <Card
       className='shadow'
@@ -128,7 +98,13 @@ export default function DetailCard(props) {
         <hr className='my-3' />
         <Row className='mb-2'>
           <Col className='text-center'>
-            {rouletteButton}
+            <Button
+              id={id}
+              className='roulette-link border-0 p-0'
+              variant='link'
+              onClick={rouletteButtonAction} >
+              {rouletteButtonText}
+            </Button>
           </Col>
         </Row>
       </Card.Body>
