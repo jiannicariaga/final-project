@@ -82,21 +82,18 @@ export default class SearchResults extends React.Component {
   render() {
     const { results, inRoulette, message, clientGeolocation } = this.state;
     const eateries = results.map(result => {
+      const isInRoulette = inRoulette.includes(result.id);
       return (
         <ResultCard
           key={result.id}
           result={result}
-          inRoulette={inRoulette}
+          isInRoulette={isInRoulette}
           addToRoulette={this.addToRoulette}
           removeFromRoulette={this.removeFromRoulette} />
       );
     });
     const displayNotification = message
-      ? (
-        <Notification
-          message={message}
-          clearMessage={this.clearMessage} />
-        )
+      ? <Notification message={message} clearMessage={this.clearMessage} />
       : null;
     return (
       <>

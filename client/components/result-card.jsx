@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 const METERS_TO_MILES = 0.000621371192;
 
 export default function ResultCard(props) {
-  const { result, inRoulette, addToRoulette, removeFromRoulette } = props;
+  const { result, isInRoulette, addToRoulette, removeFromRoulette } = props;
   const { id, name, distance, categories, display_phone: phone } = result;
   const { address1, city, state, zip_code: zipCode } = result.location;
   const styles = {
@@ -32,7 +32,6 @@ export default function ResultCard(props) {
     ? <>{address1}<br /></>
     : null;
   const address2 = `${city}, ${state} ${zipCode}`;
-  const isInRoulette = inRoulette.includes(id);
   const rouletteButtonAction = isInRoulette
     ? removeFromRoulette
     : addToRoulette;

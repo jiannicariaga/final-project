@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Schedule from './schedule';
 
 export default function DetailCard(props) {
-  const { details, inRoulette, addToRoulette, removeFromRoulette } = props;
+  const { details, isInRoulette, addToRoulette, removeFromRoulette } = props;
   const { id, name, categories, display_phone: phone } = details;
   const { address1, city, state, zip_code: zipCode } = details.location;
   const { open: schedule, is_open_now: isOpen } = details.hours[0];
@@ -43,7 +43,6 @@ export default function DetailCard(props) {
   const openNow = isOpen
     ? <span style={styles.open}>Open</span>
     : <span style={styles.closed}>Closed</span>;
-  const isInRoulette = inRoulette.includes(id);
   const rouletteButtonAction = isInRoulette
     ? removeFromRoulette
     : addToRoulette;

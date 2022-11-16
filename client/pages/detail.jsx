@@ -75,22 +75,20 @@ export default class Detail extends React.Component {
   }
 
   render() {
+    const { id } = this.props;
     const { details, inRoulette, message, eateryGeolocation } = this.state;
+    const isInRoulette = inRoulette.includes(id);
     const displayDetail = details
       ? (
         <DetailCard
           details={details}
-          inRoulette={inRoulette}
+          isInRoulette={isInRoulette}
           addToRoulette={this.addToRoulette}
           removeFromRoulette={this.removeFromRoulette} />
         )
       : null;
     const displayNotification = message
-      ? (
-        <Notification
-          message={message}
-          clearMessage={this.clearMessage} />
-        )
+      ? <Notification message={message} clearMessage={this.clearMessage} />
       : null;
     return (
       <>
