@@ -72,8 +72,8 @@ export default class SearchResults extends React.Component {
         const inRoulette = data.inRoulette;
         this.setState({
           results: data.businesses,
-          clientGeolocation: { lat, lng },
-          inRoulette
+          inRoulette,
+          clientGeolocation: { lat, lng }
         });
       })
       .catch(err => console.error(err));

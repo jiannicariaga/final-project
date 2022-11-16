@@ -67,7 +67,8 @@ app.get('/detail', (req, res, next) => {
       const params = [TEMP_USER_ID];
       db.query(sql, params)
         .then(result => {
-          data.inRoulette = result.rows;
+          const restaurantIds = result.rows.map(result => result.restaurantId);
+          data.inRoulette = restaurantIds;
           res.status(200).json(data);
         })
         .catch(err => next(err));

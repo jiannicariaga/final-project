@@ -57,7 +57,8 @@ export default class Detail extends React.Component {
   }
 
   componentDidMount() {
-    const url = new URL(`/detail?id=${this.props.id}`, window.location);
+    const { id } = this.props;
+    const url = new URL(`/detail?id=${id}`, window.location);
     fetch(url)
       .then(response => response.json())
       .then(data => {
