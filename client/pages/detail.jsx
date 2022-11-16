@@ -16,11 +16,12 @@ export default class Detail extends React.Component {
       eateryGeolocation: null
     };
     this.addToRoulette = this.addToRoulette.bind(this);
+    this.removeFromRoulette = this.removeFromRoulette.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
   addToRoulette(event) {
-    const { details } = this.state;
+    const { details, inRoulette } = this.state;
     const headers = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -30,8 +31,22 @@ export default class Detail extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inRoulette: this.state.inRoulette.concat(data.restaurantId),
+          inRoulette: inRoulette.concat(data.restaurantId),
           message: `${data.details.name} was added to Roulette.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  removeFromRoulette(event) {
+    const { id } = event.target;
+    const { details } = this.state;
+    fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          inRoulette: data,
+          message: `${details.name} was removed from Roulette.`
         });
       })
       .catch(err => console.error(err));
@@ -42,7 +57,8 @@ export default class Detail extends React.Component {
   }
 
   componentDidMount() {
-    const url = new URL(`/detail?id=${this.props.id}`, window.location);
+    const { id } = this.props;
+    const url = new URL(`/detail?id=${id}`, window.location);
     fetch(url)
       .then(response => response.json())
       .then(data => {
@@ -59,21 +75,20 @@ export default class Detail extends React.Component {
   }
 
   render() {
+    const { id } = this.props;
     const { details, inRoulette, message, eateryGeolocation } = this.state;
+    const isInRoulette = inRoulette.includes(id);
     const displayDetail = details
       ? (
         <DetailCard
           details={details}
-          inRoulette={inRoulette}
-          addToRoulette={this.addToRoulette} />
+          isInRoulette={isInRoulette}
+          addToRoulette={this.addToRoulette}
+          removeFromRoulette={this.removeFromRoulette} />
         )
       : null;
     const displayNotification = message
-      ? (
-        <Notification
-          message={message}
-          clearMessage={this.clearMessage} />
-        )
+      ? <Notification message={message} clearMessage={this.clearMessage} />
       : null;
     return (
       <>

@@ -33,8 +33,8 @@ app.get('/search-results', (req, res, next) => {
     .then(data => {
       const sql = `
         SELECT "restaurantId"
-        FROM "roulette"
-        WHERE "accountId" = $1
+          FROM "roulette"
+          WHERE "accountId" = $1
       `;
       const params = [TEMP_USER_ID];
       db.query(sql, params)
@@ -61,13 +61,14 @@ app.get('/detail', (req, res, next) => {
     .then(data => {
       const sql = `
         SELECT "restaurantId"
-        FROM "roulette"
-        WHERE "accountId" = $1
+          FROM "roulette"
+          WHERE "accountId" = $1
       `;
       const params = [TEMP_USER_ID];
       db.query(sql, params)
         .then(result => {
-          data.inRoulette = result.rows;
+          const restaurantIds = result.rows.map(result => result.restaurantId);
+          data.inRoulette = restaurantIds;
           res.status(200).json(data);
         })
         .catch(err => next(err));
@@ -80,22 +81,50 @@ app.put('/roulette/add', (req, res, next) => {
   if (!req.body) throw new ClientError(400, 'id is a required field.');
   const sql1 = `
     INSERT INTO "restaurants" ("restaurantId", "details")
-    VALUES ($1, $2)
-    ON CONFLICT ("restaurantId") DO UPDATE
-    SET "details" = $2
-    RETURNING *
+      VALUES ($1, $2)
+      ON CONFLICT ("restaurantId") DO UPDATE
+      SET "details" = $2
+      RETURNING *
   `;
   const params1 = [restaurantId, req.body];
-  const sql2 = `
-        INSERT INTO "roulette" ("accountId", "restaurantId")
-        VALUES ($1, $2)
-        ON CONFLICT ("accountId", "restaurantId") DO NOTHING
-      `;
-  const params2 = [TEMP_USER_ID, restaurantId];
   db.query(sql1, params1)
     .then(result => {
+      const sql2 = `
+        INSERT INTO "roulette" ("accountId", "restaurantId")
+          VALUES ($1, $2)
+          ON CONFLICT ("accountId", "restaurantId") DO NOTHING
+      `;
+      const params2 = [TEMP_USER_ID, restaurantId];
       db.query(sql2, params2)
         .then(res.status(201).json(result.rows[0]))
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
+
+app.delete('/roulette/remove/:id', (req, res, next) => {
+  const { id: restaurantId } = req.params;
+  if (!req.params) throw new ClientError(400, 'id is a required field.');
+  const sql1 = `
+    DELETE FROM "roulette"
+      WHERE "accountId" = $1
+      AND "restaurantId" = $2
+      RETURNING *
+  `;
+  const params1 = [TEMP_USER_ID, restaurantId];
+  db.query(sql1, params1)
+    .then(result => {
+      const sql2 = `
+        SELECT "restaurantId"
+          FROM "roulette"
+          WHERE "accountId" = $1
+      `;
+      const params2 = [TEMP_USER_ID];
+      db.query(sql2, params2)
+        .then(result => {
+          const restaurantIds = result.rows.map(result => result.restaurantId);
+          res.status(200).json(restaurantIds);
+        })
         .catch(err => next(err));
     })
     .catch(err => next(err));

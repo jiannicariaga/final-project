@@ -16,12 +16,13 @@ export default class SearchResults extends React.Component {
       clientGeolocation: null
     };
     this.addToRoulette = this.addToRoulette.bind(this);
+    this.removeFromRoulette = this.removeFromRoulette.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
   addToRoulette(event) {
     const { id } = event.target;
-    const { results } = this.state;
+    const { results, inRoulette } = this.state;
     const eateryData = results.find(result => result.id === id);
     const headers = {
       method: 'PUT',
@@ -32,8 +33,23 @@ export default class SearchResults extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inRoulette: this.state.inRoulette.concat(data.restaurantId),
+          inRoulette: inRoulette.concat(data.restaurantId),
           message: `${data.details.name} was added to Roulette.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  removeFromRoulette(event) {
+    const { id } = event.target;
+    const { results } = this.state;
+    const eateryData = results.find(result => result.id === id);
+    fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          inRoulette: data,
+          message: `${eateryData.name} was removed from Roulette.`
         });
       })
       .catch(err => console.error(err));
@@ -56,8 +72,8 @@ export default class SearchResults extends React.Component {
         const inRoulette = data.inRoulette;
         this.setState({
           results: data.businesses,
-          clientGeolocation: { lat, lng },
-          inRoulette
+          inRoulette,
+          clientGeolocation: { lat, lng }
         });
       })
       .catch(err => console.error(err));
@@ -66,20 +82,18 @@ export default class SearchResults extends React.Component {
   render() {
     const { results, inRoulette, message, clientGeolocation } = this.state;
     const eateries = results.map(result => {
+      const isInRoulette = inRoulette.includes(result.id);
       return (
         <ResultCard
           key={result.id}
           result={result}
-          inRoulette={inRoulette}
-          addToRoulette={this.addToRoulette} />
+          isInRoulette={isInRoulette}
+          addToRoulette={this.addToRoulette}
+          removeFromRoulette={this.removeFromRoulette} />
       );
     });
     const displayNotification = message
-      ? (
-        <Notification
-          message={message}
-          clearMessage={this.clearMessage} />
-        )
+      ? <Notification message={message} clearMessage={this.clearMessage} />
       : null;
     return (
       <>

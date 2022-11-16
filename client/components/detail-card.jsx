@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Schedule from './schedule';
 
 export default function DetailCard(props) {
-  const { details, inRoulette, addToRoulette } = props;
+  const { details, isInRoulette, addToRoulette, removeFromRoulette } = props;
   const { id, name, categories, display_phone: phone } = details;
   const { address1, city, state, zip_code: zipCode } = details.location;
   const { open: schedule, is_open_now: isOpen } = details.hours[0];
@@ -35,35 +35,20 @@ export default function DetailCard(props) {
   };
   const address2 = `${city}, ${state} ${zipCode}`;
   const displayPhoneIcon = phone
-    ? (
-      <>
-        <Card.Text as='span' className='phone-icon fas fa-phone' />
-        <br />
-      </>
-      )
+    ? <><Card.Text as='span' className='phone-icon fas fa-phone' /><br /></>
     : null;
   const displayAddress1 = address1
-    ? (
-      <>
-        {address1}
-        <br />
-      </>
-      )
+    ? <>{address1}<br /></>
     : null;
   const openNow = isOpen
-    ? (
-      <span style={styles.open}>
-        Open
-      </span>
-      )
-    : (
-      <span style={styles.closed}>
-        Closed
-      </span>
-      );
-  const rouletteText = !inRoulette.includes(id)
-    ? 'Add to Roulette'
-    : 'Remove from Roulette';
+    ? <span style={styles.open}>Open</span>
+    : <span style={styles.closed}>Closed</span>;
+  const rouletteButtonAction = isInRoulette
+    ? removeFromRoulette
+    : addToRoulette;
+  const rouletteButtonText = isInRoulette
+    ? 'Remove from Roulette'
+    : 'Add to Roulette';
   return (
     <Card
       className='shadow'
@@ -116,8 +101,8 @@ export default function DetailCard(props) {
               id={id}
               className='roulette-link border-0 p-0'
               variant='link'
-              onClick={addToRoulette} >
-              {rouletteText}
+              onClick={rouletteButtonAction} >
+              {rouletteButtonText}
             </Button>
           </Col>
         </Row>

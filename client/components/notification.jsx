@@ -7,9 +7,9 @@ import CloseButton from 'react-bootstrap/CloseButton';
 const styles = {
   wrapper: {
     position: 'fixed',
-    top: '10%',
+    top: '100px',
     left: '50%',
-    transform: 'translate(-50%, -10%)',
+    transform: 'translate(-50%, 0)',
     backgroundImage: 'linear-gradient(#e86a0c, #fe4900)',
     color: '#FFFFFF',
     borderRadius: '10px',
