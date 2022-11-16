@@ -86,14 +86,14 @@ app.put('/roulette/add', (req, res, next) => {
       RETURNING *
   `;
   const params1 = [restaurantId, req.body];
-  const sql2 = `
-    INSERT INTO "roulette" ("accountId", "restaurantId")
-      VALUES ($1, $2)
-      ON CONFLICT ("accountId", "restaurantId") DO NOTHING
-  `;
-  const params2 = [TEMP_USER_ID, restaurantId];
   db.query(sql1, params1)
     .then(result => {
+      const sql2 = `
+        INSERT INTO "roulette" ("accountId", "restaurantId")
+          VALUES ($1, $2)
+          ON CONFLICT ("accountId", "restaurantId") DO NOTHING
+      `;
+      const params2 = [TEMP_USER_ID, restaurantId];
       db.query(sql2, params2)
         .then(res.status(201).json(result.rows[0]))
         .catch(err => next(err));
@@ -111,14 +111,14 @@ app.delete('/roulette/remove/:id', (req, res, next) => {
       RETURNING *
   `;
   const params1 = [TEMP_USER_ID, restaurantId];
-  const sql2 = `
+  db.query(sql1, params1)
+    .then(result => {
+      const sql2 = `
         SELECT "restaurantId"
           FROM "roulette"
           WHERE "accountId" = $1
       `;
-  const params2 = [TEMP_USER_ID];
-  db.query(sql1, params1)
-    .then(result => {
+      const params2 = [TEMP_USER_ID];
       db.query(sql2, params2)
         .then(result => {
           const restaurantIds = result.rows.map(result => result.restaurantId);

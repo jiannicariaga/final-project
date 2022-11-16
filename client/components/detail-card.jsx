@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Schedule from './schedule';
 
 export default function DetailCard(props) {
-  const { details, inRoulette, addToRoulette } = props;
+  const { details, inRoulette, addToRoulette, removeFromRoulette } = props;
   const { id, name, categories, display_phone: phone } = details;
   const { address1, city, state, zip_code: zipCode } = details.location;
   const { open: schedule, is_open_now: isOpen } = details.hours[0];
@@ -61,9 +61,25 @@ export default function DetailCard(props) {
         Closed
       </span>
       );
-  const rouletteText = !inRoulette.includes(id)
-    ? 'Add to Roulette'
-    : 'Remove from Roulette';
+  const rouletteButton = !inRoulette.includes(id)
+    ? (
+      <Button
+        id={id}
+        className='roulette-link border-0 p-0'
+        variant='link'
+        onClick={addToRoulette} >
+        Add to Roulette
+      </Button>
+      )
+    : (
+      <Button
+        id={id}
+        className='roulette-link border-0 p-0'
+        variant='link'
+        onClick={removeFromRoulette} >
+        Remove from Roulette
+      </Button>
+      );
   return (
     <Card
       className='shadow'
@@ -112,13 +128,7 @@ export default function DetailCard(props) {
         <hr className='my-3' />
         <Row className='mb-2'>
           <Col className='text-center'>
-            <Button
-              id={id}
-              className='roulette-link border-0 p-0'
-              variant='link'
-              onClick={addToRoulette} >
-              {rouletteText}
-            </Button>
+            {rouletteButton}
           </Col>
         </Row>
       </Card.Body>

@@ -40,10 +40,6 @@ export default class SearchResults extends React.Component {
       .catch(err => console.error(err));
   }
 
-  clearMessage() {
-    this.setState({ message: '' });
-  }
-
   removeFromRoulette(event) {
     const { id } = event.target;
     const { results } = this.state;
@@ -60,6 +56,10 @@ export default class SearchResults extends React.Component {
         });
       })
       .catch(err => console.error(err));
+  }
+
+  clearMessage() {
+    this.setState({ message: '' });
   }
 
   componentDidMount() {

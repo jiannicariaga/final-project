@@ -16,6 +16,7 @@ export default class Detail extends React.Component {
       eateryGeolocation: null
     };
     this.addToRoulette = this.addToRoulette.bind(this);
+    this.removeFromRoulette = this.removeFromRoulette.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
@@ -32,6 +33,23 @@ export default class Detail extends React.Component {
         this.setState({
           inRoulette: this.state.inRoulette.concat(data.restaurantId),
           message: `${data.details.name} was added to Roulette.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  removeFromRoulette(event) {
+    const { id } = event.target;
+    const { details } = this.state;
+    const headers = {
+      method: 'DELETE'
+    };
+    fetch(`/roulette/remove/${id}`, headers)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          inRoulette: data,
+          message: `${details.name} was removed from Roulette.`
         });
       })
       .catch(err => console.error(err));
@@ -65,7 +83,8 @@ export default class Detail extends React.Component {
         <DetailCard
           details={details}
           inRoulette={inRoulette}
-          addToRoulette={this.addToRoulette} />
+          addToRoulette={this.addToRoulette}
+          removeFromRoulette={this.removeFromRoulette} />
         )
       : null;
     const displayNotification = message
