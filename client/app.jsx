@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import { parseRoute } from './lib';
-import Nav from './components/nav';
+import Navigation from './components/navigation';
 import Home from './pages/home';
 import SearchResults from './pages/search-results';
 import Detail from './pages/detail';
@@ -49,7 +49,7 @@ export default class App extends React.Component {
   render() {
     return (
       <>
-        <Nav />
+        <Navigation />
         <Container as="main">
           {this.renderPage()}
         </ Container>

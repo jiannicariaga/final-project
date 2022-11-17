@@ -78,14 +78,17 @@ app.get('/detail', (req, res, next) => {
 
 app.get('/roulette', (req, res, next) => {
   const sql = `
-    SELECT "restaurantId", "details"
+    SELECT "details"
       FROM "restaurants"
       JOIN "roulette" using ("restaurantId")
       WHERE "roulette"."accountId" = $1
   `;
   const params = [TEMP_USER_ID];
   db.query(sql, params)
-    .then(result => res.status(200).json(result.rows))
+    .then(result => {
+      const restaurantDetails = result.rows.map(result => result.details);
+      res.status(200).json(restaurantDetails);
+    })
     .catch(err => next(err));
 });
 
