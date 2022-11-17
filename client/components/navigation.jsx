@@ -28,6 +28,7 @@ const styles = {
 export default function Navigation(props) {
   return (
     <NavBar
+      collapseOnSelect
       className='shadow py-0'
       style={styles.navbar}
       expand='md'
