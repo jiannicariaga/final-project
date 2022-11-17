@@ -35,6 +35,7 @@ export default function Notification(props) {
           </Col>
           <Col xs='auto'>
             <CloseButton
+            className='close-button'
             style={styles.dismiss}
             onClick={clearMessage} />
           </Col>

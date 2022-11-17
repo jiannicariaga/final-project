@@ -30,6 +30,12 @@ body {
   background-image: linear-gradient(#fe4900, #fe4900);
 }
 
+.button:focus,
+.close-button:focus,
+.close-button > button:focus {
+  box-shadow: none !important;
+}
+
 .form-input {
   border-radius: 10px;
 }
