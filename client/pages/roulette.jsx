@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ResultCard from '../components/result-card';
 import Notification from '../components/notification';
+import Spinner from '../components/spinner';
 
 export default class Roulette extends React.Component {
   constructor(props) {
@@ -45,21 +46,39 @@ export default class Roulette extends React.Component {
 
   render() {
     const { inRoulette, message } = this.state;
+    const displayNotification = message
+      ? <Notification message={message} clearMessage={this.clearMessage} />
+      : null;
     const rouletteItems = inRoulette.map(item => {
+      return {
+        image: item.image_url,
+        text: item.name
+      };
+    });
+    const displayRoulette = inRoulette.length > 1
+      ? (
+        <Container className='p-0 mb-3'>
+          <Row>
+            <Col>
+              <Spinner rouletteItems={rouletteItems} />
+            </Col>
+          </Row>
+        </Container>
+        )
+      : null;
+    const eateries = inRoulette.map(eatery => {
       return (
         <ResultCard
-          key={item.id}
-          result={item}
+          key={eatery.id}
+          result={eatery}
           isInRoulette={true}
           removeFromRoulette={this.removeFromRoulette} />
       );
     });
-    const displayNotification = message
-      ? <Notification message={message} clearMessage={this.clearMessage} />
-      : null;
     return (
       <>
         {displayNotification}
+        {displayRoulette}
         <Container className='p-0 mb-3'>
           <Row className='align-items-center p-0 my-3'>
             <Col>
@@ -78,7 +97,7 @@ export default class Roulette extends React.Component {
         </Container>
         <Container className='p-0 mb-3'>
           <Row className='gx-3 gy-3'>
-            {rouletteItems}
+            {eateries}
           </Row>
         </Container>
       </>
