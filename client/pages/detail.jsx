@@ -19,6 +19,7 @@ export default class Detail extends React.Component {
     this.addToRoulette = this.addToRoulette.bind(this);
     this.removeFromRoulette = this.removeFromRoulette.bind(this);
     this.addToFavorites = this.addToFavorites.bind(this);
+    this.removeFromFavorites = this.removeFromFavorites.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
@@ -72,6 +73,20 @@ export default class Detail extends React.Component {
       .catch(err => console.error(err));
   }
 
+  removeFromFavorites(event) {
+    const { id } = event.target;
+    const { details } = this.state;
+    fetch(`/favorites/${id}`, { method: 'DELETE' })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          inFavorites: data,
+          message: `${details.name} was removed from Favorites.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
   clearMessage() {
     this.setState({ message: '' });
   }
@@ -111,7 +126,8 @@ export default class Detail extends React.Component {
           addToRoulette={this.addToRoulette}
           removeFromRoulette={this.removeFromRoulette}
           isInFavorites={isInFavorites}
-          addToFavorites={this.addToFavorites} />
+          addToFavorites={this.addToFavorites}
+          removeFromFavorites={this.removeFromFavorites} />
         )
       : null;
     const displayNotification = message
