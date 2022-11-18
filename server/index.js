@@ -76,6 +76,22 @@ app.get('/detail', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/roulette', (req, res, next) => {
+  const sql = `
+    SELECT "details"
+      FROM "restaurants"
+      JOIN "roulette" using ("restaurantId")
+      WHERE "roulette"."accountId" = $1
+  `;
+  const params = [TEMP_USER_ID];
+  db.query(sql, params)
+    .then(result => {
+      const restaurantDetails = result.rows.map(result => result.details);
+      res.status(200).json(restaurantDetails);
+    })
+    .catch(err => next(err));
+});
+
 app.put('/roulette/add', (req, res, next) => {
   const { id: restaurantId } = req.body;
   if (!req.body) throw new ClientError(400, 'id is a required field.');

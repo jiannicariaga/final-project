@@ -10,6 +10,14 @@ body {
   padding-top: 4rem;
 }
 
+.nav-links {
+  color: #fff !important;
+}
+
+.nav-links:hover {
+  color: #292929 !important;
+}
+
 .button {
   background-image: linear-gradient(#e86a0c, #fe4900);
 }
@@ -20,6 +28,12 @@ body {
 
 .button:active {
   background-image: linear-gradient(#fe4900, #fe4900);
+}
+
+.button:focus,
+.close-button:focus,
+.close-button > button:focus {
+  box-shadow: none !important;
 }
 
 .form-input {
@@ -81,7 +95,7 @@ body {
 }
 
 .name,
-.roulette-link {
+.roulette-button {
   color: #fff !important;
 }
 
@@ -90,11 +104,11 @@ body {
   text-decoration: none;
 }
 
-.roulette-link {
+.roulette-button {
   transition: none !important;
 }
 
 .name:hover,
-.roulette-link:hover {
+.roulette-button:hover {
   color: #fe4900 !important;
 }

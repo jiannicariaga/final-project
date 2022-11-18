@@ -13,7 +13,7 @@ const styles = {
     backgroundImage: 'linear-gradient(#e86a0c, #fe4900)',
     color: '#FFFFFF',
     borderRadius: '10px',
-    zIndex: '1'
+    zIndex: '10'
   },
   dismiss: {
     color: '#FFFFFF',
@@ -35,6 +35,7 @@ export default function Notification(props) {
           </Col>
           <Col xs='auto'>
             <CloseButton
+            className='close-button'
             style={styles.dismiss}
             onClick={clearMessage} />
           </Col>

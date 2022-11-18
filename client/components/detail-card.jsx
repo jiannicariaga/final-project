@@ -99,7 +99,7 @@ export default function DetailCard(props) {
           <Col className='text-center'>
             <Button
               id={id}
-              className='roulette-link border-0 p-0'
+              className='roulette-button border-0 p-0'
               variant='link'
               onClick={rouletteButtonAction} >
               {rouletteButtonText}

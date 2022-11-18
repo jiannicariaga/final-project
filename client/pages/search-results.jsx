@@ -43,7 +43,7 @@ export default class SearchResults extends React.Component {
   removeFromRoulette(event) {
     const { id } = event.target;
     const { results } = this.state;
-    const eateryData = results.find(result => result.id === id);
+    const eateryData = results.find(data => data.id === id);
     fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {

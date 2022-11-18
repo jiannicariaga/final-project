@@ -1,10 +1,11 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import { parseRoute } from './lib';
-import Nav from './components/nav';
+import Navigation from './components/navigation';
 import Home from './pages/home';
 import SearchResults from './pages/search-results';
 import Detail from './pages/detail';
+import Roulette from './pages/roulette';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class App extends React.Component {
@@ -40,12 +41,15 @@ export default class App extends React.Component {
       const id = route.params.get('id');
       return <Detail id={id} />;
     }
+    if (route.path === 'roulette') {
+      return <Roulette />;
+    }
   }
 
   render() {
     return (
       <>
-        <Nav />
+        <Navigation />
         <Container as="main">
           {this.renderPage()}
         </ Container>
