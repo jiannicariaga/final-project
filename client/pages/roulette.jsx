@@ -56,15 +56,7 @@ export default class Roulette extends React.Component {
       };
     });
     const displayRoulette = inRoulette.length > 1
-      ? (
-        <Container className='p-0 mb-3'>
-          <Row>
-            <Col>
-              <Spinner rouletteItems={rouletteItems} />
-            </Col>
-          </Row>
-        </Container>
-        )
+      ? <Spinner rouletteItems={rouletteItems} />
       : null;
     const eateries = inRoulette.map(eatery => {
       return (
