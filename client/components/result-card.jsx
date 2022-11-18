@@ -10,7 +10,7 @@ export default function ResultCard(props) {
   const {
     result,
     isInRoulette, addToRoulette, removeFromRoulette,
-    isInFavorites, addToFavorites
+    isInFavorites, addToFavorites, removeFromFavorites
   } = props;
   const { id, name, distance, categories, display_phone: phone } = result;
   const { address1, city, state, zip_code: zipCode } = result.location;
@@ -43,7 +43,7 @@ export default function ResultCard(props) {
     ? 'Remove from Roulette'
     : 'Add to Roulette';
   const favoritesButtonAction = isInFavorites
-    ? null
+    ? removeFromFavorites
     : addToFavorites;
   const favoritesButtonText = isInFavorites
     ? 'Remove from Favorites'

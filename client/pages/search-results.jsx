@@ -19,6 +19,7 @@ export default class SearchResults extends React.Component {
     this.addToRoulette = this.addToRoulette.bind(this);
     this.removeFromRoulette = this.removeFromRoulette.bind(this);
     this.addToFavorites = this.addToFavorites.bind(this);
+    this.removeFromFavorites = this.removeFromFavorites.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
@@ -77,6 +78,21 @@ export default class SearchResults extends React.Component {
       .catch(err => console.error(err));
   }
 
+  removeFromFavorites(event) {
+    const { id } = event.target;
+    const { results } = this.state;
+    const eateryData = results.find(data => data.id === id);
+    fetch(`/roulette/${id}`, { method: 'DELETE' })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          inFavorites: data,
+          message: `${eateryData.name} was removed from Roulette.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
   clearMessage() {
     this.setState({ message: '' });
   }
@@ -118,7 +134,8 @@ export default class SearchResults extends React.Component {
           addToRoulette={this.addToRoulette}
           removeFromRoulette={this.removeFromRoulette}
           isInFavorites={isInFavorites}
-          addToFavorites={this.addToFavorites} />
+          addToFavorites={this.addToFavorites}
+          removeFromFavorites={this.removeFromFavorites} />
       );
     });
     const displayNotification = message
