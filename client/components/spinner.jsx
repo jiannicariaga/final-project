@@ -5,8 +5,8 @@ import 'react-roulette-pro/dist/index.css';
 const MULTIPLIER = 10;
 
 export default function Spinner(props) {
-  const { rouletteItems: items } = props;
-  const { itemList, indexOfWinner } = prepareSpinner(items);
+  const { rouletteItems } = props;
+  const { itemList, indexOfWinner } = prepareSpinner(rouletteItems);
   return (
     <RoulettePro
       prizes={itemList}
@@ -19,10 +19,8 @@ export default function Spinner(props) {
 function prepareSpinner(items) {
   const extendedArray = new Array(items.length * MULTIPLIER);
   const extendedItems = [...extendedArray.fill(items).flat()];
-  let itemId = -1;
-  const itemList = extendedItems.map(prize => {
-    itemId++;
-    return { ...prize, id: itemId };
+  const itemList = extendedItems.map((item, index) => {
+    return { ...item, id: index };
   });
   const indexOfWinner = Math.floor(Math.random() * extendedItems.length);
   return { itemList, indexOfWinner };
