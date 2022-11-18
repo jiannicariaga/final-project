@@ -17,8 +17,8 @@ export default class SearchResults extends React.Component {
       clientGeolocation: null
     };
     this.addToRoulette = this.addToRoulette.bind(this);
-    this.addToFavorites = this.addToFavorites.bind(this);
     this.removeFromRoulette = this.removeFromRoulette.bind(this);
+    this.addToFavorites = this.addToFavorites.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
@@ -37,6 +37,21 @@ export default class SearchResults extends React.Component {
         this.setState({
           inRoulette: inRoulette.concat(data.restaurantId),
           message: `${data.details.name} was added to Roulette.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  removeFromRoulette(event) {
+    const { id } = event.target;
+    const { results } = this.state;
+    const eateryData = results.find(data => data.id === id);
+    fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          inRoulette: data,
+          message: `${eateryData.name} was removed from Roulette.`
         });
       })
       .catch(err => console.error(err));
@@ -62,21 +77,6 @@ export default class SearchResults extends React.Component {
       .catch(err => console.error(err));
   }
 
-  removeFromRoulette(event) {
-    const { id } = event.target;
-    const { results } = this.state;
-    const eateryData = results.find(data => data.id === id);
-    fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          inRoulette: data,
-          message: `${eateryData.name} was removed from Roulette.`
-        });
-      })
-      .catch(err => console.error(err));
-  }
-
   clearMessage() {
     this.setState({ message: '' });
   }
@@ -89,9 +89,9 @@ export default class SearchResults extends React.Component {
     fetch(url)
       .then(response => response.json())
       .then(data => {
+        const inRoulette = data.inRoulette;
         const lat = data.region.center.latitude;
         const lng = data.region.center.longitude;
-        const inRoulette = data.inRoulette;
         this.setState({
           results: data.businesses,
           inRoulette,

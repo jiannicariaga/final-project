@@ -12,11 +12,13 @@ export default class Detail extends React.Component {
     this.state = {
       details: null,
       inRoulette: [],
+      inFavorites: [],
       message: '',
       eateryGeolocation: null
     };
     this.addToRoulette = this.addToRoulette.bind(this);
     this.removeFromRoulette = this.removeFromRoulette.bind(this);
+    this.addToFavorites = this.addToFavorites.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
@@ -52,6 +54,24 @@ export default class Detail extends React.Component {
       .catch(err => console.error(err));
   }
 
+  addToFavorites(event) {
+    const { details, inFavorites } = this.state;
+    const headers = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(details)
+    };
+    fetch('/favorites/add', headers)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          inFavorites: inFavorites.concat(data.restaurantId),
+          message: `${data.details.name} was added to Favorites.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
   clearMessage() {
     this.setState({ message: '' });
   }
@@ -76,15 +96,22 @@ export default class Detail extends React.Component {
 
   render() {
     const { id } = this.props;
-    const { details, inRoulette, message, eateryGeolocation } = this.state;
+    const {
+      details,
+      inRoulette, inFavorites,
+      message, eateryGeolocation
+    } = this.state;
     const isInRoulette = inRoulette.includes(id);
+    const isInFavorites = inFavorites.includes(id);
     const displayDetail = details
       ? (
         <DetailCard
           details={details}
           isInRoulette={isInRoulette}
           addToRoulette={this.addToRoulette}
-          removeFromRoulette={this.removeFromRoulette} />
+          removeFromRoulette={this.removeFromRoulette}
+          isInFavorites={isInFavorites}
+          addToFavorites={this.addToFavorites} />
         )
       : null;
     const displayNotification = message
