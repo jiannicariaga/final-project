@@ -92,7 +92,7 @@ app.get('/roulette', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.put('/roulette/add', (req, res, next) => {
+app.put('/roulette', (req, res, next) => {
   const { id: restaurantId } = req.body;
   if (!req.body) throw new ClientError(400, 'id is a required field.');
   const sql1 = `
@@ -118,7 +118,7 @@ app.put('/roulette/add', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.delete('/roulette/remove/:id', (req, res, next) => {
+app.delete('/roulette/:id', (req, res, next) => {
   const { id: restaurantId } = req.params;
   if (!req.params) throw new ClientError(400, 'id is a required field.');
   const sql1 = `
@@ -146,7 +146,7 @@ app.delete('/roulette/remove/:id', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.put('/favorites/add', (req, res, next) => {
+app.put('/favorites', (req, res, next) => {
   const { id: restaurantId } = req.body;
   if (!req.body) throw new ClientError(400, 'id is a required field.');
   const sql1 = `
@@ -172,7 +172,7 @@ app.put('/favorites/add', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.delete('/favorites/remove/:id', (req, res, next) => {
+app.delete('/favorites/:id', (req, res, next) => {
   const { id: restaurantId } = req.params;
   if (!req.params) throw new ClientError(400, 'id is a required field.');
   const sql1 = `

@@ -29,7 +29,7 @@ export default class Detail extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(details)
     };
-    fetch('/roulette/add', headers)
+    fetch('/roulette', headers)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -43,7 +43,7 @@ export default class Detail extends React.Component {
   removeFromRoulette(event) {
     const { id } = event.target;
     const { details } = this.state;
-    fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
+    fetch(`/roulette/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -61,7 +61,7 @@ export default class Detail extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(details)
     };
-    fetch('/favorites/add', headers)
+    fetch('/favorites', headers)
       .then(response => response.json())
       .then(data => {
         this.setState({

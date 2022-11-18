@@ -31,7 +31,7 @@ export default class SearchResults extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(eateryData)
     };
-    fetch('/roulette/add', headers)
+    fetch('/roulette', headers)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -46,7 +46,7 @@ export default class SearchResults extends React.Component {
     const { id } = event.target;
     const { results } = this.state;
     const eateryData = results.find(data => data.id === id);
-    fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
+    fetch(`/roulette/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -66,7 +66,7 @@ export default class SearchResults extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(eateryData)
     };
-    fetch('/favorites/add', headers)
+    fetch('/favorites', headers)
       .then(response => response.json())
       .then(data => {
         this.setState({
