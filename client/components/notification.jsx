@@ -26,17 +26,17 @@ export default function Notification(props) {
   if (message) {
     return (
       <Container
-        className='w-75 p-3'
+        className='w-auto p-3'
         style={styles.wrapper}
         dismissable='true' >
         <Row className='justify-content-between align-items-center'>
           <Col className='fw-bold'>
             {message}
           </Col>
-          <Col xs='auto'>
-            <CloseButton
+          <Col
             className='close-button'
-            style={styles.dismiss}
+            xs='auto'>
+            <CloseButton
             onClick={clearMessage} />
           </Col>
         </Row>

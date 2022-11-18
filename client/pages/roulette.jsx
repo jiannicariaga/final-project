@@ -83,7 +83,7 @@ export default class Roulette extends React.Component {
             <Col xs='auto'>
               <a
                 className='link fw-bold text-end'
-                href='#' >
+                onClick={() => history.back()} >
                 Back
               </a>
             </Col>

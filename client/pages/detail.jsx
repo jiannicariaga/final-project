@@ -106,7 +106,7 @@ export default class Detail extends React.Component {
             <Col xs='auto'>
               <a
                 className='link fw-bold text-end'
-                href='#' >
+                onClick={() => history.back()} >
                 Back
               </a>
             </Col>
