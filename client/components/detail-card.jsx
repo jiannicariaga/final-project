@@ -6,7 +6,11 @@ import Button from 'react-bootstrap/Button';
 import Schedule from './schedule';
 
 export default function DetailCard(props) {
-  const { details, isInRoulette, addToRoulette, removeFromRoulette } = props;
+  const {
+    details,
+    isInRoulette, addToRoulette, removeFromRoulette,
+    isInFavorites, addToFavorites
+  } = props;
   const { id, name, categories, display_phone: phone } = details;
   const { address1, city, state, zip_code: zipCode } = details.location;
   const { open: schedule, is_open_now: isOpen } = details.hours[0];
@@ -49,6 +53,12 @@ export default function DetailCard(props) {
   const rouletteButtonText = isInRoulette
     ? 'Remove from Roulette'
     : 'Add to Roulette';
+  const favoritesButtonAction = isInFavorites
+    ? null
+    : addToFavorites;
+  const favoritesButtonText = isInFavorites
+    ? 'Remove from Favorites'
+    : 'Add to Favorites';
   return (
     <Card
       className='shadow'
@@ -59,7 +69,7 @@ export default function DetailCard(props) {
       <Card.Body style={styles.background}>
         <Row className='flex-nowrap'>
           <Col>
-            <Card.Title className='eatery-name fw-bold' >
+            <Card.Title className='fw-bold' >
               {name}
             </Card.Title>
           </Col>
@@ -99,10 +109,21 @@ export default function DetailCard(props) {
           <Col className='text-center'>
             <Button
               id={id}
-              className='roulette-button border-0 p-0'
+              className='card-button border-0 p-0'
               variant='link'
               onClick={rouletteButtonAction} >
               {rouletteButtonText}
+            </Button>
+          </Col>
+        </Row>
+        <Row className='mb-2'>
+          <Col className='text-center'>
+            <Button
+              id={id}
+              className='card-button border-0 p-0'
+              variant='link'
+              onClick={favoritesButtonAction} >
+              {favoritesButtonText}
             </Button>
           </Col>
         </Row>

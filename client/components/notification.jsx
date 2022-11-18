@@ -26,7 +26,7 @@ export default function Notification(props) {
   if (message) {
     return (
       <Container
-        className='w-auto p-3'
+        className='w-75 p-3'
         style={styles.wrapper}
         dismissable='true' >
         <Row className='justify-content-between align-items-center'>

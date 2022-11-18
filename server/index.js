@@ -106,11 +106,37 @@ app.put('/roulette/add', (req, res, next) => {
   db.query(sql1, params1)
     .then(result => {
       const sql2 = `
-        INSERT INTO "roulette" ("accountId", "restaurantId")
+        INSERT INTO "roulette" ("restaurantId", "accountId")
           VALUES ($1, $2)
-          ON CONFLICT ("accountId", "restaurantId") DO NOTHING
+          ON CONFLICT ("restaurantId", "accountId") DO NOTHING
       `;
-      const params2 = [TEMP_USER_ID, restaurantId];
+      const params2 = [restaurantId, TEMP_USER_ID];
+      db.query(sql2, params2)
+        .then(res.status(201).json(result.rows[0]))
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
+
+app.put('/favorites/add', (req, res, next) => {
+  const { id: restaurantId } = req.body;
+  if (!req.body) throw new ClientError(400, 'id is a required field.');
+  const sql1 = `
+    INSERT INTO "restaurants" ("restaurantId", "details")
+      VALUES ($1, $2)
+      ON CONFLICT ("restaurantId") DO UPDATE
+      SET "details" = $2
+      RETURNING *
+  `;
+  const params1 = [restaurantId, req.body];
+  db.query(sql1, params1)
+    .then(result => {
+      const sql2 = `
+        INSERT INTO "favorites" ("restaurantId", "accountId")
+          VALUES ($1, $2)
+          ON CONFLICT ("restaurantId", "accountId") DO NOTHING
+      `;
+      const params2 = [restaurantId, TEMP_USER_ID];
       db.query(sql2, params2)
         .then(res.status(201).json(result.rows[0]))
         .catch(err => next(err));

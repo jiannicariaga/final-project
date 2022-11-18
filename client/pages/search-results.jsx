@@ -12,11 +12,13 @@ export default class SearchResults extends React.Component {
     this.state = {
       results: [],
       inRoulette: [],
+      inFavorites: [],
       message: '',
       clientGeolocation: null
     };
     this.addToRoulette = this.addToRoulette.bind(this);
     this.removeFromRoulette = this.removeFromRoulette.bind(this);
+    this.addToFavorites = this.addToFavorites.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
@@ -55,6 +57,26 @@ export default class SearchResults extends React.Component {
       .catch(err => console.error(err));
   }
 
+  addToFavorites(event) {
+    const { id } = event.target;
+    const { results, inFavorites } = this.state;
+    const eateryData = results.find(result => result.id === id);
+    const headers = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(eateryData)
+    };
+    fetch('/favorites/add', headers)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          inFavorites: inFavorites.concat(data.restaurantId),
+          message: `${data.details.name} was added to Favorites.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
   clearMessage() {
     this.setState({ message: '' });
   }
@@ -67,9 +89,9 @@ export default class SearchResults extends React.Component {
     fetch(url)
       .then(response => response.json())
       .then(data => {
+        const inRoulette = data.inRoulette;
         const lat = data.region.center.latitude;
         const lng = data.region.center.longitude;
-        const inRoulette = data.inRoulette;
         this.setState({
           results: data.businesses,
           inRoulette,
@@ -80,16 +102,23 @@ export default class SearchResults extends React.Component {
   }
 
   render() {
-    const { results, inRoulette, message, clientGeolocation } = this.state;
+    const {
+      results,
+      inRoulette, inFavorites,
+      message, clientGeolocation
+    } = this.state;
     const eateries = results.map(result => {
       const isInRoulette = inRoulette.includes(result.id);
+      const isInFavorites = inFavorites.includes(result.id);
       return (
         <ResultCard
           key={result.id}
           result={result}
           isInRoulette={isInRoulette}
           addToRoulette={this.addToRoulette}
-          removeFromRoulette={this.removeFromRoulette} />
+          removeFromRoulette={this.removeFromRoulette}
+          isInFavorites={isInFavorites}
+          addToFavorites={this.addToFavorites} />
       );
     });
     const displayNotification = message

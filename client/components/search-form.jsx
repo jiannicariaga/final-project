@@ -55,7 +55,7 @@ export default class SearchForm extends React.Component {
         message: 'Device location added.'
       });
     },
-    this.setState({
+    () => this.setState({
       message: 'Geolocation is not supported in your browser.'
     }));
   }
