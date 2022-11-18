@@ -61,7 +61,7 @@ export default function ResultCard(props) {
               <Row className='flex-nowrap align-items-center mb-2'>
                 <Col>
                   <Card.Title
-                    className='name fw-bold'
+                    className='card-name fw-bold'
                     as='a'
                     href={`#detail?id=${id}`} >
                     {name}
@@ -100,7 +100,7 @@ export default function ResultCard(props) {
                 <Col>
                   <Button
                     id={id}
-                    className='roulette-button border-0 p-0'
+                    className='card-button border-0 p-0'
                     variant='link'
                     onClick={rouletteButtonAction} >
                     {rouletteButtonText}
@@ -111,7 +111,7 @@ export default function ResultCard(props) {
                 <Col>
                   <Button
                     id={id}
-                    className='roulette-button border-0 p-0'
+                    className='card-button border-0 p-0'
                     variant='link'
                     onClick={favoritesButtonAction} >
                     {favoritesButtonText}
