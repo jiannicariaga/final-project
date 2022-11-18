@@ -1,27 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RoulettePro from 'react-roulette-pro';
+import Button from 'react-bootstrap/Button';
 import 'react-roulette-pro/dist/index.css';
 
 const MULTIPLIER = 10;
+const styles = {
+  button: {
+    border: 'none',
+    borderRadius: '10px'
+  }
+};
 
 export default function Spinner(props) {
   const { rouletteItems } = props;
-  const { itemList, indexOfWinner } = prepareSpinner(rouletteItems);
+  const { itemList, indexOfWinner, eateryId } = prepareSpinner(rouletteItems);
+  const [start, setStart] = useState(false);
+  const handleStart = () => setStart(prevState => !prevState);
+  const buttonText = start ? 'Reset' : 'Spin';
+  const redirect = () => { window.location.hash = `#detail?id=${eateryId}`; };
   return (
-    <RoulettePro
-      prizes={itemList}
-      prizeIndex={indexOfWinner}
-      options={{ withoutAnimation: true }}
-      defaultDesignOptions={{ prizesWithText: true }} />
+    <>
+      <RoulettePro
+        prizes={itemList}
+        prizeIndex={indexOfWinner}
+        start={start}
+        onPrizeDefined={redirect}
+        options={{ withoutAnimation: true }}
+        defaultDesignOptions={{ prizesWithText: true }} />
+      <Button
+        className='button fw-bold shadow-sm w-100 mt-3'
+        style={styles.button}
+        onClick={handleStart} >
+        {buttonText}
+      </Button>
+    </>
   );
 }
 
 function prepareSpinner(items) {
-  const extendedArray = new Array(items.length * MULTIPLIER);
-  const extendedItems = [...extendedArray.fill(items).flat()];
-  const itemList = extendedItems.map((item, index) => {
+  const extArr = new Array(items.length * MULTIPLIER);
+  const extItems = [...extArr.fill(items).flat()];
+  const itemList = extItems.map((item, index) => {
     return { ...item, id: index };
   });
-  const indexOfWinner = Math.floor(Math.random() * extendedItems.length);
-  return { itemList, indexOfWinner };
+  const range = (extItems.length - extItems.length / 2) + extItems.length / 2;
+  const indexOfWinner = Math.floor(Math.random() * range);
+  const eateryId = itemList[indexOfWinner].eateryId;
+  return { itemList, indexOfWinner, eateryId };
 }

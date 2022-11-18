@@ -9,11 +9,11 @@ const styles = {
     backgroundImage: 'linear-gradient(#e86a0c, #fe4900)',
     height: '4rem'
   },
-  canvas: {
+  offCanvas: {
     backgroundImage: 'linear-gradient(#e86a0c, #fe4900)',
     width: '200px'
   },
-  canvasTitle: {
+  offCanvasTitle: {
     color: '#FFFFFF'
   },
   logo: {
@@ -46,7 +46,7 @@ export default function Navigation(props) {
           style={styles.menuIcon}
           aria-controls='offcanvasNavbar-expand-md' />
         <NavBar.Offcanvas
-          style={styles.canvas}
+          style={styles.offCanvas}
           id='offcanvasNavbar-expand-md'
           aria-labelledby='offcanvasNavbarLabel-expand-md' >
           <Offcanvas.Header
@@ -54,7 +54,7 @@ export default function Navigation(props) {
             className='close-button' >
             <Offcanvas.Title
               className='fw-bold'
-              style={styles.canvasTitle}
+              style={styles.offCanvasTitle}
               id='offcanvasNavbarLabel-expand-md' >
               Menu
             </Offcanvas.Title>

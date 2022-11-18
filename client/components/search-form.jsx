@@ -46,12 +46,6 @@ export default class SearchForm extends React.Component {
   }
 
   getGeolocation(event) {
-    if (!navigator.geolocation) {
-      this.setState({
-        message: 'Geolocation is not supported in your browser.'
-      });
-      return;
-    }
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
       this.setState({
@@ -60,7 +54,10 @@ export default class SearchForm extends React.Component {
         longitude,
         message: 'Device location added.'
       });
-    });
+    },
+    this.setState({
+      message: 'Geolocation is not supported in your browser.'
+    }));
   }
 
   render() {
@@ -99,7 +96,7 @@ export default class SearchForm extends React.Component {
             <span className='geolocation-icon fas fa-location-crosshairs' />
           </ Button>
         </ InputGroup>
-        <Container className={`message ${color} text-center p-0 mt-1`}>
+        <Container className={`message ${color} text-center fw-bold p-0 mt-1`}>
           {message}
         </ Container>
         <Container className='d-flex justify-content-center p-0 mt-4'>

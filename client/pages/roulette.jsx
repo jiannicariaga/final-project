@@ -15,6 +15,7 @@ export default class Roulette extends React.Component {
     };
     this.removeFromRoulette = this.removeFromRoulette.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
+    this.getWinnerId = this.clearMessage.bind(this);
   }
 
   removeFromRoulette(event) {
@@ -52,19 +53,12 @@ export default class Roulette extends React.Component {
     const rouletteItems = inRoulette.map(item => {
       return {
         image: item.image_url,
-        text: item.name
+        text: item.name,
+        eateryId: item.id
       };
     });
     const displayRoulette = inRoulette.length > 1
-      ? (
-        <Container className='p-0 mb-3'>
-          <Row>
-            <Col>
-              <Spinner rouletteItems={rouletteItems} />
-            </Col>
-          </Row>
-        </Container>
-        )
+      ? <Spinner rouletteItems={rouletteItems} />
       : null;
     const eateries = inRoulette.map(eatery => {
       return (
@@ -89,7 +83,7 @@ export default class Roulette extends React.Component {
             <Col xs='auto'>
               <a
                 className='link fw-bold text-end'
-                href='#' >
+                onClick={() => history.back()} >
                 Back
               </a>
             </Col>
