@@ -7,7 +7,11 @@ import Button from 'react-bootstrap/Button';
 const METERS_TO_MILES = 0.000621371192;
 
 export default function ResultCard(props) {
-  const { result, isInRoulette, addToRoulette, removeFromRoulette } = props;
+  const {
+    result,
+    isInRoulette, addToRoulette, removeFromRoulette,
+    isInFavorites, addToFavorites
+  } = props;
   const { id, name, distance, categories, display_phone: phone } = result;
   const { address1, city, state, zip_code: zipCode } = result.location;
   const styles = {
@@ -38,6 +42,12 @@ export default function ResultCard(props) {
   const rouletteButtonText = isInRoulette
     ? 'Remove from Roulette'
     : 'Add to Roulette';
+  const favoritesButtonAction = isInFavorites
+    ? null
+    : addToFavorites;
+  const favoritesButtonText = isInFavorites
+    ? 'Remove from Favorites'
+    : 'Add to Favorites';
   return (
     <Col md={6}>
       <Card
@@ -94,6 +104,17 @@ export default function ResultCard(props) {
                     variant='link'
                     onClick={rouletteButtonAction} >
                     {rouletteButtonText}
+                  </Button>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Button
+                    id={id}
+                    className='roulette-button border-0 p-0'
+                    variant='link'
+                    onClick={favoritesButtonAction} >
+                    {favoritesButtonText}
                   </Button>
                 </Col>
               </Row>

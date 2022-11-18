@@ -102,7 +102,11 @@ export default class SearchResults extends React.Component {
   }
 
   render() {
-    const { results, inRoulette, inFavorites, message, clientGeolocation } = this.state;
+    const {
+      results,
+      inRoulette, inFavorites,
+      message, clientGeolocation
+    } = this.state;
     const eateries = results.map(result => {
       const isInRoulette = inRoulette.includes(result.id);
       const isInFavorites = inFavorites.includes(result.id);
@@ -111,9 +115,10 @@ export default class SearchResults extends React.Component {
           key={result.id}
           result={result}
           isInRoulette={isInRoulette}
-          isInFavorites={isInFavorites}
           addToRoulette={this.addToRoulette}
-          removeFromRoulette={this.removeFromRoulette} />
+          removeFromRoulette={this.removeFromRoulette}
+          isInFavorites={isInFavorites}
+          addToFavorites={this.addToFavorites} />
       );
     });
     const displayNotification = message
