@@ -3,8 +3,9 @@ const pg = require('pg');
 const express = require('express');
 const fetch = require('node-fetch');
 const staticMiddleware = require('./static-middleware');
-const ClientError = require('./client-error');
+const jsonMiddleware = express.json();
 const errorMiddleware = require('./error-middleware');
+const ClientError = require('./client-error');
 const TEMP_USER_ID = 1;
 
 const db = new pg.Pool({
@@ -16,7 +17,7 @@ const app = express();
 
 app.use(staticMiddleware);
 
-app.use(express.json());
+app.use(jsonMiddleware);
 
 app.get('/search-results', (req, res, next) => {
   if (!Object.keys(req.query).length) {
@@ -39,8 +40,7 @@ app.get('/search-results', (req, res, next) => {
       const params1 = [TEMP_USER_ID];
       db.query(sql1, params1)
         .then(result => {
-          const { rows, restaurantId } = result;
-          const rouletteIds = rows.map(row => restaurantId);
+          const rouletteIds = result.rows.map(row => row.restaurantId);
           data.inRoulette = rouletteIds;
           const sql2 = `
             SELECT "restaurantId"
@@ -50,8 +50,7 @@ app.get('/search-results', (req, res, next) => {
           const params2 = [TEMP_USER_ID];
           db.query(sql2, params2)
             .then(result => {
-              const { rows, restaurantId } = result;
-              const favoritesIds = rows.map(row => restaurantId);
+              const favoritesIds = result.rows.map(row => row.restaurantId);
               data.inFavorites = favoritesIds;
               res.status(200).json(data);
             })
@@ -81,8 +80,7 @@ app.get('/detail', (req, res, next) => {
       const params1 = [TEMP_USER_ID];
       db.query(sql1, params1)
         .then(result => {
-          const { rows, restaurantId } = result;
-          const rouletteIds = rows.map(row => restaurantId);
+          const rouletteIds = result.rows.map(row => row.restaurantId);
           data.inRoulette = rouletteIds;
           const sql2 = `
             SELECT "restaurantId"
@@ -92,8 +90,7 @@ app.get('/detail', (req, res, next) => {
           const params2 = [TEMP_USER_ID];
           db.query(sql2, params2)
             .then(result => {
-              const { rows, restaurantId } = result;
-              const favoritesIds = rows.map(row => restaurantId);
+              const favoritesIds = result.rows.map(row => row.restaurantId);
               data.inFavorites = favoritesIds;
               res.status(200).json(data);
             })
@@ -105,7 +102,6 @@ app.get('/detail', (req, res, next) => {
 });
 
 app.get('/roulette', (req, res, next) => {
-  const data = {};
   const sql1 = `
     SELECT "details"
       FROM "restaurants"
@@ -115,8 +111,8 @@ app.get('/roulette', (req, res, next) => {
   const params1 = [TEMP_USER_ID];
   db.query(sql1, params1)
     .then(result => {
-      const { rows, details } = result;
-      data.inRoulette = rows.map(row => details);
+      const data = {};
+      data.inRoulette = result.rows.map(row => row.details);
       const sql2 = `
         SELECT "restaurantId"
           FROM "favorites"
@@ -125,8 +121,7 @@ app.get('/roulette', (req, res, next) => {
       const params2 = [TEMP_USER_ID];
       db.query(sql2, params2)
         .then(result => {
-          const { rows, restaurantId } = result;
-          data.inFavorites = rows.map(row => restaurantId);
+          data.inFavorites = result.rows.map(row => row.restaurantId);
           res.status(200).json(data);
         })
         .catch(err => next(err));
@@ -135,7 +130,6 @@ app.get('/roulette', (req, res, next) => {
 });
 
 app.put('/roulette', (req, res, next) => {
-  const { id: restaurantId } = req.body;
   if (!req.body) throw new ClientError(400, 'id is a required field.');
   const sql1 = `
     INSERT INTO "restaurants" ("restaurantId", "details")
@@ -144,7 +138,7 @@ app.put('/roulette', (req, res, next) => {
       SET "details" = $2
       RETURNING *
   `;
-  const params1 = [restaurantId, req.body];
+  const params1 = [req.body.id, req.body];
   db.query(sql1, params1)
     .then(result => {
       const sql2 = `
@@ -152,7 +146,7 @@ app.put('/roulette', (req, res, next) => {
           VALUES ($1, $2)
           ON CONFLICT ("restaurantId", "accountId") DO NOTHING
       `;
-      const params2 = [restaurantId, TEMP_USER_ID];
+      const params2 = [req.body.id, TEMP_USER_ID];
       db.query(sql2, params2)
         .then(res.status(201).json(result.rows[0]))
         .catch(err => next(err));
@@ -161,15 +155,14 @@ app.put('/roulette', (req, res, next) => {
 });
 
 app.delete('/roulette/:id', (req, res, next) => {
-  const { id: restaurantId } = req.params;
-  if (!req.params) throw new ClientError(400, 'id is a required field.');
+  if (!req.params.id) throw new ClientError(400, 'id is a required field.');
   const sql1 = `
     DELETE FROM "roulette"
       WHERE "restaurantId" = $1
       AND "accountId" = $2
       RETURNING *
   `;
-  const params1 = [restaurantId, TEMP_USER_ID];
+  const params1 = [req.params.id, TEMP_USER_ID];
   db.query(sql1, params1)
     .then(result => {
       const sql2 = `
@@ -178,19 +171,16 @@ app.delete('/roulette/:id', (req, res, next) => {
           WHERE "accountId" = $1
       `;
       const params2 = [TEMP_USER_ID];
-      db.query(sql2, params2)
-        .then(result => {
-          const { rows, restaurantId } = result;
-          const restaurantIds = rows.map(result => restaurantId);
-          res.status(200).json(restaurantIds);
-        })
-        .catch(err => next(err));
+      return db.query(sql2, params2);
+    })
+    .then(result => {
+      const restaurantIds = result.rows.map(row => row.restaurantId);
+      res.status(200).json(restaurantIds);
     })
     .catch(err => next(err));
 });
 
 app.put('/favorites', (req, res, next) => {
-  const { id: restaurantId } = req.body;
   if (!req.body) throw new ClientError(400, 'id is a required field.');
   const sql1 = `
     INSERT INTO "restaurants" ("restaurantId", "details")
@@ -199,7 +189,7 @@ app.put('/favorites', (req, res, next) => {
       SET "details" = $2
       RETURNING *
   `;
-  const params1 = [restaurantId, req.body];
+  const params1 = [req.body.id, req.body];
   db.query(sql1, params1)
     .then(result => {
       const sql2 = `
@@ -207,7 +197,7 @@ app.put('/favorites', (req, res, next) => {
           VALUES ($1, $2)
           ON CONFLICT ("restaurantId", "accountId") DO NOTHING
       `;
-      const params2 = [restaurantId, TEMP_USER_ID];
+      const params2 = [req.body.id, TEMP_USER_ID];
       db.query(sql2, params2)
         .then(res.status(201).json(result.rows[0]))
         .catch(err => next(err));
@@ -216,15 +206,14 @@ app.put('/favorites', (req, res, next) => {
 });
 
 app.delete('/favorites/:id', (req, res, next) => {
-  const { id: restaurantId } = req.params;
-  if (!req.params) throw new ClientError(400, 'id is a required field.');
+  if (!req.params.id) throw new ClientError(400, 'id is a required field.');
   const sql1 = `
     DELETE FROM "favorites"
       WHERE "restaurantId" = $1
       AND "accountId" = $2
       RETURNING *
   `;
-  const params1 = [restaurantId, TEMP_USER_ID];
+  const params1 = [req.params.id, TEMP_USER_ID];
   db.query(sql1, params1)
     .then(result => {
       const sql2 = `
@@ -233,13 +222,11 @@ app.delete('/favorites/:id', (req, res, next) => {
           WHERE "accountId" = $1
       `;
       const params2 = [TEMP_USER_ID];
-      db.query(sql2, params2)
-        .then(result => {
-          const { rows, restaurantId } = result;
-          const restaurantIds = rows.map(result => restaurantId);
-          res.status(200).json(restaurantIds);
-        })
-        .catch(err => next(err));
+      return db.query(sql2, params2);
+    })
+    .then(result => {
+      const restaurantIds = result.rows.map(row => row.restaurantId);
+      res.status(200).json(restaurantIds);
     })
     .catch(err => next(err));
 });

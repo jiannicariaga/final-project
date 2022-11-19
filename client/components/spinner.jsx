@@ -28,7 +28,7 @@ export default function Spinner(props) {
         options={{ withoutAnimation: true }}
         defaultDesignOptions={{ prizesWithText: true }} />
       <Button
-        className='button fw-bold shadow-sm w-100 mt-3'
+        className='action-button fw-bold shadow-sm w-100 mt-3'
         style={styles.button}
         onClick={handleStart} >
         {buttonText}

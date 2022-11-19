@@ -109,7 +109,7 @@ export default function DetailCard(props) {
           <Col className='text-center'>
             <Button
               id={id}
-              className='card-button border-0 p-0'
+              className='card-button fw-bold border-0 p-0'
               variant='link'
               onClick={rouletteButtonAction} >
               {rouletteButtonText}
@@ -120,7 +120,7 @@ export default function DetailCard(props) {
           <Col className='text-center'>
             <Button
               id={id}
-              className='card-button border-0 p-0'
+              className='card-button fw-bold border-0 p-0'
               variant='link'
               onClick={favoritesButtonAction} >
               {favoritesButtonText}

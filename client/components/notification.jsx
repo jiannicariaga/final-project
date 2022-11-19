@@ -36,8 +36,7 @@ export default function Notification(props) {
           <Col
             className='close-button'
             xs='auto'>
-            <CloseButton
-            onClick={clearMessage} />
+            <CloseButton onClick={clearMessage} />
           </Col>
         </Row>
       </Container>

@@ -6,39 +6,42 @@ body {
   background-color: #e5e5e5;
 }
 
+h2 {
+  font-family: "PT Sans", sans-serif;
+  letter-spacing: 0.25px;
+}
+
+a {
+  outline: 0 !important;
+}
+
 #root {
   padding-top: 4rem;
 }
 
+.navbar-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
 .nav-links {
   color: #fff !important;
+  outline: none !important;
 }
 
 .nav-links:hover {
   color: #292929 !important;
 }
 
-.button {
-  background-image: linear-gradient(#e86a0c, #fe4900);
+.back-link {
+  color: #292929;
+  transition: color 0.15s ease-in-out;
 }
 
-.button:hover {
-  background-image: linear-gradient(#e86a0c, #e86a0c);
-}
-
-.button:active {
-  background-image: linear-gradient(#fe4900, #fe4900);
-}
-
-.close-button > button {
-  filter: invert(1) grayscale(100%) brightness(200%);
-  opacity: 1;
-}
-
-.button:focus,
-.close-button:focus,
-.close-button > button:focus {
-  box-shadow: none !important;
+.link:hover {
+  color: #f35a06;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease-in-out;
 }
 
 .form-input {
@@ -49,17 +52,43 @@ body {
   background-image: linear-gradient(#fff, #fff);
 }
 
+.action-button {
+  background-color: #e86a0c !important;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.action-button:hover {
+  background-color: #f35a06 !important;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.action-button:active {
+  background-color: #e86a0c !important;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.close-button > button {
+  filter: invert(1) grayscale(100%) brightness(200%);
+  opacity: 1;
+}
+
+.action-button:focus,
+.close-button:focus,
+.close-button > button:focus {
+  box-shadow: none !important;
+}
+
 .search-icon,
 .location-icon,
 .geolocation-icon,
-.fa-phone {
+.phone-icon {
   font-size: 1rem;
 }
 
 .search-icon,
 .location-icon,
 .phone-icon {
-  color: #fe4900;
+  color: #f35a06;
 }
 
 .location-icon {
@@ -78,31 +107,12 @@ body {
   font-size: 0.8rem;
 }
 
-.added {
-  color: #00b395;
-}
-
-.removed {
-  color: #b33300;
-}
-
-.map {
-  height: 220px;
-}
-
-.link {
-  color: #292929;
-}
-
-.link:hover {
-  color: #fe4900;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 .card-name,
 .card-button {
   color: #fff !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  transition: color 0.15s ease-in-out;
 }
 
 .card-name {
@@ -112,11 +122,12 @@ body {
 
 .card-name:hover,
 .card-button:hover {
-  color: #fe4900 !important;
+  color: #f35a06 !important;
+  transition: color 0.15s ease-in-out;
 }
 
-.navbar-toggler .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+.map {
+  height: 250px;
 }
 
 .roulette-pro-regular-prize-item-image {

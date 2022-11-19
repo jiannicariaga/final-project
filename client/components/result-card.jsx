@@ -26,9 +26,17 @@ export default function ResultCard(props) {
       boxShadow: 'inset 0 0 0 100vw rgb(0 0 0 / 60%)',
       backgroundSize: 'cover',
       borderRadius: '10px'
+    },
+    cardTitle: {
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden'
     }
   };
   const miles = distance * METERS_TO_MILES;
+  const displayMiles = isNaN(miles)
+    ? ''
+    : `${miles.toFixed(2)}mi`;
   const displayPhoneIcon = phone
     ? <><Card.Text as='span' className='phone-icon fas fa-phone' /><br /></>
     : null;
@@ -59,7 +67,7 @@ export default function ResultCard(props) {
           <Col>
             <Card.Body>
               <Row className='flex-nowrap align-items-center mb-2'>
-                <Col>
+                <Col style={styles.cardTitle}>
                   <Card.Title
                     className='card-name fw-bold'
                     as='a'
@@ -71,7 +79,7 @@ export default function ResultCard(props) {
                   className='text-end'
                   xs='auto'>
                   <Card.Subtitle className='mt-0'>
-                    {`${miles.toFixed(2)}mi`}
+                    {displayMiles}
                   </Card.Subtitle>
                 </Col>
               </Row>
@@ -100,18 +108,18 @@ export default function ResultCard(props) {
                 <Col>
                   <Button
                     id={id}
-                    className='card-button border-0 p-0'
+                    className='card-button fw-bold border-0 p-0'
                     variant='link'
                     onClick={rouletteButtonAction} >
                     {rouletteButtonText}
                   </Button>
                 </Col>
               </Row>
-              <Row>
+              <Row className='mb-2'>
                 <Col>
                   <Button
                     id={id}
-                    className='card-button border-0 p-0'
+                    className='card-button fw-bold border-0 p-0'
                     variant='link'
                     onClick={favoritesButtonAction} >
                     {favoritesButtonText}
