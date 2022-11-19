@@ -35,9 +35,10 @@ export default class SearchResults extends React.Component {
     fetch('/roulette', headers)
       .then(response => response.json())
       .then(data => {
+        const { restaurantId, details } = data;
         this.setState({
-          inRoulette: inRoulette.concat(data.restaurantId),
-          message: `${data.details.name} was added to Roulette.`
+          inRoulette: inRoulette.concat(restaurantId),
+          message: `${details.name} was added to Roulette.`
         });
       })
       .catch(err => console.error(err));
@@ -70,9 +71,10 @@ export default class SearchResults extends React.Component {
     fetch('/favorites', headers)
       .then(response => response.json())
       .then(data => {
+        const { restaurantId, details } = data;
         this.setState({
-          inFavorites: inFavorites.concat(data.restaurantId),
-          message: `${data.details.name} was added to Favorites.`
+          inFavorites: inFavorites.concat(restaurantId),
+          message: `${details.name} was added to Favorites.`
         });
       })
       .catch(err => console.error(err));
@@ -82,7 +84,7 @@ export default class SearchResults extends React.Component {
     const { id } = event.target;
     const { results } = this.state;
     const eateryData = results.find(data => data.id === id);
-    fetch(`/roulette/${id}`, { method: 'DELETE' })
+    fetch(`/favorites/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -105,12 +107,13 @@ export default class SearchResults extends React.Component {
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        const inRoulette = data.inRoulette;
-        const lat = data.region.center.latitude;
-        const lng = data.region.center.longitude;
+        const { businesses, inRoulette, inFavorites, region } = data;
+        const lat = region.center.latitude;
+        const lng = region.center.longitude;
         this.setState({
-          results: data.businesses,
+          results: businesses,
           inRoulette,
+          inFavorites,
           clientGeolocation: { lat, lng }
         });
       })

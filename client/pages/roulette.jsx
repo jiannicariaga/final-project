@@ -11,11 +11,13 @@ export default class Roulette extends React.Component {
     super(props);
     this.state = {
       inRoulette: [],
+      inFavorites: [],
       message: ''
     };
     this.removeFromRoulette = this.removeFromRoulette.bind(this);
+    this.addToFavorites = this.addToFavorites.bind(this);
+    this.removeFromFavorites = this.removeFromFavorites.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
-    this.getWinnerId = this.clearMessage.bind(this);
   }
 
   removeFromRoulette(event) {
@@ -33,6 +35,42 @@ export default class Roulette extends React.Component {
       .catch(err => console.error(err));
   }
 
+  addToFavorites(event) {
+    const { id } = event.target;
+    const { inRoulette, inFavorites } = this.state;
+    const eateryData = inRoulette.find(data => data.id === id);
+    const headers = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(eateryData)
+    };
+    fetch('/favorites', headers)
+      .then(response => response.json())
+      .then(data => {
+        const { restaurantId, details } = data;
+        this.setState({
+          inFavorites: inFavorites.concat(restaurantId),
+          message: `${details.name} was added to Favorites.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  removeFromFavorites(event) {
+    const { id } = event.target;
+    const { inRoulette } = this.state;
+    const eateryData = inRoulette.find(data => data.id === id);
+    fetch(`/favorites/${id}`, { method: 'DELETE' })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          inFavorites: data,
+          message: `${eateryData.name} was removed from Roulette.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
   clearMessage() {
     this.setState({ message: '' });
   }
@@ -41,12 +79,18 @@ export default class Roulette extends React.Component {
     const url = new URL('/roulette', window.location);
     fetch(url)
       .then(response => response.json())
-      .then(data => this.setState({ inRoulette: data }))
+      .then(data => {
+        const { inRoulette, inFavorites } = data;
+        this.setState({
+          inRoulette,
+          inFavorites
+        });
+      })
       .catch(err => console.error(err));
   }
 
   render() {
-    const { inRoulette, message } = this.state;
+    const { inRoulette, inFavorites, message } = this.state;
     const displayNotification = message
       ? <Notification message={message} clearMessage={this.clearMessage} />
       : null;
@@ -61,12 +105,16 @@ export default class Roulette extends React.Component {
       ? <Spinner rouletteItems={rouletteItems} />
       : null;
     const eateries = inRoulette.map(eatery => {
+      const isInFavorites = inFavorites.includes(eatery.id);
       return (
         <ResultCard
           key={eatery.id}
           result={eatery}
           isInRoulette={true}
-          removeFromRoulette={this.removeFromRoulette} />
+          removeFromRoulette={this.removeFromRoulette}
+          isInFavorites={isInFavorites}
+          addToFavorites={this.addToFavorites}
+          removeFromFavorites={this.removeFromFavorites} />
       );
     });
     return (

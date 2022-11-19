@@ -33,9 +33,10 @@ export default class Detail extends React.Component {
     fetch('/roulette', headers)
       .then(response => response.json())
       .then(data => {
+        const { restaurantId, details } = data;
         this.setState({
-          inRoulette: inRoulette.concat(data.restaurantId),
-          message: `${data.details.name} was added to Roulette.`
+          inRoulette: inRoulette.concat(restaurantId),
+          message: `${details.name} was added to Roulette.`
         });
       })
       .catch(err => console.error(err));
@@ -65,9 +66,10 @@ export default class Detail extends React.Component {
     fetch('/favorites', headers)
       .then(response => response.json())
       .then(data => {
+        const { restaurantId, details } = data;
         this.setState({
-          inFavorites: inFavorites.concat(data.restaurantId),
-          message: `${data.details.name} was added to Favorites.`
+          inFavorites: inFavorites.concat(restaurantId),
+          message: `${details.name} was added to Favorites.`
         });
       })
       .catch(err => console.error(err));
@@ -97,12 +99,13 @@ export default class Detail extends React.Component {
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        const inRoulette = data.inRoulette;
-        const lat = data.coordinates.latitude;
-        const lng = data.coordinates.longitude;
+        const { inRoulette, inFavorites, coordinates } = data;
+        const lat = coordinates.latitude;
+        const lng = coordinates.longitude;
         this.setState({
           details: data,
           inRoulette,
+          inFavorites,
           eateryGeolocation: { lat, lng }
         });
       })

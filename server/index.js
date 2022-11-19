@@ -31,16 +31,28 @@ app.get('/search-results', (req, res, next) => {
   fetch(url, headers)
     .then(response => response.json())
     .then(data => {
-      const sql = `
+      const sql1 = `
         SELECT "restaurantId"
           FROM "roulette"
           WHERE "accountId" = $1
       `;
-      const params = [TEMP_USER_ID];
-      db.query(sql, params)
+      const params1 = [TEMP_USER_ID];
+      db.query(sql1, params1)
         .then(result => {
-          const restaurantIds = result.rows.map(result => result.restaurantId);
-          data.inRoulette = restaurantIds;
+          const rouletteIds = result.rows.map(result => result.restaurantId);
+          data.inRoulette = rouletteIds;
+        })
+        .catch(err => next(err));
+      const sql2 = `
+        SELECT "restaurantId"
+          FROM "favorites"
+          WHERE "accountId" = $1
+      `;
+      const params2 = [TEMP_USER_ID];
+      db.query(sql2, params2)
+        .then(result => {
+          const favoritesIds = result.rows.map(result => result.restaurantId);
+          data.inFavorites = favoritesIds;
           res.status(200).json(data);
         })
         .catch(err => next(err));
@@ -59,16 +71,28 @@ app.get('/detail', (req, res, next) => {
   fetch(url, headers)
     .then(response => response.json())
     .then(data => {
-      const sql = `
+      const sql1 = `
         SELECT "restaurantId"
           FROM "roulette"
           WHERE "accountId" = $1
       `;
-      const params = [TEMP_USER_ID];
-      db.query(sql, params)
+      const params1 = [TEMP_USER_ID];
+      db.query(sql1, params1)
         .then(result => {
-          const restaurantIds = result.rows.map(result => result.restaurantId);
-          data.inRoulette = restaurantIds;
+          const rouletteIds = result.rows.map(result => result.restaurantId);
+          data.inRoulette = rouletteIds;
+        })
+        .catch(err => next(err));
+      const sql2 = `
+        SELECT "restaurantId"
+          FROM "favorites"
+          WHERE "accountId" = $1
+      `;
+      const params2 = [TEMP_USER_ID];
+      db.query(sql2, params2)
+        .then(result => {
+          const favoritesIds = result.rows.map(result => result.restaurantId);
+          data.inFavorites = favoritesIds;
           res.status(200).json(data);
         })
         .catch(err => next(err));
@@ -77,17 +101,29 @@ app.get('/detail', (req, res, next) => {
 });
 
 app.get('/roulette', (req, res, next) => {
-  const sql = `
+  const data = {};
+  const sql1 = `
     SELECT "details"
       FROM "restaurants"
       JOIN "roulette" using ("restaurantId")
       WHERE "roulette"."accountId" = $1
   `;
-  const params = [TEMP_USER_ID];
-  db.query(sql, params)
+  const params1 = [TEMP_USER_ID];
+  db.query(sql1, params1)
     .then(result => {
-      const restaurantDetails = result.rows.map(result => result.details);
-      res.status(200).json(restaurantDetails);
+      data.inRoulette = result.rows.map(result => result.details);
+    })
+    .catch(err => next(err));
+  const sql2 = `
+    SELECT "restaurantId"
+      FROM "favorites"
+      WHERE "accountId" = $1
+  `;
+  const params2 = [TEMP_USER_ID];
+  db.query(sql2, params2)
+    .then(result => {
+      data.inFavorites = result.rows.map(result => result.restaurantId);
+      res.status(200).json(data);
     })
     .catch(err => next(err));
 });
