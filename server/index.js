@@ -39,21 +39,23 @@ app.get('/search-results', (req, res, next) => {
       const params1 = [TEMP_USER_ID];
       db.query(sql1, params1)
         .then(result => {
-          const rouletteIds = result.rows.map(result => result.restaurantId);
+          const { rows, restaurantId } = result;
+          const rouletteIds = rows.map(row => restaurantId);
           data.inRoulette = rouletteIds;
-        })
-        .catch(err => next(err));
-      const sql2 = `
-        SELECT "restaurantId"
-          FROM "favorites"
-          WHERE "accountId" = $1
-      `;
-      const params2 = [TEMP_USER_ID];
-      db.query(sql2, params2)
-        .then(result => {
-          const favoritesIds = result.rows.map(result => result.restaurantId);
-          data.inFavorites = favoritesIds;
-          res.status(200).json(data);
+          const sql2 = `
+            SELECT "restaurantId"
+              FROM "favorites"
+              WHERE "accountId" = $1
+          `;
+          const params2 = [TEMP_USER_ID];
+          db.query(sql2, params2)
+            .then(result => {
+              const { rows, restaurantId } = result;
+              const favoritesIds = rows.map(row => restaurantId);
+              data.inFavorites = favoritesIds;
+              res.status(200).json(data);
+            })
+            .catch(err => next(err));
         })
         .catch(err => next(err));
     })
@@ -79,21 +81,23 @@ app.get('/detail', (req, res, next) => {
       const params1 = [TEMP_USER_ID];
       db.query(sql1, params1)
         .then(result => {
-          const rouletteIds = result.rows.map(result => result.restaurantId);
+          const { rows, restaurantId } = result;
+          const rouletteIds = rows.map(row => restaurantId);
           data.inRoulette = rouletteIds;
-        })
-        .catch(err => next(err));
-      const sql2 = `
-        SELECT "restaurantId"
-          FROM "favorites"
-          WHERE "accountId" = $1
-      `;
-      const params2 = [TEMP_USER_ID];
-      db.query(sql2, params2)
-        .then(result => {
-          const favoritesIds = result.rows.map(result => result.restaurantId);
-          data.inFavorites = favoritesIds;
-          res.status(200).json(data);
+          const sql2 = `
+            SELECT "restaurantId"
+              FROM "favorites"
+              WHERE "accountId" = $1
+          `;
+          const params2 = [TEMP_USER_ID];
+          db.query(sql2, params2)
+            .then(result => {
+              const { rows, restaurantId } = result;
+              const favoritesIds = rows.map(row => restaurantId);
+              data.inFavorites = favoritesIds;
+              res.status(200).json(data);
+            })
+            .catch(err => next(err));
         })
         .catch(err => next(err));
     })
@@ -111,19 +115,21 @@ app.get('/roulette', (req, res, next) => {
   const params1 = [TEMP_USER_ID];
   db.query(sql1, params1)
     .then(result => {
-      data.inRoulette = result.rows.map(result => result.details);
-    })
-    .catch(err => next(err));
-  const sql2 = `
-    SELECT "restaurantId"
-      FROM "favorites"
-      WHERE "accountId" = $1
-  `;
-  const params2 = [TEMP_USER_ID];
-  db.query(sql2, params2)
-    .then(result => {
-      data.inFavorites = result.rows.map(result => result.restaurantId);
-      res.status(200).json(data);
+      const { rows, details } = result;
+      data.inRoulette = rows.map(row => details);
+      const sql2 = `
+        SELECT "restaurantId"
+          FROM "favorites"
+          WHERE "accountId" = $1
+      `;
+      const params2 = [TEMP_USER_ID];
+      db.query(sql2, params2)
+        .then(result => {
+          const { rows, restaurantId } = result;
+          data.inFavorites = rows.map(row => restaurantId);
+          res.status(200).json(data);
+        })
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 });
@@ -174,7 +180,8 @@ app.delete('/roulette/:id', (req, res, next) => {
       const params2 = [TEMP_USER_ID];
       db.query(sql2, params2)
         .then(result => {
-          const restaurantIds = result.rows.map(result => result.restaurantId);
+          const { rows, restaurantId } = result;
+          const restaurantIds = rows.map(result => restaurantId);
           res.status(200).json(restaurantIds);
         })
         .catch(err => next(err));
@@ -228,7 +235,8 @@ app.delete('/favorites/:id', (req, res, next) => {
       const params2 = [TEMP_USER_ID];
       db.query(sql2, params2)
         .then(result => {
-          const restaurantIds = result.rows.map(result => result.restaurantId);
+          const { rows, restaurantId } = result;
+          const restaurantIds = rows.map(result => restaurantId);
           res.status(200).json(restaurantIds);
         })
         .catch(err => next(err));
