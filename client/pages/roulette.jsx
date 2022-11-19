@@ -24,7 +24,7 @@ export default class Roulette extends React.Component {
     const { id } = event.target;
     const { inRoulette } = this.state;
     const eateryData = inRoulette.find(data => data.id === id);
-    fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
+    fetch(`/roulette/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(
         this.setState({
