@@ -155,7 +155,6 @@ app.put('/roulette', (req, res, next) => {
 });
 
 app.delete('/roulette/:id', (req, res, next) => {
-  if (!req.params.id) throw new ClientError(400, 'id is a required field.');
   const sql1 = `
     DELETE FROM "roulette"
       WHERE "restaurantId" = $1
@@ -180,33 +179,7 @@ app.delete('/roulette/:id', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.put('/favorites', (req, res, next) => {
-  if (!req.body) throw new ClientError(400, 'id is a required field.');
-  const sql1 = `
-    INSERT INTO "restaurants" ("restaurantId", "details")
-      VALUES ($1, $2)
-      ON CONFLICT ("restaurantId") DO UPDATE
-      SET "details" = $2
-      RETURNING *
-  `;
-  const params1 = [req.body.id, req.body];
-  db.query(sql1, params1)
-    .then(result => {
-      const sql2 = `
-        INSERT INTO "favorites" ("restaurantId", "accountId")
-          VALUES ($1, $2)
-          ON CONFLICT ("restaurantId", "accountId") DO NOTHING
-      `;
-      const params2 = [req.body.id, TEMP_USER_ID];
-      db.query(sql2, params2)
-        .then(res.status(201).json(result.rows[0]))
-        .catch(err => next(err));
-    })
-    .catch(err => next(err));
-});
-
 app.delete('/favorites/:id', (req, res, next) => {
-  if (!req.params.id) throw new ClientError(400, 'id is a required field.');
   const sql1 = `
     DELETE FROM "favorites"
       WHERE "restaurantId" = $1
