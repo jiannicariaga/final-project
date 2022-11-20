@@ -129,6 +129,34 @@ app.get('/roulette', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/favorites', (req, res, next) => {
+  const sql1 = `
+    SELECT "details"
+      FROM "restaurants"
+      JOIN "favorites" using ("restaurantId")
+      WHERE "favorites"."accountId" = $1
+  `;
+  const params1 = [TEMP_USER_ID];
+  db.query(sql1, params1)
+    .then(result => {
+      const data = {};
+      data.inFavorites = result.rows.map(row => row.details);
+      const sql2 = `
+        SELECT "restaurantId"
+          FROM "roulette"
+          WHERE "accountId" = $1
+      `;
+      const params2 = [TEMP_USER_ID];
+      db.query(sql2, params2)
+        .then(result => {
+          data.inRoulette = result.rows.map(row => row.restaurantId);
+          res.status(200).json(data);
+        })
+        .catch(err => next(err));
+    })
+    .catch(err => next(err));
+});
+
 app.put('/roulette', (req, res, next) => {
   if (!req.body) throw new ClientError(400, 'id is a required field.');
   const sql1 = `
@@ -180,27 +208,27 @@ app.put('/favorites', (req, res, next) => {
 });
 
 app.delete('/roulette/:id', (req, res, next) => {
-  const sql1 = `
+  const sql = `
     DELETE FROM "roulette"
       WHERE "restaurantId" = $1
       AND "accountId" = $2
       RETURNING *
   `;
-  const params1 = [req.params.id, TEMP_USER_ID];
-  db.query(sql1, params1)
+  const params = [req.params.id, TEMP_USER_ID];
+  db.query(sql, params)
     .then(result => res.status(200).json(result.rows[0].restaurantId))
     .catch(err => next(err));
 });
 
 app.delete('/favorites/:id', (req, res, next) => {
-  const sql1 = `
+  const sql = `
     DELETE FROM "favorites"
       WHERE "restaurantId" = $1
       AND "accountId" = $2
       RETURNING *
   `;
-  const params1 = [req.params.id, TEMP_USER_ID];
-  db.query(sql1, params1)
+  const params = [req.params.id, TEMP_USER_ID];
+  db.query(sql, params)
     .then(result => res.status(200).json(result.rows[0].restaurantId))
     .catch(err => next(err));
 });
