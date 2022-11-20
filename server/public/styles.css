@@ -37,7 +37,7 @@ a {
   transition: color 0.15s ease-in-out;
 }
 
-.link:hover {
+.back-link:hover {
   color: #f35a06;
   text-decoration: none;
   cursor: pointer;
