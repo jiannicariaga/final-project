@@ -44,12 +44,12 @@ export default class Detail extends React.Component {
 
   removeFromRoulette(event) {
     const { id } = event.target;
-    const { details } = this.state;
+    const { details, inRoulette } = this.state;
     fetch(`/roulette/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inRoulette: data,
+          inRoulette: inRoulette.filter(item => item !== data),
           message: `${details.name} was removed from Roulette.`
         });
       })
@@ -77,12 +77,12 @@ export default class Detail extends React.Component {
 
   removeFromFavorites(event) {
     const { id } = event.target;
-    const { details } = this.state;
+    const { details, inFavorites } = this.state;
     fetch(`/favorites/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inFavorites: data,
+          inFavorites: inFavorites.filter(item => item !== data),
           message: `${details.name} was removed from Favorites.`
         });
       })

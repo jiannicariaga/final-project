@@ -46,13 +46,13 @@ export default class SearchResults extends React.Component {
 
   removeFromRoulette(event) {
     const { id } = event.target;
-    const { results } = this.state;
+    const { results, inRoulette } = this.state;
     const eateryData = results.find(data => data.id === id);
     fetch(`/roulette/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inRoulette: data,
+          inRoulette: inRoulette.filter(item => item !== data),
           message: `${eateryData.name} was removed from Roulette.`
         });
       })
@@ -82,13 +82,13 @@ export default class SearchResults extends React.Component {
 
   removeFromFavorites(event) {
     const { id } = event.target;
-    const { results } = this.state;
+    const { results, inFavorites } = this.state;
     const eateryData = results.find(data => data.id === id);
     fetch(`/favorites/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inFavorites: data,
+          inFavorites: inFavorites.filter(item => item !== data),
           message: `${eateryData.name} was removed from Roulette.`
         });
       })

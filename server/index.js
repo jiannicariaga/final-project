@@ -188,19 +188,7 @@ app.delete('/roulette/:id', (req, res, next) => {
   `;
   const params1 = [req.params.id, TEMP_USER_ID];
   db.query(sql1, params1)
-    .then(result => {
-      const sql2 = `
-        SELECT "restaurantId"
-          FROM "roulette"
-          WHERE "accountId" = $1
-      `;
-      const params2 = [TEMP_USER_ID];
-      return db.query(sql2, params2);
-    })
-    .then(result => {
-      const restaurantIds = result.rows.map(row => row.restaurantId);
-      res.status(200).json(restaurantIds);
-    })
+    .then(result => res.status(200).json(result.rows[0].restaurantId))
     .catch(err => next(err));
 });
 
@@ -213,19 +201,7 @@ app.delete('/favorites/:id', (req, res, next) => {
   `;
   const params1 = [req.params.id, TEMP_USER_ID];
   db.query(sql1, params1)
-    .then(result => {
-      const sql2 = `
-        SELECT "restaurantId"
-          FROM "favorites"
-          WHERE "accountId" = $1
-      `;
-      const params2 = [TEMP_USER_ID];
-      return db.query(sql2, params2);
-    })
-    .then(result => {
-      const restaurantIds = result.rows.map(row => row.restaurantId);
-      res.status(200).json(restaurantIds);
-    })
+    .then(result => res.status(200).json(result.rows[0].restaurantId))
     .catch(err => next(err));
 });
 

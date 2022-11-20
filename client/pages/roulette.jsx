@@ -26,12 +26,12 @@ export default class Roulette extends React.Component {
     const eateryData = inRoulette.find(data => data.id === id);
     fetch(`/roulette/${id}`, { method: 'DELETE' })
       .then(response => response.json())
-      .then(
+      .then(data => {
         this.setState({
-          inRoulette: inRoulette.filter(item => item.id !== id),
+          inRoulette: inRoulette.filter(item => item.id !== data),
           message: `${eateryData.name} was removed from Roulette.`
-        })
-      )
+        });
+      })
       .catch(err => console.error(err));
   }
 
@@ -58,13 +58,13 @@ export default class Roulette extends React.Component {
 
   removeFromFavorites(event) {
     const { id } = event.target;
-    const { inRoulette } = this.state;
+    const { inRoulette, inFavorites } = this.state;
     const eateryData = inRoulette.find(data => data.id === id);
     fetch(`/favorites/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inFavorites: data,
+          inFavorites: inFavorites.filter(item => item !== data),
           message: `${eateryData.name} was removed from Roulette.`
         });
       })
