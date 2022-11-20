@@ -6,6 +6,7 @@ import Home from './pages/home';
 import SearchResults from './pages/search-results';
 import Detail from './pages/detail';
 import Roulette from './pages/roulette';
+import Favorites from './pages/favorites';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class App extends React.Component {
@@ -41,9 +42,8 @@ export default class App extends React.Component {
       const id = route.params.get('id');
       return <Detail id={id} />;
     }
-    if (route.path === 'roulette') {
-      return <Roulette />;
-    }
+    if (route.path === 'roulette') return <Roulette />;
+    if (route.path === 'favorites') return <Favorites />;
   }
 
   render() {
