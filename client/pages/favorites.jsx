@@ -1,4 +1,9 @@
 import React from 'react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import ResultCard from '../components/result-card';
+import Notification from '../components/notification';
 
 export default class Favorites extends React.Component {
   constructor(props) {
@@ -8,10 +13,25 @@ export default class Favorites extends React.Component {
       inRoulette: [],
       message: ''
     };
+    this.removeFromFavorites = this.removeFromFavorites.bind(this);
     this.addToRoulette = this.addToRoulette.bind(this);
     this.removeFromRoulette = this.removeFromRoulette.bind(this);
-    this.removeFromFavorites = this.removeFromFavorites.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
+  }
+
+  removeFromFavorites(event) {
+    const { id } = event.target;
+    const { inFavorites } = this.state;
+    const eateryData = inFavorites.find(data => data.id === id);
+    fetch(`/favorites/${id}`, { method: 'DELETE' })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          inFavorites: inFavorites.filter(item => item.id !== data),
+          message: `${eateryData.name} was removed from Favorites.`
+        });
+      })
+      .catch(err => console.error(err));
   }
 
   addToRoulette(event) {
@@ -43,22 +63,7 @@ export default class Favorites extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inRoulette: inRoulette.filter(item => item.id !== data),
-          message: `${eateryData.name} was removed from Roulette.`
-        });
-      })
-      .catch(err => console.error(err));
-  }
-
-  removeFromFavorites(event) {
-    const { id } = event.target;
-    const { inFavorites } = this.state;
-    const eateryData = inFavorites.find(data => data.id === id);
-    fetch(`/favorites/${id}`, { method: 'DELETE' })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          inFavorites: inFavorites.filter(item => item !== data),
+          inRoulette: inRoulette.filter(item => item !== data),
           message: `${eateryData.name} was removed from Roulette.`
         });
       })
@@ -84,6 +89,48 @@ export default class Favorites extends React.Component {
   }
 
   render() {
-    return <div />;
+    const { inFavorites, inRoulette, message } = this.state;
+    const displayNotification = message
+      ? <Notification message={message} clearMessage={this.clearMessage} />
+      : null;
+    const eateries = inFavorites.map(eatery => {
+      const isInRoulette = inRoulette.includes(eatery.id);
+      return (
+        <ResultCard
+          key={eatery.id}
+          result={eatery}
+          isInRoulette={isInRoulette}
+          addToRoulette={this.addToRoulette}
+          removeFromRoulette={this.removeFromRoulette}
+          isInFavorites={true}
+          removeFromFavorites={this.removeFromFavorites} />
+      );
+    });
+    return (
+      <>
+        {displayNotification}
+        <Container className='p-0 mb-3'>
+          <Row className='align-items-center p-0 my-3'>
+            <Col>
+              <h2 className='fw-bold mb-0'>
+                Favorites
+              </h2>
+            </Col>
+            <Col xs='auto'>
+              <a
+                className='back-link fw-bold text-end'
+                onClick={() => history.back()} >
+                Back
+              </a>
+            </Col>
+          </Row>
+        </Container>
+        <Container className='p-0 mb-3'>
+          <Row className='gx-3 gy-3'>
+            {eateries}
+          </Row>
+        </Container>
+      </>
+    );
   }
 }
