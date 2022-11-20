@@ -4,6 +4,15 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
+const styles = {
+  added: {
+    color: '#00b395'
+  },
+  removed: {
+    color: '#b33300'
+  }
+};
+
 export default class SearchForm extends React.Component {
   constructor(props) {
     super(props);
@@ -23,8 +32,10 @@ export default class SearchForm extends React.Component {
     event.preventDefault();
     const { term, location, latitude, longitude } = this.state;
     location === 'Current Location' && latitude && longitude
-      ? window.location.hash = `#search-results?term=${term}&latitude=${latitude}&longitude=${longitude}`
-      : window.location.hash = `#search-results?term=${term}&location=${location}`;
+      ? window.location.hash =
+      `#search-results?term=${term}&latitude=${latitude}&longitude=${longitude}`
+      : window.location.hash =
+      `#search-results?term=${term}&location=${location}`;
     this.setState({ message: '' });
   }
 
@@ -62,7 +73,9 @@ export default class SearchForm extends React.Component {
 
   render() {
     const { message } = this.state;
-    const color = message === 'Device location added.' ? 'added' : 'removed';
+    const color = message === 'Device location added.'
+      ? styles.added
+      : styles.removed;
     return (
       <Form className='mt-4' onSubmit={this.handleSubmit} >
         <InputGroup className='form-input shadow-sm mb-2' >
@@ -89,19 +102,21 @@ export default class SearchForm extends React.Component {
               onChange={this.handleChange}
               value={this.state.location} />
           <Button
-              className='button border-0'
+              className='action-button border-0'
               type='button'
               title="Use your device's location."
               onClick={this.getGeolocation} >
             <span className='geolocation-icon fas fa-location-crosshairs' />
           </ Button>
         </ InputGroup>
-        <Container className={`message ${color} text-center fw-bold p-0 mt-1`}>
+        <Container
+          className='message text-center fw-bold p-0 mt-1'
+          style={color} >
           {message}
         </ Container>
         <Container className='d-flex justify-content-center p-0 mt-4'>
           <Button
-            className='button border-0'
+            className='action-button fw-bold border-0'
             as='button'
             type='submit'>
             Search

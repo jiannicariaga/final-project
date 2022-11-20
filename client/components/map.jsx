@@ -12,11 +12,20 @@ export default function Map(props) {
     googleMapsApiKey: process.env.MAPS_API_KEY
   });
   if (!isLoaded) return;
-  const resultMarkers = Array.isArray(data) ? renderMarkers(data) : null;
-  const iconColor = !Array.isArray(data) ? marker.orange : marker.blue;
+  const resultMarkers = Array.isArray(data)
+    ? renderMarkers(data)
+    : null;
+  const iconColor = !Array.isArray(data)
+    ? marker.orange
+    : marker.blue;
   return (
-    <GoogleMap zoom={12} center={center} mapContainerClassName='map'>
-      <Marker position={center} icon={iconColor} />
+    <GoogleMap
+      zoom={12}
+      center={center}
+      mapContainerClassName='map'>
+      <Marker
+        position={center}
+        icon={iconColor} />
       {resultMarkers}
     </GoogleMap>
   );
@@ -27,7 +36,12 @@ function renderMarkers(data) {
     const id = data.id;
     const lat = data.coordinates.latitude;
     const lng = data.coordinates.longitude;
-    return <Marker key={id} position={{ lat, lng }} icon={marker.orange} />;
+    return (
+      <Marker
+        key={id}
+        position={{ lat, lng }}
+        icon={marker.orange} />
+    );
   });
   return markers;
 }

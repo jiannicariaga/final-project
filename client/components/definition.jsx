@@ -21,12 +21,25 @@ const styles = {
 
 export default function Definition(props) {
   return (
-    <Container className='p-0 my-4' style={styles.wrapper}>
+    <Container
+      className='p-0 my-4'
+      style={styles.wrapper} >
       <Row className='justify-content-center'>
         <Col xs='auto'>
-          <h1 className='fw-bold mb-2' style={styles.word}>yEAT</h1>
-          <h3 className='fw-bold mb-0' style={styles.ipa}>&#91; j&#39;i:t &#93;
-            <span className='fw-normal' style={styles.speech}> noun</span>
+          <h1
+            className='fw-bold mb-2'
+            style={styles.word}>
+            yEAT
+          </h1>
+          <h3
+            className='fw-bold mb-0'
+            style={styles.ipa}>
+            &#91; j&#39;i:t &#93;
+            <span
+              className='fw-normal'
+              style={styles.speech} >
+              &nbsp;noun
+            </span>
           </h3>
           <hr className='my-3' />
           <p className='mb-2'>The app that answers the dreaded question:</p>

@@ -19,6 +19,7 @@ export default class SearchResults extends React.Component {
     this.addToRoulette = this.addToRoulette.bind(this);
     this.removeFromRoulette = this.removeFromRoulette.bind(this);
     this.addToFavorites = this.addToFavorites.bind(this);
+    this.removeFromFavorites = this.removeFromFavorites.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
@@ -31,12 +32,13 @@ export default class SearchResults extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(eateryData)
     };
-    fetch('/roulette/add', headers)
+    fetch('/roulette', headers)
       .then(response => response.json())
       .then(data => {
+        const { restaurantId, details } = data;
         this.setState({
-          inRoulette: inRoulette.concat(data.restaurantId),
-          message: `${data.details.name} was added to Roulette.`
+          inRoulette: inRoulette.concat(restaurantId),
+          message: `${details.name} was added to Roulette.`
         });
       })
       .catch(err => console.error(err));
@@ -44,13 +46,13 @@ export default class SearchResults extends React.Component {
 
   removeFromRoulette(event) {
     const { id } = event.target;
-    const { results } = this.state;
+    const { results, inRoulette } = this.state;
     const eateryData = results.find(data => data.id === id);
-    fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
+    fetch(`/roulette/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inRoulette: data,
+          inRoulette: inRoulette.filter(item => item !== data),
           message: `${eateryData.name} was removed from Roulette.`
         });
       })
@@ -66,12 +68,28 @@ export default class SearchResults extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(eateryData)
     };
-    fetch('/favorites/add', headers)
+    fetch('/favorites', headers)
+      .then(response => response.json())
+      .then(data => {
+        const { restaurantId, details } = data;
+        this.setState({
+          inFavorites: inFavorites.concat(restaurantId),
+          message: `${details.name} was added to Favorites.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  removeFromFavorites(event) {
+    const { id } = event.target;
+    const { results, inFavorites } = this.state;
+    const eateryData = results.find(data => data.id === id);
+    fetch(`/favorites/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inFavorites: inFavorites.concat(data.restaurantId),
-          message: `${data.details.name} was added to Favorites.`
+          inFavorites: inFavorites.filter(item => item !== data),
+          message: `${eateryData.name} was removed from Roulette.`
         });
       })
       .catch(err => console.error(err));
@@ -89,12 +107,13 @@ export default class SearchResults extends React.Component {
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        const inRoulette = data.inRoulette;
-        const lat = data.region.center.latitude;
-        const lng = data.region.center.longitude;
+        const { businesses, inRoulette, inFavorites, region } = data;
+        const lat = region.center.latitude;
+        const lng = region.center.longitude;
         this.setState({
-          results: data.businesses,
+          results: businesses,
           inRoulette,
+          inFavorites,
           clientGeolocation: { lat, lng }
         });
       })
@@ -118,7 +137,8 @@ export default class SearchResults extends React.Component {
           addToRoulette={this.addToRoulette}
           removeFromRoulette={this.removeFromRoulette}
           isInFavorites={isInFavorites}
-          addToFavorites={this.addToFavorites} />
+          addToFavorites={this.addToFavorites}
+          removeFromFavorites={this.removeFromFavorites} />
       );
     });
     const displayNotification = message
@@ -141,7 +161,7 @@ export default class SearchResults extends React.Component {
             </Col>
             <Col xs='auto'>
               <a
-                className='link fw-bold text-end'
+                className='back-link fw-bold text-end'
                 href='#' >
                 New Search
               </a>

@@ -60,7 +60,7 @@ export default function Navigation(props) {
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <Nav className="justify-content-start pe-3">
+            <Nav className="pe-3">
               <Nav.Link
                 className='nav-links'
                 href="#roulette">

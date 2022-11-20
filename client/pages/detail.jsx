@@ -19,6 +19,7 @@ export default class Detail extends React.Component {
     this.addToRoulette = this.addToRoulette.bind(this);
     this.removeFromRoulette = this.removeFromRoulette.bind(this);
     this.addToFavorites = this.addToFavorites.bind(this);
+    this.removeFromFavorites = this.removeFromFavorites.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
@@ -29,12 +30,13 @@ export default class Detail extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(details)
     };
-    fetch('/roulette/add', headers)
+    fetch('/roulette', headers)
       .then(response => response.json())
       .then(data => {
+        const { restaurantId, details } = data;
         this.setState({
-          inRoulette: inRoulette.concat(data.restaurantId),
-          message: `${data.details.name} was added to Roulette.`
+          inRoulette: inRoulette.concat(restaurantId),
+          message: `${details.name} was added to Roulette.`
         });
       })
       .catch(err => console.error(err));
@@ -42,12 +44,12 @@ export default class Detail extends React.Component {
 
   removeFromRoulette(event) {
     const { id } = event.target;
-    const { details } = this.state;
-    fetch(`/roulette/remove/${id}`, { method: 'DELETE' })
+    const { details, inRoulette } = this.state;
+    fetch(`/roulette/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inRoulette: data,
+          inRoulette: inRoulette.filter(item => item !== data),
           message: `${details.name} was removed from Roulette.`
         });
       })
@@ -61,12 +63,27 @@ export default class Detail extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(details)
     };
-    fetch('/favorites/add', headers)
+    fetch('/favorites', headers)
+      .then(response => response.json())
+      .then(data => {
+        const { restaurantId, details } = data;
+        this.setState({
+          inFavorites: inFavorites.concat(restaurantId),
+          message: `${details.name} was added to Favorites.`
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  removeFromFavorites(event) {
+    const { id } = event.target;
+    const { details, inFavorites } = this.state;
+    fetch(`/favorites/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inFavorites: inFavorites.concat(data.restaurantId),
-          message: `${data.details.name} was added to Favorites.`
+          inFavorites: inFavorites.filter(item => item !== data),
+          message: `${details.name} was removed from Favorites.`
         });
       })
       .catch(err => console.error(err));
@@ -82,12 +99,13 @@ export default class Detail extends React.Component {
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        const inRoulette = data.inRoulette;
-        const lat = data.coordinates.latitude;
-        const lng = data.coordinates.longitude;
+        const { inRoulette, inFavorites, coordinates } = data;
+        const lat = coordinates.latitude;
+        const lng = coordinates.longitude;
         this.setState({
           details: data,
           inRoulette,
+          inFavorites,
           eateryGeolocation: { lat, lng }
         });
       })
@@ -111,7 +129,8 @@ export default class Detail extends React.Component {
           addToRoulette={this.addToRoulette}
           removeFromRoulette={this.removeFromRoulette}
           isInFavorites={isInFavorites}
-          addToFavorites={this.addToFavorites} />
+          addToFavorites={this.addToFavorites}
+          removeFromFavorites={this.removeFromFavorites} />
         )
       : null;
     const displayNotification = message
@@ -132,7 +151,7 @@ export default class Detail extends React.Component {
             </Col>
             <Col xs='auto'>
               <a
-                className='link fw-bold text-end'
+                className='back-link fw-bold text-end'
                 onClick={() => history.back()} >
                 Back
               </a>

@@ -9,7 +9,7 @@ export default function DetailCard(props) {
   const {
     details,
     isInRoulette, addToRoulette, removeFromRoulette,
-    isInFavorites, addToFavorites
+    isInFavorites, addToFavorites, removeFromFavorites
   } = props;
   const { id, name, categories, display_phone: phone } = details;
   const { address1, city, state, zip_code: zipCode } = details.location;
@@ -54,7 +54,7 @@ export default function DetailCard(props) {
     ? 'Remove from Roulette'
     : 'Add to Roulette';
   const favoritesButtonAction = isInFavorites
-    ? null
+    ? removeFromFavorites
     : addToFavorites;
   const favoritesButtonText = isInFavorites
     ? 'Remove from Favorites'
@@ -109,7 +109,7 @@ export default function DetailCard(props) {
           <Col className='text-center'>
             <Button
               id={id}
-              className='card-button border-0 p-0'
+              className='card-button fw-bold border-0 p-0'
               variant='link'
               onClick={rouletteButtonAction} >
               {rouletteButtonText}
@@ -120,7 +120,7 @@ export default function DetailCard(props) {
           <Col className='text-center'>
             <Button
               id={id}
-              className='card-button border-0 p-0'
+              className='card-button fw-bold border-0 p-0'
               variant='link'
               onClick={favoritesButtonAction} >
               {favoritesButtonText}
