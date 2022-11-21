@@ -22,7 +22,7 @@ const styles = {
 export default function Definition(props) {
   return (
     <Container
-      className='p-0 my-4'
+      className='p-0 my-5'
       style={styles.wrapper} >
       <Row className='justify-content-center'>
         <Col xs='auto'>
