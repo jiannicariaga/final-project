@@ -94,12 +94,11 @@ export default class Favorites extends React.Component {
       ? <Notification message={message} clearMessage={this.clearMessage} />
       : null;
     const eateries = inFavorites.map(eatery => {
-      const isInRoulette = inRoulette.includes(eatery.id);
       return (
         <ResultCard
           key={eatery.id}
           result={eatery}
-          isInRoulette={isInRoulette}
+          isInRoulette={inRoulette.includes(eatery.id) }
           addToRoulette={this.addToRoulette}
           removeFromRoulette={this.removeFromRoulette}
           isInFavorites={true}
