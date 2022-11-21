@@ -4,67 +4,66 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ResultCard from '../components/result-card';
 import Notification from '../components/notification';
-import Spinner from '../components/spinner';
 
-export default class Roulette extends React.Component {
+export default class Favorites extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inRoulette: [],
       inFavorites: [],
+      inRoulette: [],
       message: ''
     };
-    this.removeFromRoulette = this.removeFromRoulette.bind(this);
-    this.addToFavorites = this.addToFavorites.bind(this);
     this.removeFromFavorites = this.removeFromFavorites.bind(this);
+    this.addToRoulette = this.addToRoulette.bind(this);
+    this.removeFromRoulette = this.removeFromRoulette.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
-  removeFromRoulette(event) {
+  removeFromFavorites(event) {
     const { id } = event.target;
-    const { inRoulette } = this.state;
-    const eateryData = inRoulette.find(data => data.id === id);
-    fetch(`/roulette/${id}`, { method: 'DELETE' })
+    const { inFavorites } = this.state;
+    const eateryData = inFavorites.find(data => data.id === id);
+    fetch(`/favorites/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inRoulette: inRoulette.filter(item => item.id !== data),
-          message: `${eateryData.name} was removed from Roulette.`
+          inFavorites: inFavorites.filter(item => item.id !== data),
+          message: `${eateryData.name} was removed from Favorites.`
         });
       })
       .catch(err => console.error(err));
   }
 
-  addToFavorites(event) {
+  addToRoulette(event) {
     const { id } = event.target;
-    const { inRoulette, inFavorites } = this.state;
-    const eateryData = inRoulette.find(data => data.id === id);
+    const { inFavorites, inRoulette } = this.state;
+    const eateryData = inFavorites.find(result => result.id === id);
     const headers = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(eateryData)
     };
-    fetch('/favorites', headers)
+    fetch('/roulette', headers)
       .then(response => response.json())
       .then(data => {
         const { restaurantId, details } = data;
         this.setState({
-          inFavorites: inFavorites.concat(restaurantId),
-          message: `${details.name} was added to Favorites.`
+          inRoulette: inRoulette.concat(restaurantId),
+          message: `${details.name} was added to Roulette.`
         });
       })
       .catch(err => console.error(err));
   }
 
-  removeFromFavorites(event) {
+  removeFromRoulette(event) {
     const { id } = event.target;
-    const { inRoulette, inFavorites } = this.state;
-    const eateryData = inRoulette.find(data => data.id === id);
-    fetch(`/favorites/${id}`, { method: 'DELETE' })
+    const { inFavorites, inRoulette } = this.state;
+    const eateryData = inFavorites.find(data => data.id === id);
+    fetch(`/roulette/${id}`, { method: 'DELETE' })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          inFavorites: inFavorites.filter(item => item !== data),
+          inRoulette: inRoulette.filter(item => item !== data),
           message: `${eateryData.name} was removed from Roulette.`
         });
       })
@@ -76,68 +75,53 @@ export default class Roulette extends React.Component {
   }
 
   componentDidMount() {
-    const url = new URL('/roulette', window.location);
+    const url = new URL('/favorites', window.location);
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        const { inRoulette, inFavorites } = data;
+        const { inFavorites, inRoulette } = data;
         this.setState({
-          inRoulette,
-          inFavorites
+          inFavorites,
+          inRoulette
         });
       })
       .catch(err => console.error(err));
   }
 
   render() {
-    const { inRoulette, inFavorites, message } = this.state;
+    const { inFavorites, inRoulette, message } = this.state;
     const displayNotification = message
       ? <Notification message={message} clearMessage={this.clearMessage} />
       : null;
-    const rouletteItems = inRoulette.map(item => {
-      return {
-        image: item.image_url,
-        text: item.name,
-        eateryId: item.id
-      };
-    });
-    const displayRoulette = inRoulette.length <= 1
-      ? (
-        <p className='text-center fw-bold my-5'>
-          Two or more eateries are required to spin the roulette.
-        </p>
-        )
-      : <Spinner rouletteItems={rouletteItems} />;
-    const eateries = inRoulette.map(eatery => {
+    const eateries = inFavorites.map(eatery => {
       return (
         <ResultCard
           key={eatery.id}
           result={eatery}
-          isInRoulette={true}
+          isInRoulette={inRoulette.includes(eatery.id) }
+          addToRoulette={this.addToRoulette}
           removeFromRoulette={this.removeFromRoulette}
-          isInFavorites={inFavorites.includes(eatery.id)}
-          addToFavorites={this.addToFavorites}
+          isInFavorites={true}
           removeFromFavorites={this.removeFromFavorites} />
       );
     });
     const displayEateries = !eateries.length
       ? (
         <p className='text-center my-5'>
-          <span className='fw-bold'>No Roulette Items</span>
+          <span className='fw-bold'>No Favorites</span>
           <br />
-          Eateries added to roulette are shown here.
+          Eateries added to favorites are shown here.
         </p>
         )
       : eateries;
     return (
       <>
         {displayNotification}
-        {displayRoulette}
         <Container className='p-0 mb-3'>
           <Row className='align-items-center p-0 my-3'>
             <Col>
               <h2 className='fw-bold mb-0'>
-                Roulette
+                Favorites
               </h2>
             </Col>
             <Col xs='auto'>

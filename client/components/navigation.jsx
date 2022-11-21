@@ -63,8 +63,18 @@ export default function Navigation(props) {
             <Nav className="pe-3">
               <Nav.Link
                 className='nav-links'
-                href="#roulette">
+                href=' ' >
+                Home
+              </Nav.Link>
+              <Nav.Link
+                className='nav-links'
+                href='#roulette' >
                 Roulette
+              </Nav.Link>
+              <Nav.Link
+                className='nav-links'
+                href='#favorites' >
+                Favorites
               </Nav.Link>
             </Nav>
           </Offcanvas.Body>
