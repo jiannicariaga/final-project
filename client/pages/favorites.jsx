@@ -106,6 +106,15 @@ export default class Favorites extends React.Component {
           removeFromFavorites={this.removeFromFavorites} />
       );
     });
+    const displayEateries = !eateries.length
+      ? (
+        <p className='text-center my-5'>
+          <span className='fw-bold'>No Favorites</span>
+          <br />
+          Eateries added to favorites are shown here.
+        </p>
+        )
+      : eateries;
     return (
       <>
         {displayNotification}
@@ -127,7 +136,7 @@ export default class Favorites extends React.Component {
         </Container>
         <Container className='p-0 mb-3'>
           <Row className='gx-3 gy-3'>
-            {eateries}
+            {displayEateries}
           </Row>
         </Container>
       </>

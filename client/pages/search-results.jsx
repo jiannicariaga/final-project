@@ -121,37 +121,48 @@ export default class SearchResults extends React.Component {
   }
 
   render() {
-    const {
-      results,
-      inRoulette, inFavorites,
-      message, clientGeolocation
-    } = this.state;
+    const { results, inRoulette, inFavorites, message, clientGeolocation } =
+    this.state;
+    const displayNotification = message
+      ? <Notification message={message} clearMessage={this.clearMessage} />
+      : null;
+    const displayMap = !results
+      ? (
+        <p className='text-center fw-bold my-5'>
+          Google Maps failed to load.
+        </p>
+        )
+      : (
+        <Map
+          data={results}
+          center={clientGeolocation} />
+        );
     const eateries = results.map(result => {
-      const isInRoulette = inRoulette.includes(result.id);
-      const isInFavorites = inFavorites.includes(result.id);
       return (
         <ResultCard
           key={result.id}
           result={result}
-          isInRoulette={isInRoulette}
+          isInRoulette={inRoulette.includes(result.id)}
           addToRoulette={this.addToRoulette}
           removeFromRoulette={this.removeFromRoulette}
-          isInFavorites={isInFavorites}
+          isInFavorites={inFavorites.includes(result.id)}
           addToFavorites={this.addToFavorites}
           removeFromFavorites={this.removeFromFavorites} />
       );
     });
-    const displayNotification = message
-      ? <Notification message={message} clearMessage={this.clearMessage} />
-      : null;
+    const displayEateries = !eateries.length
+      ? (
+        <p className='text-center my-5'>
+          <span className='fw-bold'>Unable to load Results.</span>
+          <br />
+          Please try again.
+        </p>
+        )
+      : eateries;
     return (
       <>
         {displayNotification}
-        <Container className='shadow p-0 mb-3'>
-          <Map
-            data={results}
-            center={clientGeolocation} />
-        </Container>
+        {displayMap}
         <Container className='p-0 mb-3'>
           <Row className='align-items-center p-0 my-3'>
             <Col>
@@ -170,7 +181,7 @@ export default class SearchResults extends React.Component {
         </Container>
         <Container className='p-0 mb-3'>
           <Row className='gx-3 gy-3'>
-            {eateries}
+            {displayEateries}
           </Row>
         </Container>
       </>

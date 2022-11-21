@@ -101,22 +101,34 @@ export default class Roulette extends React.Component {
         eateryId: item.id
       };
     });
-    const displayRoulette = inRoulette.length > 1
-      ? <Spinner rouletteItems={rouletteItems} />
-      : null;
+    const displayRoulette = inRoulette.length <= 1
+      ? (
+        <p className='text-center fw-bold my-5'>
+          Two or more eateries are required to spin the roulette.
+        </p>
+        )
+      : <Spinner rouletteItems={rouletteItems} />;
     const eateries = inRoulette.map(eatery => {
-      const isInFavorites = inFavorites.includes(eatery.id);
       return (
         <ResultCard
           key={eatery.id}
           result={eatery}
           isInRoulette={true}
           removeFromRoulette={this.removeFromRoulette}
-          isInFavorites={isInFavorites}
+          isInFavorites={inFavorites.includes(eatery.id)}
           addToFavorites={this.addToFavorites}
           removeFromFavorites={this.removeFromFavorites} />
       );
     });
+    const displayEateries = !eateries.length
+      ? (
+        <p className='text-center my-5'>
+          <span className='fw-bold'>No Roulette Items</span>
+          <br />
+          Eateries added to roulette are shown here.
+        </p>
+        )
+      : eateries;
     return (
       <>
         {displayNotification}
@@ -139,7 +151,7 @@ export default class Roulette extends React.Component {
         </Container>
         <Container className='p-0 mb-3'>
           <Row className='gx-3 gy-3'>
-            {eateries}
+            {displayEateries}
           </Row>
         </Container>
       </>

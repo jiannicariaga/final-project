@@ -114,36 +114,44 @@ export default class Detail extends React.Component {
 
   render() {
     const { id } = this.props;
-    const {
-      details,
-      inRoulette, inFavorites,
-      message, eateryGeolocation
-    } = this.state;
-    const isInRoulette = inRoulette.includes(id);
-    const isInFavorites = inFavorites.includes(id);
-    const displayDetail = details
-      ? (
-        <DetailCard
-          details={details}
-          isInRoulette={isInRoulette}
-          addToRoulette={this.addToRoulette}
-          removeFromRoulette={this.removeFromRoulette}
-          isInFavorites={isInFavorites}
-          addToFavorites={this.addToFavorites}
-          removeFromFavorites={this.removeFromFavorites} />
-        )
-      : null;
+    const { details, inRoulette, inFavorites, message, eateryGeolocation } =
+    this.state;
     const displayNotification = message
       ? <Notification message={message} clearMessage={this.clearMessage} />
       : null;
+    const displayMap = !details
+      ? (
+        <p className='text-center fw-bold my-5'>
+          Google Maps failed to load.
+        </p>
+        )
+      : (
+        <Map
+          data={details}
+          center={eateryGeolocation} />
+        );
+    const displayDetail = !details
+      ? (
+        <p className='text-center my-5'>
+          <span className='fw-bold'>Unable to load Details.</span>
+          <br />
+          Please try again.
+        </p>
+        )
+      : (
+        <DetailCard
+          details={details}
+          isInRoulette={inRoulette.includes(id)}
+          addToRoulette={this.addToRoulette}
+          removeFromRoulette={this.removeFromRoulette}
+          isInFavorites={inFavorites.includes(id)}
+          addToFavorites={this.addToFavorites}
+          removeFromFavorites={this.removeFromFavorites} />
+        );
     return (
       <>
         {displayNotification}
-        <Container className='shadow p-0 mb-3'>
-          <Map
-            data={details}
-            center={eateryGeolocation} />
-        </Container>
+        {displayMap}
         <Container className='p-0 mb-3'>
           <Row className='align-items-center p-0'>
             <Col>

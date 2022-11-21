@@ -1,4 +1,5 @@
 import React from 'react';
+import Container from 'react-bootstrap/Container';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
 const marker = {
@@ -19,15 +20,17 @@ export default function Map(props) {
     ? marker.orange
     : marker.blue;
   return (
-    <GoogleMap
-      zoom={12}
-      center={center}
-      mapContainerClassName='map'>
-      <Marker
-        position={center}
-        icon={iconColor} />
-      {resultMarkers}
-    </GoogleMap>
+    <Container className='shadow p-0 mb-3'>
+      <GoogleMap
+        zoom={12}
+        center={center}
+        mapContainerClassName='map'>
+        <Marker
+          position={center}
+          icon={iconColor} />
+        {resultMarkers}
+      </GoogleMap>
+    </Container>
   );
 }
 
