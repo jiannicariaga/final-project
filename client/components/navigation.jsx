@@ -63,6 +63,11 @@ export default function Navigation(props) {
             <Nav className="pe-3">
               <Nav.Link
                 className='nav-links'
+                href="#" >
+                Home
+              </Nav.Link>
+              <Nav.Link
+                className='nav-links'
                 href="#roulette" >
                 Roulette
               </Nav.Link>
