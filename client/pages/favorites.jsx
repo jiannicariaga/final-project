@@ -2,8 +2,8 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ResultCard from '../components/result-card';
 import Notification from '../components/notification';
+import ResultCard from '../components/result-card';
 
 export default class Favorites extends React.Component {
   constructor(props) {
