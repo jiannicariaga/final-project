@@ -2,9 +2,10 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ResultCard from '../components/result-card';
 import Notification from '../components/notification';
 import Map from '../components/map';
+import Loader from '../components/loader';
+import ResultCard from '../components/result-card';
 
 export default class SearchResults extends React.Component {
   constructor(props) {
@@ -127,11 +128,7 @@ export default class SearchResults extends React.Component {
       ? <Notification message={message} clearMessage={this.clearMessage} />
       : null;
     const displayMap = !results
-      ? (
-        <p className='text-center fw-bold my-5'>
-          Google Maps failed to load.
-        </p>
-        )
+      ? <Loader />
       : (
         <Map
           data={results}
@@ -150,15 +147,7 @@ export default class SearchResults extends React.Component {
           removeFromFavorites={this.removeFromFavorites} />
       );
     });
-    const displayEateries = !eateries.length
-      ? (
-        <p className='text-center my-5'>
-          <span className='fw-bold'>Unable to load Results.</span>
-          <br />
-          Please try again.
-        </p>
-        )
-      : eateries;
+    const displayEateries = !eateries.length ? <Loader /> : eateries;
     return (
       <>
         {displayNotification}

@@ -2,9 +2,10 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import DetailCard from '../components/detail-card';
 import Notification from '../components/notification';
+import Loader from '../components/loader';
 import Map from '../components/map';
+import DetailCard from '../components/detail-card';
 
 export default class Detail extends React.Component {
   constructor(props) {
@@ -120,24 +121,14 @@ export default class Detail extends React.Component {
       ? <Notification message={message} clearMessage={this.clearMessage} />
       : null;
     const displayMap = !details
-      ? (
-        <p className='text-center fw-bold my-5'>
-          Google Maps failed to load.
-        </p>
-        )
+      ? <Loader />
       : (
         <Map
           data={details}
           center={eateryGeolocation} />
         );
     const displayDetail = !details
-      ? (
-        <p className='text-center my-5'>
-          <span className='fw-bold'>Unable to load Details.</span>
-          <br />
-          Please try again.
-        </p>
-        )
+      ? <Loader />
       : (
         <DetailCard
           details={details}
