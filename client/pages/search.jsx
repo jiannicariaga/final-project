@@ -7,7 +7,7 @@ import Map from '../components/map';
 import Loader from '../components/loader';
 import ResultCard from '../components/result-card';
 
-export default class SearchResults extends React.Component {
+export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

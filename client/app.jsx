@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import { parseRoute } from './lib';
 import Navigation from './components/navigation';
 import Home from './pages/home';
-import SearchResults from './pages/search-results';
+import Search from './pages/search';
 import Detail from './pages/detail';
 import Roulette from './pages/roulette';
 import Favorites from './pages/favorites';
@@ -25,13 +25,13 @@ export default class App extends React.Component {
   renderPage() {
     const { route } = this.state;
     if (route.path === '') return <Home />;
-    if (route.path === 'search-results') {
+    if (route.path === 'search') {
       const term = route.params.get('term');
       const location = route.params.get('location');
       const latitude = route.params.get('latitude');
       const longitude = route.params.get('longitude');
       return (
-        <SearchResults
+        <Search
           term={term}
           location={location}
           latitude={latitude}

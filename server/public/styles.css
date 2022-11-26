@@ -11,10 +11,6 @@ h2 {
   letter-spacing: 0.25px;
 }
 
-a {
-  outline: 0 !important;
-}
-
 #root {
   padding-top: 4rem;
 }
@@ -23,12 +19,24 @@ a {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-.nav-links {
+.form-input {
+  border-radius: 10px;
+}
+
+.form-input-icon {
+  background-image: linear-gradient(#fff, #fff);
+}
+
+a {
+  outline: 0 !important;
+}
+
+.nav-link {
   color: #fff !important;
   outline: none !important;
 }
 
-.nav-links:hover {
+.nav-link:hover {
   color: #292929 !important;
 }
 
@@ -42,14 +50,6 @@ a {
   text-decoration: none;
   cursor: pointer;
   transition: color 0.15s ease-in-out;
-}
-
-.form-input {
-  border-radius: 10px;
-}
-
-.form-input-icon {
-  background-image: linear-gradient(#fff, #fff);
 }
 
 .action-button {

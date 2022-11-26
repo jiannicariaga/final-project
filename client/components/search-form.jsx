@@ -3,6 +3,9 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass, faLocationDot, faLocationCrosshairs }
+  from '@fortawesome/free-solid-svg-icons';
 
 const styles = {
   added: {
@@ -33,9 +36,9 @@ export default class SearchForm extends React.Component {
     const { term, location, latitude, longitude } = this.state;
     location === 'Current Location' && latitude && longitude
       ? window.location.hash =
-      `#search-results?term=${term}&latitude=${latitude}&longitude=${longitude}`
+      `#search?term=${term}&latitude=${latitude}&longitude=${longitude}`
       : window.location.hash =
-      `#search-results?term=${term}&location=${location}`;
+      `#search?term=${term}&location=${location}`;
     this.setState({ message: '' });
   }
 
@@ -80,7 +83,9 @@ export default class SearchForm extends React.Component {
       <Form className='mt-4' onSubmit={this.handleSubmit} >
         <InputGroup className='form-input shadow-sm mb-2' >
           <InputGroup.Text className='form-input-icon border-0'>
-            <span className='search-icon fas fa-magnifying-glass' />
+            <FontAwesomeIcon
+              className='search-icon'
+              icon={faMagnifyingGlass} />
           </InputGroup.Text>
           <Form.Control
               required
@@ -92,7 +97,9 @@ export default class SearchForm extends React.Component {
         </ InputGroup>
         <InputGroup className='form-input text-center shadow-sm' >
           <InputGroup.Text className='form-input-icon border-0'>
-            <span className='location-icon fas fa-location-dot' />
+            <FontAwesomeIcon
+              className='location-icon'
+              icon={faLocationDot} />
           </InputGroup.Text>
           <Form.Control
               required
@@ -106,7 +113,9 @@ export default class SearchForm extends React.Component {
               type='button'
               title="Use your device's location."
               onClick={this.getGeolocation} >
-            <span className='geolocation-icon fas fa-location-crosshairs' />
+            <FontAwesomeIcon
+              className='geolocation-icon'
+              icon={faLocationCrosshairs} />
           </ Button>
         </ InputGroup>
         <Container

@@ -3,6 +3,8 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 const METERS_TO_MILES = 0.000621371192;
 
@@ -38,7 +40,7 @@ export default function ResultCard(props) {
     ? ''
     : `${miles.toFixed(2)}mi`;
   const displayPhoneIcon = phone
-    ? <><Card.Text as='span' className='phone-icon fas fa-phone' /><br /></>
+    ? <><FontAwesomeIcon className='phone-icon' icon={faPhone} /><br /></>
     : null;
   const displayAddress1 = address1
     ? <>{address1}<br /></>
@@ -91,9 +93,9 @@ export default function ResultCard(props) {
               <Row className='mb-2'>
                 <Col xs='auto'>
                   {displayPhoneIcon}
-                  <Card.Text
-                    as='span'
-                    className='location-icon fas fa-location-dot text-center' />
+                  <FontAwesomeIcon
+                    className='location-icon text-center'
+                    icon={faLocationDot} />
                 </Col>
                 <Col className='p-0'>
                   <Card.Text className='m-0'>
