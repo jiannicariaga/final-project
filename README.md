@@ -8,9 +8,9 @@ As a foodie and frequent user of Yelp, I can be incredibly indecisive when someo
 
 ## Technologies Used
 
-- [Yelp Fusion API](https://fusion.yelp.com/)
-- [Google Maps Platform](https://developers.google.com/maps)
-- [React Bootstrap](https://www.npmjs.com/package/react-bootstrap)
+- [Yelp Fusion API](https://www.yelp.com/developers/documentation/v3/get_started)
+- [Google Maps API](https://developers.google.com/maps/documentation/javascript)
+- [React Bootstrap](https://react-bootstrap.github.io/getting-started/introduction)
 - [React Roulette Pro](https://www.npmjs.com/package/react-roulette-pro)
 - PostgreSQL
 - Express.js
@@ -63,7 +63,7 @@ Try the application live at [https://yeat.jiannicariaga.dev/](https://yeat.jiann
 1. Clone the repository.
 
     ```shell
-    git clone https://github.com/jiannicariaga/yeat
+    git clone https://github.com/jiannicariaga/yeat.git
     cd yeat
     ```
 
@@ -73,25 +73,44 @@ Try the application live at [https://yeat.jiannicariaga.dev/](https://yeat.jiann
     npm install
     ```
 
-3. Start the PostgreSQL server.
+3. Create a copy of the `.env.example` file.
+
+    ```shell
+    cp .env.example .env
+    ```
+
+4. In the `.env` file, replace `'changeMe'` with your Yelp Fusion API key and Google Maps API key.
+
+    ```shell
+    YELP_API_KEY=changeMe
+    MAPS_API_KEY=changeMe
+    ```
+
+5. Start the server.
 
     ```shell
     sudo service postgresql start
     ```
 
-4. Create a new PostgreSQL database.
+6. Create a new database.
 
     ```shell
     createdb yeat
     ```
 
-5. Import the database schema and data files.
+7. Import the `schema.sql` and `data.sql` files to the database.
 
     ```shell
     npm run db:import
     ```
 
-5. Start the project. Once started you can view the application by opening http://localhost:3000 in your browser.
+8. (Optional) Start pgweb. Once started you can view the database by opening `http://0.0.0.0:8081/` in your browser.
+
+    ```shell
+    pgweb --db=yeat
+    ```
+
+9. Start the project. Once started you can view the application by opening `http://localhost:3000` in your browser.
 
     ```shell
     npm run dev
