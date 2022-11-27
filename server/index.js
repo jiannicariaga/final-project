@@ -24,7 +24,7 @@ app.get('/search-results', (req, res, next) => {
     throw new ClientError(400, 'term and location are required fields.');
   }
   const url = new URL('https://api.yelp.com/v3/businesses/search');
-  req.query.categories = 'food';
+  req.query.categories = 'food,restaurants';
   for (const key in req.query) url.searchParams.append(key, req.query[key]);
   const headers = {
     headers: { Authorization: `Bearer ${process.env.YELP_API_KEY}` }
