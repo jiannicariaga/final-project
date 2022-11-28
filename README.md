@@ -4,7 +4,7 @@ A full-stack web application for foodies who can't decide where to eat.
 
 ## Why I Built This
 
-As a foodie and frequent user of Yelp, I can be incredibly indecisive when someone asks me where I want to eat. I wished Yelp had a feature that could answer the dreaded question for me—perhaps in the form a questionnaire or quiz to help narrow my options. I decided to take matters into my own hands and create an application that does excatly that (but cooler). Thus the birth of yEAT, where users can search eateries, add them to a roulette, and spin it to settle to score once and for all.
+As a foodie and frequent user of Yelp, I can be incredibly indecisive when someone asks me where I want to eat. I wished Yelp had a feature that could answer the dreaded question for me—perhaps in the form a questionnaire or quiz to help narrow my options. I decided to take matters into my own hands and create an application that does exactly that (but cooler). Thus the birth of yEAT, where users can search eateries, add them to a roulette, and spin it to settle to score once and for all.
 
 ## Technologies Used
 
