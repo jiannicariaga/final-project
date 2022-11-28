@@ -104,13 +104,13 @@ Try the application live at [https://yeat.jiannicariaga.dev/](https://yeat.jiann
     npm run db:import
     ```
 
-8. (Optional) Start pgweb. Once started you can view the database by opening `http://0.0.0.0:8081/` in your browser.
+8. (Optional) Start pgweb. Once started, you can view the database by opening http://0.0.0.0:8081/ in your browser.
 
     ```shell
     pgweb --db=yeat
     ```
 
-9. Start the project. Once started you can view the application by opening `http://localhost:3000` in your browser.
+9. Start the project. Once started, you can view the application by opening http://localhost:3000 in your browser.
 
     ```shell
     npm run dev
