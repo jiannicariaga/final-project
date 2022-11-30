@@ -79,7 +79,7 @@ Try the application live at [https://yeat.jiannicariaga.dev/](https://yeat.jiann
     cp .env.example .env
     ```
 
-4. In the `.env` file, replace `'changeMe'` with your Yelp Fusion API key and Google Maps API key.
+4. In the `.env` file, replace `changeMe` with your Yelp Fusion API key and Google Maps API key.
 
     ```shell
     YELP_API_KEY=changeMe
