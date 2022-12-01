@@ -1,5 +1,6 @@
 require('dotenv/config');
 const pg = require('pg');
+const argon2 = require('argon2');
 const express = require('express');
 const fetch = require('node-fetch');
 const staticMiddleware = require('./static-middleware');
@@ -18,6 +19,26 @@ const app = express();
 app.use(staticMiddleware);
 
 app.use(jsonMiddleware);
+
+app.post('/sign-up', (req, res, next) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    throw new ClientError(400, 'username and password are required fields.');
+  }
+  argon2
+    .hash(password)
+    .then(hashedPassword => {
+      const sql = `
+        INSERT INTO "accounts" ("username", "hashedPassword")
+        VALUES ($1, $2)
+        RETURNING "accountId", "username"
+      `;
+      const params = [username, hashedPassword];
+      return db.query(sql, params);
+    })
+    .then(result => res.status(201).json(result.rows[0]))
+    .catch(err => next(err));
+});
 
 app.get('/search-results', (req, res, next) => {
   if (!Object.keys(req.query).length) {
