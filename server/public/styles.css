@@ -40,6 +40,11 @@ a {
   color: #292929 !important;
 }
 
+.login-link {
+  margin-bottom: 1rem;
+  order: -1;
+}
+
 .back-link {
   color: #292929;
   transition: color 0.15s ease-in-out;
@@ -193,6 +198,12 @@ a {
 }
 
 @media (min-width: 768px) {
+  .login-link {
+    margin-bottom: 0 !important;
+    order: 0;
+    margin-left: auto;
+  }
+
   .offcanvas {
     background-image: none !important;
   }

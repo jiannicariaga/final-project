@@ -60,7 +60,7 @@ export default function Navigation(props) {
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <Nav className="pe-3">
+            <Nav className="pe-0 w-100">
               <Nav.Link
                 className='nav-link'
                 href=' ' >
@@ -75,6 +75,11 @@ export default function Navigation(props) {
                 className='nav-link'
                 href='#favorites' >
                 Favorites
+              </Nav.Link>
+              <Nav.Link
+                className='nav-link login-link'
+                href='#login' >
+                Log In
               </Nav.Link>
             </Nav>
           </Offcanvas.Body>
