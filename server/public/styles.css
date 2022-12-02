@@ -40,7 +40,7 @@ a {
   color: #292929 !important;
 }
 
-.login-link {
+.nav-login {
   margin-bottom: 1rem;
   order: -1;
 }
@@ -54,6 +54,17 @@ a {
   color: #f35a06;
   text-decoration: none;
   cursor: pointer;
+  transition: color 0.15s ease-in-out;
+}
+
+.auth-link {
+  color: #00b395;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-link:hover {
+  color: #292929;
   transition: color 0.15s ease-in-out;
 }
 

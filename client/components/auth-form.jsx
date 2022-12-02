@@ -19,20 +19,21 @@ export default class AuthForm extends React.Component {
     this.state = {
       username: '',
       password: '',
-      message: ''
+      message: '',
+      form: 'log-in'
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
     const { id, value } = event.target;
     if (id === 'username') this.setState({ username: value });
     if (id === 'password') this.setState({ password: value });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
   }
 
   render() {
@@ -80,6 +81,16 @@ export default class AuthForm extends React.Component {
             type='submit'>
             Log In
           </Button>
+        </Container>
+        <Container className='text-center fw-bold p-0 mt-4'>
+          <p className='m-0'>
+            Don&#39;t have an account?&nbsp;
+            <a
+              className='auth-link'
+              onClick={this.handleClick} >
+              Sign Up
+            </a>
+          </p>
         </Container>
       </ Form>
     );
