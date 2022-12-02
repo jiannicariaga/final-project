@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import { parseRoute } from './lib';
 import Navigation from './components/navigation';
 import Home from './pages/home';
+import Auth from './pages/auth';
 import Search from './pages/search';
 import Detail from './pages/detail';
 import Roulette from './pages/roulette';
@@ -25,6 +26,7 @@ export default class App extends React.Component {
   renderPage() {
     const { route } = this.state;
     if (route.path === '') return <Home />;
+    if (route.path === 'auth') return <Auth />;
     if (route.path === 'search') {
       const term = route.params.get('term');
       const location = route.params.get('location');
