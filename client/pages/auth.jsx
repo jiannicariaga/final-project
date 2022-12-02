@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import AuthForm from '../components/auth-form';
 
 export default function Auth(props) {
   return (
@@ -23,7 +24,9 @@ export default function Auth(props) {
         </Row>
       </Container>
       <Container className='p-0 mb-3'>
-        <Row />
+        <Row>
+          <AuthForm />
+        </Row>
       </Container>
     </>
   );
