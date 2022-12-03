@@ -16,6 +16,7 @@ As a foodie and frequent user of Yelp, I can be incredibly indecisive when someo
 - Express.js
 - React.js
 - Node.js
+- Babel
 - Webpack
 - JavaScript
 - HTML5
