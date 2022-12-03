@@ -26,7 +26,9 @@ export default class App extends React.Component {
   renderPage() {
     const { route } = this.state;
     if (route.path === '') return <Home />;
-    if (route.path === 'auth') return <Auth />;
+    if (route.path === 'login' || route.path === 'signup') {
+      return <Auth path={route.path} />;
+    }
     if (route.path === 'search') {
       const term = route.params.get('term');
       const location = route.params.get('location');

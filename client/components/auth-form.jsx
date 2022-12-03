@@ -4,8 +4,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faLock }
-  from '@fortawesome/free-solid-svg-icons';
+import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 
 const styles = {
   taken: {
@@ -19,8 +18,7 @@ export default class AuthForm extends React.Component {
     this.state = {
       username: '',
       password: '',
-      message: '',
-      form: 'log-in'
+      message: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -81,16 +79,6 @@ export default class AuthForm extends React.Component {
             type='submit'>
             Log In
           </Button>
-        </Container>
-        <Container className='text-center fw-bold p-0 mt-4'>
-          <p className='m-0'>
-            Don&#39;t have an account?&nbsp;
-            <a
-              className='auth-link'
-              onClick={this.handleClick} >
-              Sign Up
-            </a>
-          </p>
         </Container>
       </ Form>
     );
