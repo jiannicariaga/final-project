@@ -10,7 +10,7 @@ const styles = {
   success: {
     color: '#00b395'
   },
-  failure: {
+  error: {
     color: '#b33300'
   }
 };
@@ -46,12 +46,21 @@ export default class AuthForm extends React.Component {
     fetch(`/${path}`, headers)
       .then(res => res.json())
       .then(result => {
-        if (path === 'sign-up') window.location.hash = 'log-in';
-        this.setState({
-          username: '',
-          password: '',
-          message: 'Sign up successful. Please log in to continue.'
-        });
+        if (path === 'sign-up') {
+          if ('error' in result) {
+            this.setState({
+              password: '',
+              message: 'This username is taken.'
+            });
+          } else {
+            this.setState({
+              username: '',
+              password: '',
+              message: 'Sign up successful. Please log in to continue.'
+            });
+            window.location.hash = 'log-in';
+          }
+        }
       });
   }
 
