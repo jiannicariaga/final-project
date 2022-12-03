@@ -7,7 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 
 const styles = {
-  taken: {
+  success: {
+    color: '#00b395'
+  },
+  failure: {
     color: '#b33300'
   }
 };
@@ -22,6 +25,7 @@ export default class AuthForm extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange(event) {
@@ -32,10 +36,52 @@ export default class AuthForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    const { username, password } = this.state;
+    const { path } = this.props;
+    const headers = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    };
+    fetch(`/${path}`, headers)
+      .then(res => res.json())
+      .then(result => {
+        if (path === 'sign-up') window.location.hash = 'log-in';
+        this.setState({
+          username: '',
+          password: '',
+          message: 'Sign up successful. Please log in to continue.'
+        });
+      });
+  }
+
+  handleClick() {
+    this.setState({
+      username: '',
+      password: '',
+      message: ''
+    });
   }
 
   render() {
     const { username, password, message } = this.state;
+    const { path } = this.props;
+    const display = path === 'log-in'
+      ? {
+          buttonText: 'Log In',
+          question: <>Don&#39;t have an account?&nbsp;</>,
+          questionLink: '#sign-up',
+          linkText: 'Sign Up'
+        }
+      : {
+          buttonText: 'Sign Up',
+          question: <>Already have an account?&nbsp;</>,
+          questionLink: '#log-in',
+          linkText: 'Log In'
+        };
+    const color = message === 'Sign up successful. Please log in to continue.'
+      ? styles.success
+      : styles.error;
     return (
       <Form onSubmit={this.handleSubmit} >
         <InputGroup className='form-input shadow-sm mb-2' >
@@ -51,7 +97,7 @@ export default class AuthForm extends React.Component {
             placeholder='Username'
             onChange={this.handleChange}
             value={username} />
-        </ InputGroup>
+        </InputGroup>
         <InputGroup className='form-input text-center shadow-sm' >
           <InputGroup.Text className='form-input-icon border-0'>
             <FontAwesomeIcon
@@ -66,21 +112,32 @@ export default class AuthForm extends React.Component {
             placeholder='Password'
             onChange={this.handleChange}
             value={password} />
-        </ InputGroup>
+        </InputGroup>
         <Container
           className='message text-center fw-bold p-0 mt-1'
-          style={styles.taken} >
+          style={color} >
           {message}
-        </ Container>
+        </Container>
         <Container className='d-flex justify-content-center p-0 mt-4'>
           <Button
             className='action-button fw-bold border-0'
             as='button'
-            type='submit'>
-            Log In
+            type='submit' >
+            {display.buttonText}
           </Button>
         </Container>
-      </ Form>
+        <Container className='text-center fw-bold p-0 mt-4'>
+          <p className='m-0'>
+            {display.question}
+            <a
+              className='auth-link'
+              href={display.questionLink}
+              onClick={this.handleClick} >
+              {display.linkText}
+            </a>
+          </p>
+        </Container>
+      </Form>
     );
   }
 }

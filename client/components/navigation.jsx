@@ -78,7 +78,7 @@ export default function Navigation(props) {
               </Nav.Link>
               <Nav.Link
                 className='nav-link nav-login'
-                href='#login' >
+                href='#log-in' >
                 Log In
               </Nav.Link>
             </Nav>
