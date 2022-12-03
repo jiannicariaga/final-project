@@ -1,6 +1,6 @@
 import React from 'react';
-import Card from 'react-bootstrap/Card';
 import { toStandard } from '../lib';
+import Card from 'react-bootstrap/Card';
 
 export default function Schedule(props) {
   const { schedule } = props;

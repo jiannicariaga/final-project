@@ -40,6 +40,11 @@ a {
   color: #292929 !important;
 }
 
+.nav-link-login {
+  margin-bottom: 1rem;
+  order: -1;
+}
+
 .back-link {
   color: #292929;
   transition: color 0.15s ease-in-out;
@@ -49,6 +54,17 @@ a {
   color: #f35a06;
   text-decoration: none;
   cursor: pointer;
+  transition: color 0.15s ease-in-out;
+}
+
+.auth-link {
+  color: #00b395;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-link:hover {
+  color: #292929;
   transition: color 0.15s ease-in-out;
 }
 
@@ -81,14 +97,11 @@ a {
 .search-icon,
 .location-icon,
 .geolocation-icon,
-.phone-icon {
-  font-size: 1rem;
-}
-
-.search-icon,
-.location-icon,
-.phone-icon {
+.phone-icon,
+.user-icon,
+.password-icon {
   color: #f35a06;
+  font-size: 1rem;
 }
 
 .location-icon {
@@ -97,7 +110,6 @@ a {
 
 .geolocation-icon {
   color: #fff;
-  font-size: 1rem;
 }
 
 .message {
@@ -193,6 +205,12 @@ a {
 }
 
 @media (min-width: 768px) {
+  .nav-link-login {
+    margin-bottom: 0 !important;
+    order: 0;
+    margin-left: auto;
+  }
+
   .offcanvas {
     background-image: none !important;
   }

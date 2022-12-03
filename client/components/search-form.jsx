@@ -75,7 +75,7 @@ export default class SearchForm extends React.Component {
   }
 
   render() {
-    const { message } = this.state;
+    const { term, location, message } = this.state;
     const color = message === 'Device location added.'
       ? styles.added
       : styles.removed;
@@ -93,8 +93,8 @@ export default class SearchForm extends React.Component {
               className='shadow-none border-0'
               placeholder='Tacos, Japanese, Dessert, etc.'
               onChange={this.handleChange}
-              value={this.state.term} />
-        </ InputGroup>
+              value={term} />
+        </InputGroup>
         <InputGroup className='form-input text-center shadow-sm' >
           <InputGroup.Text className='form-input-icon border-0'>
             <FontAwesomeIcon
@@ -107,7 +107,7 @@ export default class SearchForm extends React.Component {
               className='shadow-none border-0'
               placeholder='City, State, or Zip Code'
               onChange={this.handleChange}
-              value={this.state.location} />
+              value={location} />
           <Button
               className='action-button border-0'
               type='button'
@@ -116,13 +116,13 @@ export default class SearchForm extends React.Component {
             <FontAwesomeIcon
               className='geolocation-icon'
               icon={faLocationCrosshairs} />
-          </ Button>
-        </ InputGroup>
+          </Button>
+        </InputGroup>
         <Container
           className='message text-center fw-bold p-0 mt-1'
           style={color} >
           {message}
-        </ Container>
+        </Container>
         <Container className='d-flex justify-content-center p-0 mt-4'>
           <Button
             className='action-button fw-bold border-0'
@@ -131,7 +131,7 @@ export default class SearchForm extends React.Component {
             Search
           </Button>
         </Container>
-      </ Form>
+      </Form>
     );
   }
 }

@@ -1,8 +1,9 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
-import { parseRoute } from './lib';
+import { parseRoute, AppContext } from './lib';
 import Navigation from './components/navigation';
 import Home from './pages/home';
+import Auth from './pages/auth';
 import Search from './pages/search';
 import Detail from './pages/detail';
 import Roulette from './pages/roulette';
@@ -12,8 +13,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { route: parseRoute(window.location.hash) };
-    this.renderPage = this.renderPage.bind(this);
+    this.state = {
+      route: parseRoute(window.location.hash)
+    };
+    this.handleSignIn = this.handleSignIn.bind(this);
+  }
+
+  handleSignIn() {
+
   }
 
   componentDidMount() {
@@ -25,6 +32,7 @@ export default class App extends React.Component {
   renderPage() {
     const { route } = this.state;
     if (route.path === '') return <Home />;
+    if (route.path === 'log-in' || route.path === 'sign-up') return <Auth />;
     if (route.path === 'search') {
       const term = route.params.get('term');
       const location = route.params.get('location');
@@ -47,13 +55,16 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { route } = this.state;
+    const { handleSignIn } = this;
+    const contextValue = { route, handleSignIn };
     return (
-      <>
+      <AppContext.Provider value={contextValue}>
         <Navigation />
         <Container as="main">
           {this.renderPage()}
-        </ Container>
-      </>
+        </Container>
+      </AppContext.Provider>
     );
   }
 }
