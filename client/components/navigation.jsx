@@ -77,7 +77,7 @@ export default function Navigation(props) {
                 Favorites
               </Nav.Link>
               <Nav.Link
-                className='nav-link nav-login'
+                className='nav-link nav-link-login'
                 href='#log-in' >
                 Log In
               </Nav.Link>

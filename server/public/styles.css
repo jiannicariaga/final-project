@@ -40,7 +40,7 @@ a {
   color: #292929 !important;
 }
 
-.nav-login {
+.nav-link-login {
   margin-bottom: 1rem;
   order: -1;
 }
@@ -205,7 +205,7 @@ a {
 }
 
 @media (min-width: 768px) {
-  .login-link {
+  .nav-link-login {
     margin-bottom: 0 !important;
     order: 0;
     margin-left: auto;

@@ -63,7 +63,7 @@ export default class App extends React.Component {
         <Navigation />
         <Container as="main">
           {this.renderPage()}
-        </ Container>
+        </Container>
       </AppContext.Provider>
     );
   }
