@@ -1,8 +1,8 @@
 import React from 'react';
-import { AppContext } from '../lib';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { AppContext } from '../lib';
 import Redirect from '../components/redirect';
 import Notification from '../components/notification';
 import Spinner from '../components/spinner';

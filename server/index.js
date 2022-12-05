@@ -184,13 +184,14 @@ app.get('/roulette', (req, res, next) => {
 });
 
 app.get('/favorites', (req, res, next) => {
+  const { accountId } = req.user;
   const sql1 = `
     SELECT "details"
       FROM "restaurants"
       JOIN "favorites" using ("restaurantId")
       WHERE "favorites"."accountId" = $1
   `;
-  const params1 = [TEMP_USER_ID];
+  const params1 = [accountId];
   db.query(sql1, params1)
     .then(result => {
       const data = {};
@@ -200,7 +201,7 @@ app.get('/favorites', (req, res, next) => {
           FROM "roulette"
           WHERE "accountId" = $1
       `;
-      const params2 = [TEMP_USER_ID];
+      const params2 = [accountId];
       db.query(sql2, params2)
         .then(result => {
           data.inRoulette = result.rows.map(row => row.restaurantId);

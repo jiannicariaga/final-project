@@ -1,9 +1,9 @@
 import React from 'react';
-import { AppContext } from '../lib';
 import NavBar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Nav from 'react-bootstrap/Nav';
+import { AppContext } from '../lib';
 
 const styles = {
   navbar: {
@@ -67,7 +67,7 @@ export default class Navigation extends React.Component {
               <Nav className="pe-0 w-100">
                 <Nav.Link
                   className='nav-link'
-                  href='#' >
+                  href=' ' >
                   Home
                 </Nav.Link>
                 <Nav.Link
