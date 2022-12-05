@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { AppContext } from '../lib';
 import Notification from '../components/notification';
 import Loader from '../components/loader';
 import Map from '../components/map';
@@ -25,10 +26,17 @@ export default class Detail extends React.Component {
   }
 
   addToRoulette(event) {
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
     const { details, inRoulette } = this.state;
     const headers = {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': window.localStorage.getItem('yeat')
+      },
       body: JSON.stringify(details)
     };
     fetch('/roulette', headers)
@@ -44,9 +52,17 @@ export default class Detail extends React.Component {
   }
 
   removeFromRoulette(event) {
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
     const { id } = event.target;
     const { details, inRoulette } = this.state;
-    fetch(`/roulette/${id}`, { method: 'DELETE' })
+    const headers = {
+      method: 'DELETE',
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(`/roulette/${id}`, headers)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -58,10 +74,17 @@ export default class Detail extends React.Component {
   }
 
   addToFavorites(event) {
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
     const { details, inFavorites } = this.state;
     const headers = {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': window.localStorage.getItem('yeat')
+      },
       body: JSON.stringify(details)
     };
     fetch('/favorites', headers)
@@ -77,9 +100,17 @@ export default class Detail extends React.Component {
   }
 
   removeFromFavorites(event) {
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
     const { id } = event.target;
     const { details, inFavorites } = this.state;
-    fetch(`/favorites/${id}`, { method: 'DELETE' })
+    const headers = {
+      method: 'DELETE',
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(`/favorites/${id}`, headers)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -168,3 +199,5 @@ export default class Detail extends React.Component {
     );
   }
 }
+
+Detail.contextType = AppContext;
