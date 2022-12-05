@@ -32,7 +32,7 @@ export default class App extends React.Component {
     window.addEventListener('hashchange', () => {
       this.setState({ route: parseRoute(window.location.hash) });
     });
-    const token = window.localStorage.getItem('yeat-jwt');
+    const token = window.localStorage.getItem('yeat');
     const user = token ? jwtDecode(token) : null;
     this.setState({ user });
   }
@@ -63,9 +63,9 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { route } = this.state;
+    const { user, route } = this.state;
     const { handleSignIn } = this;
-    const contextValue = { route, handleSignIn };
+    const contextValue = { user, route, handleSignIn };
     return (
       <AppContext.Provider value={contextValue}>
         <Navigation />
