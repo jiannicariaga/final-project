@@ -17,7 +17,7 @@ export default function Spinner(props) {
   const [start, setStart] = useState(false);
   const handleStart = () => setStart(prevState => !prevState);
   const buttonText = start ? 'Reset' : 'Spin';
-  const redirect = () => { window.location.hash = `#detail?id=${eateryId}`; };
+  const redirect = () => { window.location.hash = `detail?id=${eateryId}`; };
   return (
     <>
       <RoulettePro

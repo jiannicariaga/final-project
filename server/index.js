@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const fetch = require('node-fetch');
 const staticMiddleware = require('./static-middleware');
 const jsonMiddleware = express.json();
-// const authorizationMiddleware = require('./authorization-middleware');
+const authorizationMiddleware = require('./authorization-middleware');
 const errorMiddleware = require('./error-middleware');
 const ClientError = require('./client-error');
 const TEMP_USER_ID = 1;
@@ -152,16 +152,17 @@ app.get('/detail', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// app.use(authorizationMiddleware);
+app.use(authorizationMiddleware);
 
 app.get('/roulette', (req, res, next) => {
+  const { accountId } = req.user;
   const sql1 = `
     SELECT "details"
       FROM "restaurants"
       JOIN "roulette" using ("restaurantId")
       WHERE "roulette"."accountId" = $1
   `;
-  const params1 = [TEMP_USER_ID];
+  const params1 = [accountId];
   db.query(sql1, params1)
     .then(result => {
       const data = {};
@@ -171,7 +172,7 @@ app.get('/roulette', (req, res, next) => {
           FROM "favorites"
           WHERE "accountId" = $1
       `;
-      const params2 = [TEMP_USER_ID];
+      const params2 = [accountId];
       db.query(sql2, params2)
         .then(result => {
           data.inFavorites = result.rows.map(row => row.restaurantId);

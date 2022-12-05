@@ -58,7 +58,7 @@ export default class AuthForm extends React.Component {
               password: '',
               message: 'Sign up successful. Please log in to continue.'
             });
-            window.location.hash = '#log-in';
+            window.location.hash = 'log-in';
           }
         }
         if (path === 'log-in') {
