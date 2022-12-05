@@ -48,7 +48,10 @@ export default class AuthForm extends React.Component {
       .then(result => {
         if (path === 'sign-up') {
           if ('error' in result) {
-            this.setState({ message: `${username} is taken.` });
+            this.setState({
+              password: '',
+              message: `'${username}' is taken.`
+            });
           } else {
             this.setState({
               username: '',
@@ -57,9 +60,16 @@ export default class AuthForm extends React.Component {
             });
             window.location.hash = '#log-in';
           }
-        } else if (path === 'log-in') {
-          if (result.user && result.token) handleSignIn(result);
-          else this.setState({ message: 'Username or password is incorrect.' });
+        }
+        if (path === 'log-in') {
+          if (result.user && result.token) {
+            handleSignIn(result);
+          } else {
+            this.setState({
+              password: '',
+              message: 'Username or password is incorrect.'
+            });
+          }
         }
       });
   }
