@@ -63,7 +63,7 @@ export default function Navigation(props) {
             <Nav className="pe-0 w-100">
               <Nav.Link
                 className='nav-link'
-                href=' ' >
+                href='#' >
                 Home
               </Nav.Link>
               <Nav.Link
