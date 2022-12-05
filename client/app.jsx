@@ -19,7 +19,7 @@ export default class App extends React.Component {
     this.handleSignIn = this.handleSignIn.bind(this);
   }
 
-  handleSignIn() {
+  handleSignIn(result) {
 
   }
 

@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const fetch = require('node-fetch');
 const staticMiddleware = require('./static-middleware');
 const jsonMiddleware = express.json();
-// const authorizationMiddleWare = require('./authorization-middleware');
+// const authorizationMiddleware = require('./authorization-middleware');
 const errorMiddleware = require('./error-middleware');
 const ClientError = require('./client-error');
 const TEMP_USER_ID = 1;
@@ -42,7 +42,7 @@ app.post('/sign-up', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/sign-in', (req, res, next) => {
+app.post('/log-in', (req, res, next) => {
   const { username, password } = req.body;
   if (!username || !password) {
     throw new ClientError(400, 'username and password are required fields.');
@@ -152,7 +152,7 @@ app.get('/detail', (req, res, next) => {
     .catch(err => next(err));
 });
 
-// app.use(authorizationMiddleWare);
+// app.use(authorizationMiddleware);
 
 app.get('/roulette', (req, res, next) => {
   const sql1 = `
