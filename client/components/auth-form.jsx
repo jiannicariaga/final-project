@@ -26,6 +26,7 @@ export default class AuthForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.loginAsGuest = this.loginAsGuest.bind(this);
   }
 
   handleChange(event) {
@@ -62,9 +63,8 @@ export default class AuthForm extends React.Component {
           }
         }
         if (path === 'log-in') {
-          if (result.user && result.token) {
-            handleSignIn(result);
-          } else {
+          if (result.user && result.token) handleSignIn(result);
+          else {
             this.setState({
               password: '',
               message: 'Username or password is incorrect.'
@@ -80,6 +80,24 @@ export default class AuthForm extends React.Component {
       password: '',
       message: ''
     });
+  }
+
+  loginAsGuest() {
+    const { handleSignIn } = this.props;
+    const headers = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: process.env.GUEST_USER,
+        password: process.env.GUEST_PWD
+      })
+    };
+    fetch('/log-in', headers)
+      .then(res => res.json())
+      .then(result => {
+        if (result.user && result.token) handleSignIn(result);
+        else this.setState({ message: 'An unexpected error occured.' });
+      });
   }
 
   render() {
@@ -153,6 +171,16 @@ export default class AuthForm extends React.Component {
               href={display.questionLink}
               onClick={this.handleClick} >
               {display.linkText}
+            </a>
+          </p>
+        </Container>
+        <Container className='text-center fw-bold p-0 mt-3'>
+          <p className='m-0'>
+            Want to demo the app?&nbsp;
+            <a
+              className='auth-link'
+              onClick={this.loginAsGuest} >
+              Log in as Guest
             </a>
           </p>
         </Container>
