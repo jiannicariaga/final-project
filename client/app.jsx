@@ -9,6 +9,7 @@ import Search from './pages/search';
 import Detail from './pages/detail';
 import Roulette from './pages/roulette';
 import Favorites from './pages/favorites';
+import NotFound from './pages/not-found';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class App extends React.Component {
@@ -67,6 +68,7 @@ export default class App extends React.Component {
     }
     if (route.path === 'roulette') return <Roulette />;
     if (route.path === 'favorites') return <Favorites />;
+    return <NotFound />;
   }
 
   render() {
