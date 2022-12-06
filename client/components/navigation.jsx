@@ -28,8 +28,18 @@ const styles = {
 
 export default class Navigation extends React.Component {
   render() {
-    const { user } = this.context;
-    const displayAuthText = !user ? 'Log In' : 'Log Out';
+    const { user, handleSignOut } = this.context;
+    const display = !user
+      ? {
+          authLink: '#log-in',
+          authAction: null,
+          authText: 'Log In'
+        }
+      : {
+          authLink: '#',
+          authAction: handleSignOut,
+          authText: 'Log Out'
+        };
     return (
       <NavBar
         collapseOnSelect
@@ -82,8 +92,9 @@ export default class Navigation extends React.Component {
                 </Nav.Link>
                 <Nav.Link
                   className='nav-link nav-link-login'
-                  href='#log-in' >
-                  {displayAuthText}
+                  href={display.authLink}
+                  onClick={display.authAction} >
+                  {display.authText}
                 </Nav.Link>
               </Nav>
             </Offcanvas.Body>
