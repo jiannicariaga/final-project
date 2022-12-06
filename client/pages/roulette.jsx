@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { AppContext } from '../lib';
 import Notification from '../components/notification';
 import Spinner from '../components/spinner';
 import ResultCard from '../components/result-card';
@@ -24,7 +25,11 @@ export default class Roulette extends React.Component {
     const { id } = event.target;
     const { inRoulette } = this.state;
     const eateryData = inRoulette.find(data => data.id === id);
-    fetch(`/roulette/${id}`, { method: 'DELETE' })
+    const headers = {
+      method: 'DELETE',
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(`/roulette/${id}`, headers)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -41,7 +46,10 @@ export default class Roulette extends React.Component {
     const eateryData = inRoulette.find(data => data.id === id);
     const headers = {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': window.localStorage.getItem('yeat')
+      },
       body: JSON.stringify(eateryData)
     };
     fetch('/favorites', headers)
@@ -60,7 +68,11 @@ export default class Roulette extends React.Component {
     const { id } = event.target;
     const { inRoulette, inFavorites } = this.state;
     const eateryData = inRoulette.find(data => data.id === id);
-    fetch(`/favorites/${id}`, { method: 'DELETE' })
+    const headers = {
+      method: 'DELETE',
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(`/favorites/${id}`, headers)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -76,8 +88,15 @@ export default class Roulette extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
     const url = new URL('/roulette', window.location);
-    fetch(url)
+    const headers = {
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(url, headers)
       .then(response => response.json())
       .then(data => {
         const { inRoulette, inFavorites } = data;
@@ -158,3 +177,5 @@ export default class Roulette extends React.Component {
     );
   }
 }
+
+Roulette.contextType = AppContext;

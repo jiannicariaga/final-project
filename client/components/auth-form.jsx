@@ -37,7 +37,7 @@ export default class AuthForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const { username, password } = this.state;
-    const { path } = this.props;
+    const { path, handleSignIn } = this.props;
     const headers = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -50,7 +50,7 @@ export default class AuthForm extends React.Component {
           if ('error' in result) {
             this.setState({
               password: '',
-              message: 'This username is taken.'
+              message: `'${username}' is taken.`
             });
           } else {
             this.setState({
@@ -59,6 +59,16 @@ export default class AuthForm extends React.Component {
               message: 'Sign up successful. Please log in to continue.'
             });
             window.location.hash = 'log-in';
+          }
+        }
+        if (path === 'log-in') {
+          if (result.user && result.token) {
+            handleSignIn(result);
+          } else {
+            this.setState({
+              password: '',
+              message: 'Username or password is incorrect.'
+            });
           }
         }
       });

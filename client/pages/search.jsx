@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { AppContext } from '../lib';
 import Notification from '../components/notification';
 import Map from '../components/map';
 import Loader from '../components/loader';
@@ -25,12 +26,19 @@ export default class Search extends React.Component {
   }
 
   addToRoulette(event) {
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
     const { id } = event.target;
     const { results, inRoulette } = this.state;
     const eateryData = results.find(result => result.id === id);
     const headers = {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': window.localStorage.getItem('yeat')
+      },
       body: JSON.stringify(eateryData)
     };
     fetch('/roulette', headers)
@@ -46,10 +54,18 @@ export default class Search extends React.Component {
   }
 
   removeFromRoulette(event) {
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
     const { id } = event.target;
     const { results, inRoulette } = this.state;
     const eateryData = results.find(data => data.id === id);
-    fetch(`/roulette/${id}`, { method: 'DELETE' })
+    const headers = {
+      method: 'DELETE',
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(`/roulette/${id}`, headers)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -61,12 +77,19 @@ export default class Search extends React.Component {
   }
 
   addToFavorites(event) {
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
     const { id } = event.target;
     const { results, inFavorites } = this.state;
     const eateryData = results.find(result => result.id === id);
     const headers = {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': window.localStorage.getItem('yeat')
+      },
       body: JSON.stringify(eateryData)
     };
     fetch('/favorites', headers)
@@ -82,10 +105,18 @@ export default class Search extends React.Component {
   }
 
   removeFromFavorites(event) {
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
     const { id } = event.target;
     const { results, inFavorites } = this.state;
     const eateryData = results.find(data => data.id === id);
-    fetch(`/favorites/${id}`, { method: 'DELETE' })
+    const headers = {
+      method: 'DELETE',
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(`/favorites/${id}`, headers)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -101,11 +132,18 @@ export default class Search extends React.Component {
   }
 
   componentDidMount() {
-    const url = new URL('/search-results', window.location);
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
+    const url = new URL('/search', window.location);
     for (const key in this.props) {
       if (this.props[key]) url.searchParams.append(key, this.props[key]);
     }
-    fetch(url)
+    const headers = {
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(url, headers)
       .then(response => response.json())
       .then(data => {
         const { businesses, inRoulette, inFavorites, region } = data;
@@ -177,3 +215,5 @@ export default class Search extends React.Component {
     );
   }
 }
+
+Search.contextType = AppContext;

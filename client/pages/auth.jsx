@@ -21,8 +21,8 @@ export default class Auth extends React.Component {
             <Col xs='auto'>
               <a
                 className='back-link fw-bold text-end'
-                onClick={() => history.back()} >
-                Back
+                href='#' >
+                Home
               </a>
             </Col>
           </Row>

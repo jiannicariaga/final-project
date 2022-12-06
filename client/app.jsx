@@ -1,6 +1,7 @@
 import React from 'react';
+import jwtDecode from 'jwt-decode';
 import Container from 'react-bootstrap/Container';
-import { parseRoute, AppContext } from './lib';
+import { AppContext, parseRoute } from './lib';
 import Navigation from './components/navigation';
 import Home from './pages/home';
 import Auth from './pages/auth';
@@ -14,19 +15,26 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
       route: parseRoute(window.location.hash)
     };
     this.handleSignIn = this.handleSignIn.bind(this);
   }
 
-  handleSignIn() {
-
+  handleSignIn(result) {
+    const { user, token } = result;
+    window.localStorage.setItem('yeat', token);
+    this.setState({ user });
+    window.location.hash = '#';
   }
 
   componentDidMount() {
     window.addEventListener('hashchange', () => {
       this.setState({ route: parseRoute(window.location.hash) });
     });
+    const token = window.localStorage.getItem('yeat');
+    const user = token ? jwtDecode(token) : null;
+    this.setState({ user });
   }
 
   renderPage() {
@@ -55,9 +63,9 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { route } = this.state;
+    const { user, route } = this.state;
     const { handleSignIn } = this;
-    const contextValue = { route, handleSignIn };
+    const contextValue = { user, route, handleSignIn };
     return (
       <AppContext.Provider value={contextValue}>
         <Navigation />

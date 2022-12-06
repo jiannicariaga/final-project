@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { AppContext } from '../lib';
 import Notification from '../components/notification';
 import ResultCard from '../components/result-card';
 
@@ -23,7 +24,11 @@ export default class Favorites extends React.Component {
     const { id } = event.target;
     const { inFavorites } = this.state;
     const eateryData = inFavorites.find(data => data.id === id);
-    fetch(`/favorites/${id}`, { method: 'DELETE' })
+    const headers = {
+      method: 'DELETE',
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(`/favorites/${id}`, headers)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -40,7 +45,10 @@ export default class Favorites extends React.Component {
     const eateryData = inFavorites.find(result => result.id === id);
     const headers = {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Access-Token': window.localStorage.getItem('yeat')
+      },
       body: JSON.stringify(eateryData)
     };
     fetch('/roulette', headers)
@@ -59,7 +67,11 @@ export default class Favorites extends React.Component {
     const { id } = event.target;
     const { inFavorites, inRoulette } = this.state;
     const eateryData = inFavorites.find(data => data.id === id);
-    fetch(`/roulette/${id}`, { method: 'DELETE' })
+    const headers = {
+      method: 'DELETE',
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(`/roulette/${id}`, headers)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -75,8 +87,15 @@ export default class Favorites extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
     const url = new URL('/favorites', window.location);
-    fetch(url)
+    const headers = {
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(url, headers)
       .then(response => response.json())
       .then(data => {
         const { inFavorites, inRoulette } = data;
@@ -142,3 +161,5 @@ export default class Favorites extends React.Component {
     );
   }
 }
+
+Favorites.contextType = AppContext;
