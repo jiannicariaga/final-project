@@ -19,14 +19,6 @@ h2 {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-.form-input {
-  border-radius: 10px;
-}
-
-.form-input-icon {
-  background-image: linear-gradient(#fff, #fff);
-}
-
 a {
   outline: 0 !important;
 }
@@ -45,6 +37,17 @@ a {
   order: -1;
 }
 
+.auth-link {
+  color: #00b395;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-link:hover {
+  color: #292929;
+  transition: color 0.15s ease-in-out;
+}
+
 .back-link {
   color: #292929;
   transition: color 0.15s ease-in-out;
@@ -57,15 +60,30 @@ a {
   transition: color 0.15s ease-in-out;
 }
 
-.auth-link {
-  color: #00b395;
-  text-decoration: underline;
-  cursor: pointer;
+.form-input {
+  border-radius: 10px;
 }
 
-.auth-link:hover {
-  color: #292929;
-  transition: color 0.15s ease-in-out;
+.form-input-icon {
+  background-image: linear-gradient(#fff, #fff);
+}
+
+.search-icon,
+.location-icon,
+.geolocation-icon,
+.phone-icon,
+.user-icon,
+.password-icon {
+  color: #f35a06;
+  font-size: 1rem;
+}
+
+.location-icon {
+  width: 1rem;
+}
+
+.geolocation-icon {
+  color: #fff;
 }
 
 .action-button {
@@ -94,29 +112,15 @@ a {
   box-shadow: none !important;
 }
 
-.search-icon,
-.location-icon,
-.geolocation-icon,
-.phone-icon,
-.user-icon,
-.password-icon {
-  color: #f35a06;
-  font-size: 1rem;
-}
-
-.location-icon {
-  width: 1rem;
-}
-
-.geolocation-icon {
-  color: #fff;
-}
-
 .message {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
   font-size: 0.8rem;
+}
+
+.notification-wrapper {
+  width: 75% !important;
 }
 
 .card-name,
@@ -213,5 +217,9 @@ a {
 
   .offcanvas {
     background-image: none !important;
+  }
+
+  .notification-wrapper {
+    width: auto !important;
   }
 }
