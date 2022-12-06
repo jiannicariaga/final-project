@@ -5,13 +5,13 @@ import Col from 'react-bootstrap/Col';
 import { AppContext } from '../lib';
 import Notification from '../components/notification';
 import Map from '../components/map';
-import Loader from '../components/loader';
 import ResultCard from '../components/result-card';
 
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      noResults: false,
       results: [],
       inRoulette: [],
       inFavorites: [],
@@ -146,6 +146,10 @@ export default class Search extends React.Component {
     fetch(url, headers)
       .then(response => response.json())
       .then(data => {
+        if ('error' in data) {
+          this.setState({ noResults: true });
+          return;
+        }
         const { businesses, inRoulette, inFavorites, region } = data;
         const lat = region.center.latitude;
         const lng = region.center.longitude;
@@ -160,36 +164,47 @@ export default class Search extends React.Component {
   }
 
   render() {
-    const { results, inRoulette, inFavorites, message, clientGeolocation } =
-    this.state;
+    const {
+      noResults, results, inRoulette, inFavorites, message, clientGeolocation
+    } = this.state;
     const displayNotification = message
       ? <Notification message={message} clearMessage={this.clearMessage} />
       : null;
-    const displayMap = !results
-      ? <Loader />
-      : (
-        <Map
-          data={results}
-          center={clientGeolocation} />
-        );
-    const eateries = results.map(result => {
-      return (
-        <ResultCard
-          key={result.id}
-          result={result}
-          isInRoulette={inRoulette.includes(result.id)}
-          addToRoulette={this.addToRoulette}
-          removeFromRoulette={this.removeFromRoulette}
-          isInFavorites={inFavorites.includes(result.id)}
-          addToFavorites={this.addToFavorites}
-          removeFromFavorites={this.removeFromFavorites} />
-      );
-    });
-    const displayEateries = !eateries.length ? <Loader /> : eateries;
+    const display = noResults
+      ? {
+          map: null,
+          eateries: (
+            <p className='text-center my-5'>
+              <span className='fw-bold'>No Results Found</span>
+              <br />
+              Please try another search.
+            </p>
+          )
+        }
+      : {
+          map: (
+            <Map
+              data={results}
+              center={clientGeolocation} />
+          ),
+          eateries: results.map(result => {
+            return (
+              <ResultCard
+                key={result.id}
+                result={result}
+                isInRoulette={inRoulette.includes(result.id)}
+                addToRoulette={this.addToRoulette}
+                removeFromRoulette={this.removeFromRoulette}
+                isInFavorites={inFavorites.includes(result.id)}
+                addToFavorites={this.addToFavorites}
+                removeFromFavorites={this.removeFromFavorites} />
+            );
+          })
+        };
     return (
       <>
         {displayNotification}
-        {displayMap}
+        {display.map}
         <Container className='p-0 mb-3'>
           <Row className='align-items-center p-0 my-3'>
             <Col>
@@ -208,7 +223,7 @@ export default class Search extends React.Component {
         </Container>
         <Container className='p-0 mb-3'>
           <Row className='gx-3 gy-3'>
-            {displayEateries}
+            {display.eateries}
           </Row>
         </Container>
       </>

@@ -12,13 +12,9 @@ export default function Map(props) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.MAPS_API_KEY
   });
-  if (!isLoaded) return;
-  const resultMarkers = Array.isArray(data)
-    ? renderMarkers(data)
-    : null;
-  const iconColor = !Array.isArray(data)
-    ? marker.orange
-    : marker.blue;
+  if (!data || !center || !isLoaded) return;
+  const resultMarkers = Array.isArray(data) ? renderMarkers(data) : null;
+  const iconColor = !Array.isArray(data) ? marker.orange : marker.blue;
   return (
     <Container className='shadow p-0 mb-3'>
       <GoogleMap
@@ -35,7 +31,7 @@ export default function Map(props) {
 }
 
 function renderMarkers(data) {
-  const markers = data.map(data => {
+  return data.map(data => {
     const id = data.id;
     const lat = data.coordinates.latitude;
     const lng = data.coordinates.longitude;
@@ -46,5 +42,4 @@ function renderMarkers(data) {
         icon={marker.orange} />
     );
   });
-  return markers;
 }
