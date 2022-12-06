@@ -55,12 +55,12 @@ app.post('/log-in', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       const [user] = result.rows;
-      if (!user) throw new ClientError(401, 'invalid login');
+      if (!user) throw new ClientError(401, 'invalid login.');
       const { accountId, hashedPassword } = user;
       return argon2
         .verify(hashedPassword, password)
         .then(isMatching => {
-          if (!isMatching) throw new ClientError(401, 'invalid login');
+          if (!isMatching) throw new ClientError(401, 'invalid login.');
           const payload = { accountId, username };
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           res.json({ token, user: payload });
@@ -166,8 +166,7 @@ app.get('/roulette', (req, res, next) => {
   const params1 = [accountId];
   db.query(sql1, params1)
     .then(result => {
-      const data = {};
-      data.inRoulette = result.rows.map(row => row.details);
+      const inRoulette = result.rows.map(row => row.details);
       const sql2 = `
         SELECT "restaurantId"
           FROM "favorites"
@@ -176,8 +175,8 @@ app.get('/roulette', (req, res, next) => {
       const params2 = [accountId];
       db.query(sql2, params2)
         .then(result => {
-          data.inFavorites = result.rows.map(row => row.restaurantId);
-          res.status(200).json(data);
+          const inFavorites = result.rows.map(row => row.restaurantId);
+          res.status(200).json({ inRoulette, inFavorites });
         })
         .catch(err => next(err));
     })
@@ -195,8 +194,7 @@ app.get('/favorites', (req, res, next) => {
   const params1 = [accountId];
   db.query(sql1, params1)
     .then(result => {
-      const data = {};
-      data.inFavorites = result.rows.map(row => row.details);
+      const inFavorites = result.rows.map(row => row.details);
       const sql2 = `
         SELECT "restaurantId"
           FROM "roulette"
@@ -205,8 +203,8 @@ app.get('/favorites', (req, res, next) => {
       const params2 = [accountId];
       db.query(sql2, params2)
         .then(result => {
-          data.inRoulette = result.rows.map(row => row.restaurantId);
-          res.status(200).json(data);
+          const inRoulette = result.rows.map(row => row.restaurantId);
+          res.status(200).json({ inFavorites, inRoulette });
         })
         .catch(err => next(err));
     })
