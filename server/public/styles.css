@@ -209,6 +209,10 @@ a {
 }
 
 @media (min-width: 768px) {
+  .side-navbar {
+    width: 100% !important;
+  }
+
   .nav-link-login {
     margin-bottom: 0 !important;
     order: 0;
