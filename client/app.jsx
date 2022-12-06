@@ -19,12 +19,19 @@ export default class App extends React.Component {
       route: parseRoute(window.location.hash)
     };
     this.handleSignIn = this.handleSignIn.bind(this);
+    this.handleSignOut = this.handleSignOut.bind(this);
   }
 
   handleSignIn(result) {
     const { user, token } = result;
     window.localStorage.setItem('yeat', token);
     this.setState({ user });
+    window.location.hash = '#';
+  }
+
+  handleSignOut() {
+    window.localStorage.removeItem('yeat');
+    this.setState({ user: null });
     window.location.hash = '#';
   }
 
@@ -64,8 +71,8 @@ export default class App extends React.Component {
 
   render() {
     const { user, route } = this.state;
-    const { handleSignIn } = this;
-    const contextValue = { user, route, handleSignIn };
+    const { handleSignIn, handleSignOut } = this;
+    const contextValue = { user, route, handleSignIn, handleSignOut };
     return (
       <AppContext.Provider value={contextValue}>
         <Navigation />
