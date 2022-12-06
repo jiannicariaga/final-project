@@ -132,11 +132,18 @@ export default class Search extends React.Component {
   }
 
   componentDidMount() {
-    const url = new URL('/search-results', window.location);
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
+    const url = new URL('/search', window.location);
     for (const key in this.props) {
       if (this.props[key]) url.searchParams.append(key, this.props[key]);
     }
-    fetch(url)
+    const headers = {
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(url, headers)
       .then(response => response.json())
       .then(data => {
         const { businesses, inRoulette, inFavorites, region } = data;

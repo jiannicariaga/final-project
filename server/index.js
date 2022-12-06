@@ -9,7 +9,6 @@ const jsonMiddleware = express.json();
 const authorizationMiddleware = require('./authorization-middleware');
 const errorMiddleware = require('./error-middleware');
 const ClientError = require('./client-error');
-const TEMP_USER_ID = 1;
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -70,7 +69,10 @@ app.post('/log-in', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get('/search-results', (req, res, next) => {
+app.use(authorizationMiddleware);
+
+app.get('/search', (req, res, next) => {
+  const { accountId } = req.user;
   if (!Object.keys(req.query).length) {
     throw new ClientError(400, 'term and location are required fields.');
   }
@@ -88,7 +90,7 @@ app.get('/search-results', (req, res, next) => {
           FROM "roulette"
           WHERE "accountId" = $1
       `;
-      const params1 = [TEMP_USER_ID];
+      const params1 = [accountId];
       db.query(sql1, params1)
         .then(result => {
           const rouletteIds = result.rows.map(row => row.restaurantId);
@@ -98,7 +100,7 @@ app.get('/search-results', (req, res, next) => {
               FROM "favorites"
               WHERE "accountId" = $1
           `;
-          const params2 = [TEMP_USER_ID];
+          const params2 = [accountId];
           db.query(sql2, params2)
             .then(result => {
               const favoritesIds = result.rows.map(row => row.restaurantId);
@@ -113,6 +115,7 @@ app.get('/search-results', (req, res, next) => {
 });
 
 app.get('/detail', (req, res, next) => {
+  const { accountId } = req.user;
   if (!Object.keys(req.query).length) {
     throw new ClientError(400, 'id is a required field.');
   }
@@ -128,7 +131,7 @@ app.get('/detail', (req, res, next) => {
           FROM "roulette"
           WHERE "accountId" = $1
       `;
-      const params1 = [TEMP_USER_ID];
+      const params1 = [accountId];
       db.query(sql1, params1)
         .then(result => {
           const rouletteIds = result.rows.map(row => row.restaurantId);
@@ -138,7 +141,7 @@ app.get('/detail', (req, res, next) => {
               FROM "favorites"
               WHERE "accountId" = $1
           `;
-          const params2 = [TEMP_USER_ID];
+          const params2 = [accountId];
           db.query(sql2, params2)
             .then(result => {
               const favoritesIds = result.rows.map(row => row.restaurantId);
@@ -151,8 +154,6 @@ app.get('/detail', (req, res, next) => {
     })
     .catch(err => next(err));
 });
-
-app.use(authorizationMiddleware);
 
 app.get('/roulette', (req, res, next) => {
   const { accountId } = req.user;

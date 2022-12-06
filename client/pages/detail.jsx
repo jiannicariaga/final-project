@@ -126,9 +126,16 @@ export default class Detail extends React.Component {
   }
 
   componentDidMount() {
+    if (!this.context.user) {
+      window.location.hash = 'log-in';
+      return;
+    }
     const { id } = this.props;
     const url = new URL(`/detail?id=${id}`, window.location);
-    fetch(url)
+    const headers = {
+      headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
+    };
+    fetch(url, headers)
       .then(response => response.json())
       .then(data => {
         const { inRoulette, inFavorites, coordinates } = data;
