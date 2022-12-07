@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { AppContext } from '../lib';
+import Redirect from '../components/redirect';
 import Notification from '../components/notification';
 import Map from '../components/map';
 import ResultCard from '../components/result-card';
@@ -11,12 +12,12 @@ export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      noResults: false,
       results: [],
       inRoulette: [],
       inFavorites: [],
       message: '',
-      clientGeolocation: null
+      clientGeolocation: null,
+      noResults: false
     };
     this.addToRoulette = this.addToRoulette.bind(this);
     this.removeFromRoulette = this.removeFromRoulette.bind(this);
@@ -26,10 +27,6 @@ export default class Search extends React.Component {
   }
 
   addToRoulette(event) {
-    if (!this.context.user) {
-      window.location.hash = 'log-in';
-      return;
-    }
     const { id } = event.target;
     const { results, inRoulette } = this.state;
     const eateryData = results.find(result => result.id === id);
@@ -54,10 +51,6 @@ export default class Search extends React.Component {
   }
 
   removeFromRoulette(event) {
-    if (!this.context.user) {
-      window.location.hash = 'log-in';
-      return;
-    }
     const { id } = event.target;
     const { results, inRoulette } = this.state;
     const eateryData = results.find(data => data.id === id);
@@ -77,10 +70,6 @@ export default class Search extends React.Component {
   }
 
   addToFavorites(event) {
-    if (!this.context.user) {
-      window.location.hash = 'log-in';
-      return;
-    }
     const { id } = event.target;
     const { results, inFavorites } = this.state;
     const eateryData = results.find(result => result.id === id);
@@ -105,10 +94,6 @@ export default class Search extends React.Component {
   }
 
   removeFromFavorites(event) {
-    if (!this.context.user) {
-      window.location.hash = 'log-in';
-      return;
-    }
     const { id } = event.target;
     const { results, inFavorites } = this.state;
     const eateryData = results.find(data => data.id === id);
@@ -132,10 +117,6 @@ export default class Search extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.context.user) {
-      window.location.hash = 'log-in';
-      return;
-    }
     const url = new URL('/search', window.location);
     for (const key in this.props) {
       if (this.props[key]) url.searchParams.append(key, this.props[key]);
@@ -164,8 +145,9 @@ export default class Search extends React.Component {
   }
 
   render() {
+    if (!window.localStorage.getItem('yeat')) return <Redirect to='log-in' />;
     const {
-      noResults, results, inRoulette, inFavorites, message, clientGeolocation
+      results, inRoulette, inFavorites, message, clientGeolocation, noResults
     } = this.state;
     const displayNotification = message
       ? <Notification message={message} clearMessage={this.clearMessage} />

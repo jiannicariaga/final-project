@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { AppContext } from '../lib';
+import Redirect from '../components/redirect';
 import Notification from '../components/notification';
 import ResultCard from '../components/result-card';
 
@@ -87,10 +88,6 @@ export default class Favorites extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.context.user) {
-      window.location.hash = 'log-in';
-      return;
-    }
     const url = new URL('/favorites', window.location);
     const headers = {
       headers: { 'X-Access-Token': window.localStorage.getItem('yeat') }
@@ -108,6 +105,7 @@ export default class Favorites extends React.Component {
   }
 
   render() {
+    if (!window.localStorage.getItem('yeat')) return <Redirect to='log-in' />;
     const { inFavorites, inRoulette, message } = this.state;
     const displayNotification = message
       ? <Notification message={message} clearMessage={this.clearMessage} />

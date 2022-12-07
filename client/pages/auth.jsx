@@ -3,10 +3,12 @@ import { AppContext } from '../lib';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Redirect from '../components/redirect';
 import AuthForm from '../components/auth-form';
 
 export default class Auth extends React.Component {
   render() {
+    if (window.localStorage.getItem('yeat')) return <Redirect to='' />;
     const { route, handleSignIn } = this.context;
     const displayHeader = route.path === 'log-in' ? 'Log In' : 'Sign Up';
     return (
