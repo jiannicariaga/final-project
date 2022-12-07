@@ -19,7 +19,7 @@ const styles = {
   }
 };
 
-export default function Definition(props) {
+export default function NotFound(props) {
   return (
     <Container
       className='p-0 my-5'
@@ -29,24 +29,29 @@ export default function Definition(props) {
           <h1
             className='fw-bold mb-2'
             style={styles.word}>
-            yEAT
+            404
           </h1>
           <h3
             className='fw-bold mb-0'
             style={styles.ipa}>
-            &#91; j&#39;i:t &#93;
+            &#91; n&#39;a&#58;t f&#39;a͡ʊnd &#93;
             <span
               className='fw-normal'
               style={styles.speech} >
-              &nbsp;noun
+              &nbsp;error
             </span>
           </h3>
           <hr className='my-3' />
           <p className='mb-2'>
-            The app that answers the dreaded question:
+            The page you are looking for does not exist.
           </p>
           <p className='fst-italic mb-0'>
-            &#34;What do you want to eat?&#34;
+            Return to&nbsp;
+            <a
+              className='auth-link'
+              href='#' >
+              yeat.jiannicariaga.dev
+            </a>.
           </p>
         </Col>
       </Row>

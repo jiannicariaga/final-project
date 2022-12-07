@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { AppContext } from '../lib';
+import Redirect from '../components/redirect';
 import Notification from '../components/notification';
 import Loader from '../components/loader';
 import Map from '../components/map';
@@ -26,10 +27,6 @@ export default class Detail extends React.Component {
   }
 
   addToRoulette(event) {
-    if (!this.context.user) {
-      window.location.hash = 'log-in';
-      return;
-    }
     const { details, inRoulette } = this.state;
     const headers = {
       method: 'PUT',
@@ -52,10 +49,6 @@ export default class Detail extends React.Component {
   }
 
   removeFromRoulette(event) {
-    if (!this.context.user) {
-      window.location.hash = 'log-in';
-      return;
-    }
     const { id } = event.target;
     const { details, inRoulette } = this.state;
     const headers = {
@@ -74,10 +67,6 @@ export default class Detail extends React.Component {
   }
 
   addToFavorites(event) {
-    if (!this.context.user) {
-      window.location.hash = 'log-in';
-      return;
-    }
     const { details, inFavorites } = this.state;
     const headers = {
       method: 'PUT',
@@ -100,10 +89,6 @@ export default class Detail extends React.Component {
   }
 
   removeFromFavorites(event) {
-    if (!this.context.user) {
-      window.location.hash = 'log-in';
-      return;
-    }
     const { id } = event.target;
     const { details, inFavorites } = this.state;
     const headers = {
@@ -126,10 +111,6 @@ export default class Detail extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.context.user) {
-      window.location.hash = 'log-in';
-      return;
-    }
     const { id } = this.props;
     const url = new URL(`/detail?id=${id}`, window.location);
     const headers = {
@@ -152,6 +133,7 @@ export default class Detail extends React.Component {
   }
 
   render() {
+    if (!window.localStorage.getItem('yeat')) return <Redirect to='log-in' />;
     const { id } = this.props;
     const { details, inRoulette, inFavorites, message, eateryGeolocation } =
     this.state;

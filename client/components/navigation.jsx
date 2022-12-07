@@ -60,8 +60,10 @@ export default class Navigation extends React.Component {
             style={styles.menuIcon}
             aria-controls='offcanvasNavbar-expand-md' />
           <NavBar.Offcanvas
+            className='side-navbar'
             style={styles.offCanvas}
             id='offcanvasNavbar-expand-md'
+            responsive='md'
             aria-labelledby='offcanvasNavbarLabel-expand-md' >
             <Offcanvas.Header
               closeButton

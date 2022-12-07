@@ -50,6 +50,8 @@ module.exports = {
   stats: 'minimal',
   devtool: isDevelopment ? 'cheap-module-source-map' : 'source-map',
   plugins: [
+    new webpack.EnvironmentPlugin(['GUEST_USER']),
+    new webpack.EnvironmentPlugin(['GUEST_PWD']),
     new webpack.EnvironmentPlugin(['MAPS_API_KEY']),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     isDevelopment && new webpack.NoEmitOnErrorsPlugin(),
