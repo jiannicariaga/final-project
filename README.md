@@ -22,6 +22,7 @@ As a foodie and frequent user of Yelp, I can be incredibly indecisive when someo
 - HTML5
 - CSS3
 - SQL
+- Dokku
 - Amazon EC2
 
 ## Live Demo
