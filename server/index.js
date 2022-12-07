@@ -21,6 +21,11 @@ app.use(staticMiddleware);
 
 app.use(jsonMiddleware);
 
+app.use((req, res) => {
+  const { url } = req;
+  res.redirect(`/#${url.slice(1)}`);
+});
+
 app.post('/sign-up', (req, res, next) => {
   const { username, password } = req.body;
   if (!username || !password) {
