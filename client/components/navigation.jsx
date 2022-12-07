@@ -77,27 +77,27 @@ export default class Navigation extends React.Component {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="pe-0 w-100">
-                <a
+                <Nav.Link
                   className='nav-link'
-                  href='#' >
+                  href=' ' >
                   Home
-                </a>
-                <a
+                </Nav.Link>
+                <Nav.Link
                   className='nav-link'
                   href='#roulette' >
                   Roulette
-                </a>
-                <a
+                </Nav.Link>
+                <Nav.Link
                   className='nav-link'
                   href='#favorites' >
                   Favorites
-                </a>
-                <a
+                </Nav.Link>
+                <Nav.Link
                   className='nav-link nav-link-login'
                   href={display.authLink}
                   onClick={display.authAction} >
                   {display.authText}
-                </a>
+                </Nav.Link>
               </Nav>
             </Offcanvas.Body>
           </NavBar.Offcanvas>

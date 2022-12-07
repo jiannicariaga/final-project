@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const fetch = require('node-fetch');
 const staticMiddleware = require('./static-middleware');
 const jsonMiddleware = express.json();
-const authorizationMiddleware = require('./authorization-middleware');
+const authMiddleware = require('./authorization-middleware');
 const errorMiddleware = require('./error-middleware');
 const ClientError = require('./client-error');
 
@@ -20,11 +20,6 @@ const app = express();
 app.use(staticMiddleware);
 
 app.use(jsonMiddleware);
-
-app.use((req, res) => {
-  const { url } = req;
-  res.redirect(`/#${url.slice(1)}`);
-});
 
 app.post('/sign-up', (req, res, next) => {
   const { username, password } = req.body;
@@ -74,7 +69,7 @@ app.post('/log-in', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.use(authorizationMiddleware);
+app.use(authMiddleware);
 
 app.get('/search', (req, res, next) => {
   const { accountId } = req.user;
